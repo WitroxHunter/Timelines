@@ -5,8 +5,10 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import App from "./App.jsx";
-import TimelinesApp from "./pages-app/timelines-app.jsx";
+import TimelinesApp from "./app/timelines-app.jsx";
 import ErrorPage from "./pages/error-page.jsx";
+import SignUp from "./pages/sign-up.jsx";
+import Login from "./pages/login.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +19,16 @@ const router = createBrowserRouter([
   {
     path: "/app",
     element: <TimelinesApp />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/sign-up",
+    element: <SignUp />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
     errorElement: <ErrorPage />,
   },
 ]);

@@ -5,10 +5,12 @@ export default function Header() {
     <>
       <div className="header">
         Header
-        <Link to={"/app"}>
+        <Link to={"/login"}>
           <button className="header-sign-in-button">Sign in</button>
         </Link>
-        <button className="header-sign-up-button">Sign up</button>
+        <Link to={"/sign-up"}>
+          <button className="header-sign-up-button">Sign up</button>
+        </Link>
       </div>
     </>
   );
