@@ -9,4 +9,4 @@ function TimelinesApp() {
   );
 }
 
-export default App;
+export default TimelinesApp;

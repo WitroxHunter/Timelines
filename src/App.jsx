@@ -1,10 +1,16 @@
 import { useState } from "react";
+import Header from "./components/header";
+import Footer from "./components/footer";
 import "./App.css";
 
 function App() {
   return (
     <>
-      <div className="main">Dashboard</div>
+      <div className="main">
+        <Header />
+        <div className="content">Dashboard</div>
+        <Footer />
+      </div>
     </>
   );
 }
