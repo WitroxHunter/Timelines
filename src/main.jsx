@@ -12,22 +12,22 @@ import Login from "./pages/login.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/Timelines",
     element: <App />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/app",
+    path: "/Timelines/app",
     element: <TimelinesApp />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/sign-up",
+    path: "/Timelines/sign-up",
     element: <SignUp />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/login",
+    path: "/Timelines/login",
     element: <Login />,
     errorElement: <ErrorPage />,
   },
