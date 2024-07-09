@@ -41,7 +41,7 @@ export default function Login() {
   };
 
   if (userLoggedIn) {
-    return <Navigate to="/" />;
+    return <Navigate to="/Timelines/app" />;
   }
 
   return (

@@ -1,10 +1,36 @@
-import { useState } from "react";
+import React from "react";
+import { useAuth } from "../contexts/authContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase"; // Adjust the import based on your file structure
+import { Navigate } from "react-router-dom";
 import "./timelines-app.css";
 
 function TimelinesApp() {
+  const { currentUser } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error logging out: ", error);
+    }
+  };
+
+  if (!currentUser) {
+    // Redirect to login page if not logged in
+    return <Navigate to="/Timelines/login" />;
+  }
+
   return (
     <>
-      <div className="main">Tu bedzie aplikacja</div>
+      <div className="main">
+        Tu bedzie aplikacja,
+        <br />
+        Witaj{" "}
+        {currentUser.displayName ? currentUser.displayName : currentUser.email}
+        <br />
+        <button onClick={handleLogout}>Log Out</button>
+      </div>
     </>
   );
 }
