@@ -5,6 +5,9 @@ import {
   doSignInWithGoogle,
 } from "../firebase/auth";
 import { useAuth } from "../contexts/authContext";
+import "./login.css";
+
+import Logo from "../assets/images/Logo.png";
 
 export default function Login() {
   const { userLoggedIn } = useAuth();
@@ -46,34 +49,48 @@ export default function Login() {
 
   return (
     <>
-      <div className="login">
-        <h2>Login</h2>
+      <div className="main">
+        <img src={Logo} className="logo" />
+        <h2>Welcome back</h2>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         <form onSubmit={onSubmit}>
-          <label>Email</label>
+          <label className="label">Email</label>
+          <br />
           <input
+            className="input"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
           <br />
-          <label>Password</label>
+          <label className="label">Password</label>
+          <br />
           <input
+            className="input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
           <br />
-          <button type="submit" disabled={isSigningIn}>
-            {isSigningIn ? "Signing in..." : "Sign In"}
+          Don't have an account?
+          <span className="blue-font">
+            <Link to="/Timelines/sign-up"> Sign Up</Link>
+          </span>
+          <br />
+          <button
+            className="submit-button"
+            type="submit"
+            disabled={isSigningIn}
+          >
+            {isSigningIn ? "Signing in..." : "Continue"}
           </button>
+          <br />
           <button onClick={onGoogleSignIn} disabled={isSigningIn}>
             {isSigningIn ? "Signing in with Google..." : "Sign In with Google"}
           </button>
         </form>
-        <Link to="/signup">Sign Up</Link>
       </div>
     </>
   );

@@ -1,0 +1,41 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+}
+
+.label {
+  font-size: var(--FontSizeSmall);
+}
+
+.input {
+  background-color: var(--UIbackground);
+  border-radius: 15px;
+  width: 250px;
+  height: 25px;
+}
+
+.blue-font {
+  color: var(--UIcoolblue);
+}
+
+.submit-button {
+  width: 250px;
+  height: 35px;
+  border: none;
+  border-radius: 15px;
+  border: white 2px solid;
+}
+
+/* zmien na to ze jak jest klikniety*/
+.submit-button:hover {
+  border: var(--UIcoolblue) 2px solid;
+}
