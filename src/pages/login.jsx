@@ -9,6 +9,7 @@ import { useAuth } from "../contexts/authContext";
 import "./login.css";
 
 import Logo from "../assets/images/Logo.png";
+import GoogleLogo from "../assets/images/Google__G__logo.svg";
 
 export default function Login() {
   const { userLoggedIn } = useAuth();
@@ -67,42 +68,30 @@ export default function Login() {
     <>
       <div className="main">
         <img src={Logo} className="logo" alt="Logo" />
-        <h2>Welcome back</h2>
+        <h1>Welcome back</h1>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         {resetMessage && <p style={{ color: "green" }}>{resetMessage}</p>}
         <form onSubmit={onSubmit}>
           <div className="input-box">
-            <label className="label">Email</label>
+            {/* <label className="label">Email</label> */}
             <input
-              className="input"
               type="email"
               value={email}
+              placeholder="Login"
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div className="input-box">
-            <label className="label">Password</label>
+            {/* <label className="label">Password</label> */}
             <input
-              className="input"
               type="password"
               value={password}
+              placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          Don't have an account?
-          <span className="blue-font">
-            <Link to="/Timelines/sign-up"> Sign Up</Link>
-          </span>
-          <br />
-          <span
-            className="blue-font"
-            onClick={onPasswordReset}
-            style={{ cursor: "pointer" }}
-          >
-            I don't remember my password
-          </span>
           <br />
           <button
             className="submit-button"
@@ -111,8 +100,32 @@ export default function Login() {
           >
             {isSigningIn ? "Signing in..." : "Continue"}
           </button>
-          <br />
-          <button onClick={onGoogleSignIn} disabled={isSigningIn}>
+          <p>
+            Don't have an account?
+            <span className="blue-font">
+              <Link to="/Timelines/sign-up"> Sign Up</Link>
+            </span>
+          </p>
+          <p>
+            <span
+              className="blue-font"
+              onClick={onPasswordReset}
+              style={{ cursor: "pointer" }}
+            >
+              I don't remember my password
+            </span>
+          </p>
+          <div className="divider">
+            <div className="divider-line"></div>
+            <div>OR</div>
+            <div className="divider-line"></div>
+          </div>
+          <button
+            className="button-google"
+            onClick={onGoogleSignIn}
+            disabled={isSigningIn}
+          >
+            <img src={GoogleLogo} alt="google" />
             {isSigningIn ? "Signing in with Google..." : "Sign In with Google"}
           </button>
         </form>
