@@ -3,6 +3,7 @@ import { Navigate, Link } from "react-router-dom";
 import {
   doSignInWithEmailAndPassword,
   doSignInWithGoogle,
+  doPasswordReset,
 } from "../firebase/auth";
 import { useAuth } from "../contexts/authContext";
 import "./login.css";
@@ -16,6 +17,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [resetMessage, setResetMessage] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -43,6 +45,20 @@ export default function Login() {
     }
   };
 
+  const onPasswordReset = async (e) => {
+    e.preventDefault();
+    if (email) {
+      try {
+        await doPasswordReset(email);
+        setResetMessage("Password reset email sent!");
+      } catch (error) {
+        setErrorMessage(error.message);
+      }
+    } else {
+      setErrorMessage("Please enter your email address.");
+    }
+  };
+
   if (userLoggedIn) {
     return <Navigate to="/Timelines/app" />;
   }
@@ -50,9 +66,10 @@ export default function Login() {
   return (
     <>
       <div className="main">
-        <img src={Logo} className="logo" />
+        <img src={Logo} className="logo" alt="Logo" />
         <h2>Welcome back</h2>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        {resetMessage && <p style={{ color: "green" }}>{resetMessage}</p>}
         <form onSubmit={onSubmit}>
           <div className="input-box">
             <label className="label">Email</label>
@@ -77,6 +94,14 @@ export default function Login() {
           Don't have an account?
           <span className="blue-font">
             <Link to="/Timelines/sign-up"> Sign Up</Link>
+          </span>
+          <br />
+          <span
+            className="blue-font"
+            onClick={onPasswordReset}
+            style={{ cursor: "pointer" }}
+          >
+            I don't remember my password
           </span>
           <br />
           <button
