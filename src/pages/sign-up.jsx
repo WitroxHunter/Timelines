@@ -1,9 +1,11 @@
-// src/components/SignUp.js
 import React, { useState } from "react";
 import "./sign-up.css";
 import Logo from "../assets/images/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { doCreateUserWithEmailAndPassword } from "../firebase/auth";
+import {
+  doCreateUserWithEmailAndPassword,
+  doSignInWithGoogle,
+} from "../firebase/auth";
 
 export default function SignUp() {
   const [nickname, setNickname] = useState("");
@@ -11,6 +13,7 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [error, setError] = useState("");
+  const [isSigningIn, setIsSigningIn] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -30,6 +33,21 @@ export default function SignUp() {
     } catch (error) {
       console.error("Error creating user:", error);
       setError(error.message);
+    }
+  };
+
+  const onGoogleSignIn = async (e) => {
+    e.preventDefault();
+    if (!isSigningIn) {
+      setIsSigningIn(true);
+      try {
+        await doSignInWithGoogle();
+        // Navigate to a different page after successful Google sign-in
+        navigate("/Timelines");
+      } catch (error) {
+        setError(error.message);
+        setIsSigningIn(false);
+      }
     }
   };
 
@@ -82,6 +100,10 @@ export default function SignUp() {
           </Link>
           <br />
           <input type="submit" className="submit-button" value="Submit" />
+          <br />
+          <button onClick={onGoogleSignIn} disabled={isSigningIn}>
+            {isSigningIn ? "Signing in with Google..." : "Sign Up with Google"}
+          </button>
         </form>
       </div>
     </>
