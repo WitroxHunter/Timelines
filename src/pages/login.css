@@ -39,3 +39,10 @@
 .submit-button:hover {
   border: var(--UIcoolblue) 2px solid;
 }
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  margin-bottom: 5px;
+}

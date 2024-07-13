@@ -54,26 +54,26 @@ export default function Login() {
         <h2>Welcome back</h2>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         <form onSubmit={onSubmit}>
-          <label className="label">Email</label>
-          <br />
-          <input
-            className="input"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <br />
-          <label className="label">Password</label>
-          <br />
-          <input
-            className="input"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <br />
+          <div className="input-box">
+            <label className="label">Email</label>
+            <input
+              className="input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="input-box">
+            <label className="label">Password</label>
+            <input
+              className="input"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
           Don't have an account?
           <span className="blue-font">
             <Link to="/Timelines/sign-up"> Sign Up</Link>
