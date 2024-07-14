@@ -58,36 +58,32 @@ export default function SignUp() {
         <h2>Create account</h2>
         <form onSubmit={handleSubmit}>
           <div className="input-box">
-            <label className="label">Nickname</label>
             <input
-              className="input"
+              placeholder="Nickname"
               type="text"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
             />
           </div>
           <div className="input-box">
-            <label className="label">Email</label>
             <input
-              className="input"
+              placeholder="Email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="input-box">
-            <label className="label">Password</label>
             <input
-              className="input"
+              placeholder="Password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="input-box">
-            <label className="label">Repeat password</label>
             <input
-              className="input"
+              placeholder="Repeat password"
               type="password"
               value={repeatPassword}
               onChange={(e) => setRepeatPassword(e.target.value)}

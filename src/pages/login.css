@@ -19,13 +19,6 @@
   font-size: var(--FontSizeSmall);
 }
 
-.input {
-  background-color: var(--UIbackground);
-  border-radius: 15px;
-  width: 250px;
-  height: 25px;
-}
-
 .blue-font {
   color: var(--UIcoolblue);
 }
