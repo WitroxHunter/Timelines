@@ -69,8 +69,12 @@ export default function Login() {
       <div className="main">
         <img src={Logo} className="logo" alt="Logo" />
         <h1>Welcome back</h1>
-        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-        {resetMessage && <p style={{ color: "green" }}>{resetMessage}</p>}
+        {errorMessage && (
+          <p style={{ color: "red", marginBottom: 5 }}>{errorMessage}</p>
+        )}
+        {resetMessage && (
+          <p style={{ color: "green", marginBottom: 5 }}>{resetMessage}</p>
+        )}
         <form onSubmit={onSubmit}>
           <div className="input-box">
             {/* <label className="label">Email</label> */}

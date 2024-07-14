@@ -7,7 +7,8 @@
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
   --UIbackground: #242424;
-  --UIcoolblue: #0094ff;
+  /* --UIcoolblue: #0094ff; */
+  --UIcoolblue: #00a6ed;
 
   --FontSizeSmall: 14px;
 }
