@@ -6,6 +6,7 @@ import {
   doCreateUserWithEmailAndPassword,
   doSignInWithGoogle,
 } from "../firebase/auth";
+import GoogleLogo from "../assets/images/Google__G__logo.svg";
 
 export default function SignUp() {
   const [nickname, setNickname] = useState("");
@@ -97,7 +98,12 @@ export default function SignUp() {
           <br />
           <input type="submit" className="submit-button" value="Submit" />
           <br />
-          <button onClick={onGoogleSignIn} disabled={isSigningIn}>
+          <button
+            className="button-google"
+            onClick={onGoogleSignIn}
+            disabled={isSigningIn}
+          >
+            <img src={GoogleLogo} alt="google" />
             {isSigningIn ? "Signing in with Google..." : "Sign Up with Google"}
           </button>
         </form>
