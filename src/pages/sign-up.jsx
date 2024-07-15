@@ -6,6 +6,7 @@ import {
   doCreateUserWithEmailAndPassword,
   doSignInWithGoogle,
 } from "../firebase/auth";
+import GoogleLogo from "../assets/images/Google__G__logo.svg";
 
 export default function SignUp() {
   const [nickname, setNickname] = useState("");
@@ -29,7 +30,7 @@ export default function SignUp() {
     try {
       await doCreateUserWithEmailAndPassword(email, password);
       // Navigate to a different page after successful registration
-      navigate("/Timelines");
+      navigate("/Timelines/login");
     } catch (error) {
       console.error("Error creating user:", error);
       setError(error.message);
@@ -43,7 +44,7 @@ export default function SignUp() {
       try {
         await doSignInWithGoogle();
         // Navigate to a different page after successful Google sign-in
-        navigate("/Timelines");
+        navigate("/Timelines/app");
       } catch (error) {
         setError(error.message);
         setIsSigningIn(false);
@@ -58,36 +59,32 @@ export default function SignUp() {
         <h2>Create account</h2>
         <form onSubmit={handleSubmit}>
           <div className="input-box">
-            <label className="label">Nickname</label>
             <input
-              className="input"
+              placeholder="Nickname"
               type="text"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
             />
           </div>
           <div className="input-box">
-            <label className="label">Email</label>
             <input
-              className="input"
+              placeholder="Email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="input-box">
-            <label className="label">Password</label>
             <input
-              className="input"
+              placeholder="Password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="input-box">
-            <label className="label">Repeat password</label>
             <input
-              className="input"
+              placeholder="Repeat password"
               type="password"
               value={repeatPassword}
               onChange={(e) => setRepeatPassword(e.target.value)}
@@ -101,7 +98,12 @@ export default function SignUp() {
           <br />
           <input type="submit" className="submit-button" value="Submit" />
           <br />
-          <button onClick={onGoogleSignIn} disabled={isSigningIn}>
+          <button
+            className="button-google"
+            onClick={onGoogleSignIn}
+            disabled={isSigningIn}
+          >
+            <img src={GoogleLogo} alt="google" />
             {isSigningIn ? "Signing in with Google..." : "Sign Up with Google"}
           </button>
         </form>
