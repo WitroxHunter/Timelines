@@ -109,8 +109,6 @@ export default function Login() {
             <span className="blue-font">
               <Link to="/Timelines/sign-up"> Sign Up</Link>
             </span>
-          </p>
-          <p>
             <span
               className="blue-font"
               onClick={onPasswordReset}

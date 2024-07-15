@@ -90,14 +90,19 @@ export default function SignUp() {
               onChange={(e) => setRepeatPassword(e.target.value)}
             />
           </div>
-          {error && <p className="error">{error}</p>}
-          Already have an account?
-          <Link to="/Timelines/login">
-            <span className="blue-font"> Log in</span>
-          </Link>
-          <br />
+          <p>
+            {error && <p className="error">{error}</p>}
+            Already have an account?
+            <Link to="/Timelines/login">
+              <span className="blue-font"> Log in</span>
+            </Link>
+          </p>
           <input type="submit" className="submit-button" value="Submit" />
-          <br />
+          <div className="divider">
+            <div className="divider-line"></div>
+            <div>OR</div>
+            <div className="divider-line"></div>
+          </div>
           <button
             className="button-google"
             onClick={onGoogleSignIn}
