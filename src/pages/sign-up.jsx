@@ -56,7 +56,7 @@ export default function SignUp() {
     <>
       <div className="main">
         <img src={Logo} className="logo" alt="Logo" />
-        <h2>Create account</h2>
+        <h1>Create account</h1>
         <form onSubmit={handleSubmit}>
           <div className="input-box">
             <input

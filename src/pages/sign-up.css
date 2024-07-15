@@ -108,6 +108,5 @@ input:focus {
 }
 
 p {
-  margin-top: 10px;
-  margin-bottom: 0;
+  margin: 10px;
 }

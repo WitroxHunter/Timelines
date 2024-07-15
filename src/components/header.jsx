@@ -6,7 +6,7 @@ export default function Header() {
       <div className="header">
         Header
         <Link to={"/Timelines/login"}>
-          <button className="header-sign-in-button">Sign in</button>
+          <button className="header-sign-in-button">Log in</button>
         </Link>
         <Link to={"/Timelines/sign-up"}>
           <button className="header-sign-up-button">Sign up</button>

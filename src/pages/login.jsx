@@ -96,7 +96,16 @@ export default function Login() {
               required
             />
           </div>
-          <br />
+
+          <p>
+            <span
+              className="blue-font"
+              onClick={onPasswordReset}
+              style={{ cursor: "pointer" }}
+            >
+              I don't remember my password
+            </span>
+          </p>
           <button
             className="submit-button"
             type="submit"
@@ -108,13 +117,6 @@ export default function Login() {
             Don't have an account?
             <span className="blue-font">
               <Link to="/Timelines/sign-up"> Sign Up</Link>
-            </span>
-            <span
-              className="blue-font"
-              onClick={onPasswordReset}
-              style={{ cursor: "pointer" }}
-            >
-              I don't remember my password
             </span>
           </p>
           <div className="divider">
@@ -128,7 +130,7 @@ export default function Login() {
             disabled={isSigningIn}
           >
             <img src={GoogleLogo} alt="google" />
-            {isSigningIn ? "Signing in with Google..." : "Sign In with Google"}
+            {isSigningIn ? "Signing in with Google..." : "Continue with Google"}
           </button>
         </form>
       </div>
