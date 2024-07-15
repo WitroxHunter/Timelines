@@ -30,7 +30,7 @@ export default function SignUp() {
     try {
       await doCreateUserWithEmailAndPassword(email, password);
       // Navigate to a different page after successful registration
-      navigate("/Timelines");
+      navigate("/Timelines/login");
     } catch (error) {
       console.error("Error creating user:", error);
       setError(error.message);
@@ -44,7 +44,7 @@ export default function SignUp() {
       try {
         await doSignInWithGoogle();
         // Navigate to a different page after successful Google sign-in
-        navigate("/Timelines");
+        navigate("/Timelines/app");
       } catch (error) {
         setError(error.message);
         setIsSigningIn(false);
