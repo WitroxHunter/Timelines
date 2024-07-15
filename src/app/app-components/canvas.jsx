@@ -15,7 +15,7 @@ export default function Canvas() {
       context.translate(offset.x, offset.y);
       context.scale(scale, scale);
       context.fillStyle = "blue";
-      context.fillRect(50, 50, 100, 100); // rysuje kwadrat
+      context.fillRect(50, 50, 100, 100);
       context.restore();
     };
 
@@ -23,7 +23,7 @@ export default function Canvas() {
   }, [offset, scale]);
 
   const handleMouseMove = (e) => {
-    if (e.buttons !== 1) return; // Sprawdzamy czy lewy przycisk myszy jest wciśnięty
+    if (e.buttons !== 1) return;
     setOffset((prevOffset) => ({
       x: prevOffset.x + e.movementX,
       y: prevOffset.y + e.movementY,
