@@ -4,7 +4,6 @@ export default function Header() {
   return (
     <>
       <div className="header">
-        Header
         <Link to={"/Timelines/login"}>
           <button className="header-sign-in-button">Log in</button>
         </Link>
