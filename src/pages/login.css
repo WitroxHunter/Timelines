@@ -24,6 +24,7 @@
 }
 
 .submit-button {
+  user-select: none;
   font-family: "Source Sans 3", sans-serif;
   font-size: 16px;
   font-weight: 600;
@@ -67,6 +68,7 @@ input:focus {
 }
 
 .button-google {
+  user-select: none;
   position: relative;
   display: flex;
   flex-direction: row;

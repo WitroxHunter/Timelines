@@ -40,11 +40,11 @@ export default function Canvas() {
       <canvas
         className="canvas"
         ref={canvasRef}
-        width={800}
-        height={600}
+        width={1300}
+        height={800}
         onMouseMove={handleMouseMove}
         onWheel={handleWheel}
-        style={{ border: "1px solid black", cursor: "grab" }}
+        style={{ cursor: "grab" }}
       ></canvas>
     </div>
   );
