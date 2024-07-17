@@ -27,13 +27,15 @@ function TimelinesApp() {
   return (
     <>
       <div className="main">
-        <Header />
+        <Header>
+          Witaj{" "}
+          {currentUser.displayName
+            ? currentUser.displayName
+            : currentUser.email}
+          <br />
+          <button onClick={handleLogout}>Log Out</button>
+        </Header>
         <Canvas />
-        <br />
-        Witaj{" "}
-        {currentUser.displayName ? currentUser.displayName : currentUser.email}
-        <br />
-        <button onClick={handleLogout}>Log Out</button>
       </div>
     </>
   );

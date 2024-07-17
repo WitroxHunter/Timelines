@@ -54,7 +54,7 @@ export default function SignUp() {
 
   return (
     <>
-      <div className="main">
+      <div className="main-signup">
         <img src={Logo} className="logo" alt="Logo" />
         <h1>Create account</h1>
         <form onSubmit={handleSubmit}>

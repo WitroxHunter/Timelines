@@ -1,6 +1,35 @@
 .header-sign-in-button,
 .header-sign-up-button {
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+
+  margin: 3px;
+  padding: 3px 6px;
+
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
   background-color: #222;
   color: white;
-  padding: 5px 10px;
+
+  transition: 0.1s;
+}
+
+.header-sign-in-button:hover,
+.header-sign-up-button:hover {
+  background-color: #333;
+}
+
+.header-logo {
+  background-color: #222;
+  padding: 3px;
+  border-radius: 3px;
+
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }

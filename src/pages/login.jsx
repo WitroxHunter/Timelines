@@ -66,7 +66,7 @@ export default function Login() {
 
   return (
     <>
-      <div className="main">
+      <div className="main-login">
         <img src={Logo} className="logo" alt="Logo" />
         <h1>Welcome back</h1>
         {errorMessage && (
