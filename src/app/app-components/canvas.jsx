@@ -12,6 +12,7 @@ export default function Canvas() {
     { date: new Date("2007-04-21"), label: "Event 1" },
     { date: new Date("2024-01-23"), label: "Event 2" },
     { date: new Date("2010-02-02"), label: "Event 3" },
+    { date: new Date("2015-02-02"), label: "Event 4" },
   ];
 
   const calculateXPosition = (date) => {
