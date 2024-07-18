@@ -20,7 +20,6 @@ function TimelinesApp() {
   };
 
   if (!currentUser) {
-    // Redirect to login page if not logged in
     return <Navigate to="/Timelines/login" />;
   }
 
