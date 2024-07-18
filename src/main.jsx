@@ -9,17 +9,13 @@ import TimelinesApp from "./app/timelines-app.jsx";
 import ErrorPage from "./pages/error-page.jsx";
 import SignUp from "./pages/sign-up.jsx";
 import Login from "./pages/login.jsx";
+import Dashboard from "./app/app-pages/dashboard.jsx";
 import { AuthProvider } from "./contexts/authContext/index.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/Timelines",
     element: <App />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/Timelines/app",
-    element: <TimelinesApp />,
     errorElement: <ErrorPage />,
   },
   {
@@ -30,6 +26,16 @@ const router = createBrowserRouter([
   {
     path: "/Timelines/login",
     element: <Login />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/Timelines/app",
+    element: <Dashboard />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/Timelines/app/timeline",
+    element: <TimelinesApp />,
     errorElement: <ErrorPage />,
   },
 ]);

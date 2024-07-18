@@ -17,6 +17,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
+  const [isSigningInWithGoogle, setIsSigningInWithGoogle] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [resetMessage, setResetMessage] = useState("");
 
@@ -35,13 +36,13 @@ export default function Login() {
 
   const onGoogleSignIn = async (e) => {
     e.preventDefault();
-    if (!isSigningIn) {
-      setIsSigningIn(true);
+    if (!isSigningInWithGoogle) {
+      setIsSigningInWithGoogle(true);
       try {
         await doSignInWithGoogle();
       } catch (error) {
         setErrorMessage(error.message);
-        setIsSigningIn(false);
+        setIsSigningInWithGoogle(false);
       }
     }
   };
@@ -127,10 +128,12 @@ export default function Login() {
           <button
             className="button-google"
             onClick={onGoogleSignIn}
-            disabled={isSigningIn}
+            disabled={isSigningInWithGoogle}
           >
             <img src={GoogleLogo} alt="google" />
-            {isSigningIn ? "Signing in with Google..." : "Continue with Google"}
+            {isSigningInWithGoogle
+              ? "Signing in with Google..."
+              : "Continue with Google"}
           </button>
         </form>
       </div>
