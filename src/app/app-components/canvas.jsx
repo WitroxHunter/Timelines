@@ -2,8 +2,8 @@ import React, { useRef, useEffect, useState } from "react";
 
 export default function Canvas() {
   const canvasRef = useRef(null);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [scale, setScale] = useState(1);
+  const [offset, setOffset] = useState({ x: 80, y: 0 });
+  const [scale, setScale] = useState(0.9);
   const [isDragging, setIsDragging] = useState(false);
 
   const startDate = new Date("2006-08-24");
@@ -158,7 +158,7 @@ export default function Canvas() {
     if (!isDragging) return;
     setOffset((prevOffset) => ({
       x: prevOffset.x + e.movementX,
-      y: prevOffset.y + e.movementY,
+      y: prevOffset.y,
     }));
   };
 
