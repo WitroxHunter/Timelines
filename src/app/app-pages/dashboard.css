@@ -1,4 +1,25 @@
 .add-timeline-button {
+}
+
+.timelines-box {
+  background-color: rgb(25, 25, 25);
+  width: 80%;
+  height: 80%;
+  border-radius: 30px;
   padding: 20px;
-  width: 300px;
+}
+
+.timeline-button-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline-button {
+  width: 250px;
+  height: 150px;
+  border-radius: 20px;
+  background-image: url("/src/assets/images/timeline-temporary-button.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; /* Ensure the image doesn't repeat */
 }
