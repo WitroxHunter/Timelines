@@ -2,7 +2,7 @@ import React from "react";
 import { useAuth } from "../contexts/authContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase"; // Adjust the import based on your file structure
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import "./timelines-app.css";
 
 import Header from "./app-components/header";
@@ -35,6 +35,9 @@ function TimelinesApp() {
                 ? currentUser.displayName
                 : currentUser.email}
             </label>
+            <Link to="/Timelines/app">
+              <button>Dashboard</button>
+            </Link>
           </div>
 
           <button onClick={handleLogout}>Log Out</button>
