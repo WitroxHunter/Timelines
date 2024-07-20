@@ -1,25 +1,90 @@
-.add-timeline-button {
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  overflow: hidden;
+}
+
+.dashboard-user {
+  padding: 20px;
+  width: 20%;
+  background-color: #111;
+  outline: 1px solid #4f4f4f;
+}
+
+.dashboard-timelines {
+  padding: 30px 30px 0 30px;
+  width: 80%;
 }
 
 .timelines-box {
-  background-color: rgb(25, 25, 25);
-  width: 80%;
-  height: 80%;
-  border-radius: 30px;
+  display: flex;
+  flex-direction: row;
+
+  gap: 20px;
+  height: 100%;
+
+  background-color: #111;
+  outline: 1px solid #4f4f4f;
+
+  border-radius: 20px 20px 0 0;
   padding: 20px;
 }
 
 .timeline-button-box {
   display: flex;
   flex-direction: column;
+  height: fit-content;
+  cursor: pointer;
+}
+
+.add-timeline-button {
+  width: 250px;
+  height: 150px;
+  border-radius: 10px;
+  outline: 1px solid #4f4f4f;
+  background-color: #000;
+}
+
+.add-timeline-icon {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #222;
+  border-radius: 50%;
+  padding: 2px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.timeline-file-name {
+  margin-top: 3px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.timeline-edited {
+  font-size: 12px;
+  font-weight: 400;
+  color: #808080;
 }
 
 .timeline-button {
   width: 250px;
   height: 150px;
-  border-radius: 20px;
+  border-radius: 10px;
+  outline: 1px solid #4f4f4f;
+
   background-image: url("/src/assets/images/timeline-temporary-button.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat; /* Ensure the image doesn't repeat */
+
+  transition: 0.2s;
+}
+
+.timeline-button-box:hover .timeline-button {
+  filter: contrast(0.75);
 }
