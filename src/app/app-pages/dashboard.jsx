@@ -1,8 +1,19 @@
-import { Link } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase/firebase";
+import { useAuth } from "../../contexts/authContext";
+import { Navigate, Link } from "react-router-dom";
 import "./dashboard.css";
 import Header from "../app-components/header";
 
 import plusIcon from "../../assets/icons/add_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg";
+
+const handleLogout = async () => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error("Error logging out: ", error);
+  }
+};
 
 const TimelineButton = (props) => {
   return (
@@ -34,6 +45,11 @@ const TimelineButtonAdd = (props) => {
 };
 
 function Dashboard() {
+  const { currentUser } = useAuth();
+
+  if (!currentUser) {
+    return <Navigate to="/Timelines/login" />;
+  }
   return (
     <>
       <div className="main">
@@ -42,7 +58,7 @@ function Dashboard() {
             Witaj <label className="username">eustachy@motyka.pl</label>
           </div>
 
-          <button>Log Out</button>
+          <button onClick={handleLogout}>Log Out</button>
           {/* onClick={handleLogout} */}
         </Header>
         <div className="dashboard-wrapper">
@@ -64,11 +80,6 @@ function Dashboard() {
               na działkach budowlanych niemających możliwości przyłączenia do
               sieci kanalizacyjnej.
             </div>
-
-            <img
-              style={{ width: "100%" }}
-              src="https://media.discordapp.net/attachments/1241105566856646656/1262902653533425755/zastrzel.gif?ex=669ce680&is=669b9500&hm=bdef14ade291c8bc7fb1fd85322be1f6691c4f4fc61cfd6adf9a175a283937ae&=&width=537&height=671"
-            />
           </div>
 
           <div className="dashboard-timelines">

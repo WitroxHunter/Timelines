@@ -8,16 +8,16 @@ import "./timelines-app.css";
 import Header from "./app-components/header";
 import Canvas from "./app-components/canvas";
 
+const handleLogout = async () => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error("Error logging out: ", error);
+  }
+};
+
 function TimelinesApp() {
   const { currentUser } = useAuth();
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error("Error logging out: ", error);
-    }
-  };
 
   if (!currentUser) {
     return <Navigate to="/Timelines/login" />;
