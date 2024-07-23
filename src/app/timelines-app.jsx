@@ -4,6 +4,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase"; // Adjust the import based on your file structure
 import { Navigate, Link } from "react-router-dom";
 import "./timelines-app.css";
+import smileyIcon from "../assets/icons/smiley.webp";
 
 import Header from "./app-components/header";
 import Canvas from "./app-components/canvas";
@@ -82,6 +83,14 @@ function TimelinesApp() {
               <li>Export image</li>
               <div className="dropdown-line-divider" />
               <li>Close file</li>
+              <div className="dropdown-line-divider" />
+              <li>
+                <img
+                  src={smileyIcon}
+                  style={{ width: 16, filter: "grayscale(1) contrast(3)" }}
+                />
+                &nbsp; Wpierdol 2
+              </li>
             </HeaderButton>
             <HeaderButton buttonName="Edit">
               <li>Open file</li>
