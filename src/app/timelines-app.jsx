@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useAuth } from "../contexts/authContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase"; // Adjust the import based on your file structure
@@ -7,6 +7,40 @@ import "./timelines-app.css";
 
 import Header from "./app-components/header";
 import Canvas from "./app-components/canvas";
+
+const HeaderButton = (props, { children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div className="header-button-dropdown" ref={menuRef}>
+      <button onClick={toggleMenu}>{props.buttonName}</button>
+
+      {isOpen && (
+        <div className="header-dropdown-menu">
+          <ul>{props.children}</ul>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const handleLogout = async () => {
   try {
@@ -27,7 +61,7 @@ function TimelinesApp() {
     <>
       <div className="main">
         <Header>
-          <div>
+          <div className="header-option-buttons">
             {/* Witaj{" "}
             <label className="username">
               {currentUser.displayName
@@ -38,11 +72,61 @@ function TimelinesApp() {
               <button>Dashboard</button>
             </Link>
 
-            <button>File</button>
-            <button>Edit</button>
-            <button>View</button>
-            <button>Text</button>
-            <button>Colors</button>
+            <HeaderButton buttonName="File">
+              <li>Open file</li>
+              <li>Open recent</li>
+              <div className="dropdown-line-divider" />
+              <li>Save file</li>
+              <li>Save file as</li>
+              <div className="dropdown-line-divider" />
+              <li>Export image</li>
+              <div className="dropdown-line-divider" />
+              <li>Close file</li>
+            </HeaderButton>
+            <HeaderButton buttonName="Edit">
+              <li>Open file</li>
+              <li>Open recent</li>
+              <div className="dropdown-line-divider" />
+              <li>Save file</li>
+              <li>Save file as</li>
+              <div className="dropdown-line-divider" />
+              <li>Export image</li>
+              <div className="dropdown-line-divider" />
+              <li>Close file</li>
+            </HeaderButton>
+            <HeaderButton buttonName="View">
+              <li>Open file</li>
+              <li>Open recent</li>
+              <div className="dropdown-line-divider" />
+              <li>Save file</li>
+              <li>Save file as</li>
+              <div className="dropdown-line-divider" />
+              <li>Export image</li>
+              <div className="dropdown-line-divider" />
+              <li>Close file</li>
+            </HeaderButton>
+            <HeaderButton buttonName="Text">
+              <li>Open file</li>
+              <li>Open recent</li>
+              <div className="dropdown-line-divider" />
+              <li>Save file</li>
+              <li>Save file as</li>
+              <div className="dropdown-line-divider" />
+              <li>Export image</li>
+              <div className="dropdown-line-divider" />
+              <li>Close file</li>
+            </HeaderButton>
+            <HeaderButton buttonName="Colors">
+              <li>Open file</li>
+              <li>Open recent</li>
+              <div className="dropdown-line-divider" />
+              <li>Save file</li>
+              <li>Save file as</li>
+              <div className="dropdown-line-divider" />
+              <li>Export image</li>
+              <div className="dropdown-line-divider" />
+              <li>Close file</li>
+            </HeaderButton>
           </div>
 
           <button onClick={handleLogout} className="logout-button">

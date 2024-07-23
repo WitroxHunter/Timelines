@@ -1,3 +1,7 @@
+img {
+  user-select: none;
+}
+
 .app-header {
   position: relative;
   z-index: 200;
@@ -35,6 +39,7 @@
 }
 
 button {
+  position: relative;
   user-select: none;
   font-family: "Source Sans 3", sans-serif;
   font-weight: 500;
@@ -127,6 +132,61 @@ button:hover {
 }
 
 /*asfasfsa*/
+
+.header-option-buttons {
+  display: flex;
+  flex-direction: row;
+}
+
+/*Header dropdown menu - START*/
+
+.header-button-dropdown {
+  width: fit-content;
+  position: relative;
+}
+
+.header-dropdown-menu {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 3px;
+  padding: 3px;
+
+  background-color: #222;
+  border: solid 1px #4f4f4f;
+  border-radius: 5px;
+  z-index: 100;
+}
+
+.header-dropdown-menu ul {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-wrap: nowrap;
+  list-style-type: none;
+  font-weight: 500;
+}
+
+.header-dropdown-menu ul li {
+  padding: 0 3px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.header-dropdown-menu ul li:hover {
+  background-color: #007bff;
+}
+
+.dropdown-line-divider {
+  width: 90%;
+  margin: auto;
+  height: 1px;
+  border-radius: 2px;
+  background-color: #3f3f3f;
+}
+
+/*Header dropdown menu - END*/
 
 .opened-timeline-file-name {
   display: flex;
