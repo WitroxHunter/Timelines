@@ -188,6 +188,7 @@ export default function Canvas() {
         onWheel={handleWheel}
         style={{ cursor: isDragging ? "grabbing" : "grab" }}
       ></canvas>
+      <button className="add-button">Add +</button>
     </div>
   );
 }
