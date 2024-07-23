@@ -60,7 +60,7 @@ function TimelinesApp() {
 
   return (
     <>
-      <div className="main">
+      <div className="main horizontal-gradient">
         <Header>
           <div className="header-option-buttons">
             {/* Witaj{" "}

@@ -2,6 +2,10 @@ img {
   user-select: none;
 }
 
+.horizontal-gradient {
+  background: linear-gradient(0deg, #111 0%, #000 50%, #111 100%);
+}
+
 .app-header {
   position: relative;
   z-index: 200;
