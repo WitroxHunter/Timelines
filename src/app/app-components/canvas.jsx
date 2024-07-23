@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 
 export default function Canvas() {
   const canvasRef = useRef(null);
-  const [offset, setOffset] = useState({ x: 80, y: 0 });
+  const [offset, setOffset] = useState({ x: 80, y: window.innerHeight / 2 });
   const [scale, setScale] = useState(0.9);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -46,7 +46,7 @@ export default function Canvas() {
     const drawTimeline = (context) => {
       context.strokeStyle = "white";
       context.lineWidth = 2;
-      const yPosition = canvas.height / 2;
+      const yPosition = 0;
       context.beginPath();
       context.moveTo(0, yPosition);
       context.lineTo(canvas.width, yPosition);
@@ -54,7 +54,7 @@ export default function Canvas() {
     };
 
     const drawDateBox = (context, date, xPosition, alignRight = false) => {
-      const yPosition = canvas.height / 2;
+      const yPosition = 0;
       const boxWidth = 60;
       const boxHeight = 20;
       const borderRadius = 5;
@@ -133,7 +133,7 @@ export default function Canvas() {
 
     const drawPoint = (context, point) => {
       const xPosition = calculateXPosition(point.date);
-      const yPosition = canvas.height / 2;
+      const yPosition = 0;
       context.fillStyle = "red";
       context.beginPath();
       context.arc(xPosition, yPosition, 5, 0, 2 * Math.PI);
@@ -166,6 +166,14 @@ export default function Canvas() {
   const handleWheel = (e) => {
     e.preventDefault();
     const scaleAmount = e.deltaY > 0 ? 0.9 : 1.1;
+    const rect = canvasRef.current.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const centerX = rect.width / 2;
+
+    setOffset((prevOffset) => ({
+      x: centerX - (centerX - prevOffset.x) * scaleAmount,
+      y: prevOffset.y,
+    }));
     setScale((prevScale) => Math.max(0.1, prevScale * scaleAmount));
   };
 
