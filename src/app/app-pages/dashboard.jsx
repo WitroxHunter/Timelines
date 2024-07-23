@@ -5,7 +5,7 @@ import { Navigate, Link } from "react-router-dom";
 import "./dashboard.css";
 import Header from "../app-components/header";
 
-import plusIcon from "../../assets/icons/add_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.svg";
+import plusIcon from "../../assets/icons/add.svg";
 
 const handleLogout = async () => {
   try {

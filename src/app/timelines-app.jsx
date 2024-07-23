@@ -45,8 +45,11 @@ function TimelinesApp() {
             <button>Colors</button>
           </div>
 
-          <button onClick={handleLogout}>Log Out</button>
+          <button onClick={handleLogout} className="logout-button">
+            Log Out
+          </button>
         </Header>
+
         <Canvas />
       </div>
     </>

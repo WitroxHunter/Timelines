@@ -1,5 +1,65 @@
 import React, { useRef, useEffect, useState } from "react";
 
+import editIcon from "../../assets/icons/edit_square.svg";
+import addIcon from "../../assets/icons/add.svg";
+
+import singleEventIcon from "../../assets/icons/location_on.svg";
+import multipleEventIcon from "../../assets/icons/calendar_today.svg";
+import smileyIcon from "../../assets/icons/smiley.webp";
+
+const DropdownMenu = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div className="add-button-dropdown" ref={menuRef}>
+      <button className="add-button" onClick={toggleMenu}>
+        <img src={addIcon} />
+        <div>Add</div>
+      </button>
+
+      {isOpen && (
+        <div className="dropdown-menu">
+          <ul>
+            <li>
+              <img src={singleEventIcon} />
+              Single event
+            </li>
+            <li>
+              <img src={multipleEventIcon} />
+              Long event
+            </li>
+            <li>
+              <img
+                src={smileyIcon}
+                style={{ width: 24, filter: "grayscale(1) contrast(3)" }}
+              />
+              Wpierdol
+            </li>
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export default function Canvas() {
   const canvasRef = useRef(null);
   const [offset, setOffset] = useState({ x: 80, y: window.innerHeight / 2 });
@@ -121,7 +181,7 @@ export default function Canvas() {
         date.getMonth() + 1
       }-${date.getFullYear()}`;
       context.fillStyle = "white";
-      context.font = "10px Arial";
+      context.font = "12px 'Source Sans 3'";
 
       // Text position
       const textWidth = context.measureText(formattedDate).width;
@@ -140,7 +200,7 @@ export default function Canvas() {
       context.fill();
 
       context.fillStyle = "white";
-      context.font = "12px Arial";
+      context.font = "12px 'Source Sans 3'";
       context.fillText(point.label, xPosition - 20, yPosition + 20);
     };
 
@@ -178,7 +238,14 @@ export default function Canvas() {
   };
 
   return (
-    <div className="canvas-box" style={{ overflow: "hidden" }}>
+    <div
+      className="canvas-box"
+      style={{ overflow: "hidden", position: "relative" }}
+    >
+      <div className="opened-timeline-file-name">
+        <div>My timeline 1</div>
+        <img src={editIcon} />
+      </div>
       <canvas
         className="canvas"
         ref={canvasRef}
@@ -188,7 +255,12 @@ export default function Canvas() {
         onWheel={handleWheel}
         style={{ cursor: isDragging ? "grabbing" : "grab" }}
       ></canvas>
-      <button className="add-button">Add +</button>
+
+      {/* <button className="add-button">
+        <img src={addIcon} />
+        <div>Add</div>
+      </button> */}
+      <DropdownMenu />
     </div>
   );
 }
