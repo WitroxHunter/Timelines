@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 
-import editIcon from "../../assets/icons/edit_square.svg";
-import addIcon from "../../assets/icons/add.svg";
+import editIcon from "../../assets/icons/edit.svg";
+import addIcon from "../../assets/icons/plus.svg";
 
-import singleEventIcon from "../../assets/icons/location_on.svg";
-import multipleEventIcon from "../../assets/icons/calendar_today.svg";
+import singleEventIcon from "../../assets/icons/pin.svg";
+import multipleEventIcon from "../../assets/icons/calendar-event.svg";
 import smileyIcon from "../../assets/icons/smiley.webp";
 
 const DropdownMenu = () => {
@@ -46,13 +46,13 @@ const DropdownMenu = () => {
               <img src={multipleEventIcon} />
               Long event
             </li>
-            <li>
+            {/* <li>
               <img
                 src={smileyIcon}
                 style={{ width: 24, filter: "grayscale(1) contrast(3)" }}
               />
               Wpierdol
-            </li>
+            </li> */}
           </ul>
         </div>
       )}

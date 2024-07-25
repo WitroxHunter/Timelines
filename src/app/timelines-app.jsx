@@ -74,6 +74,8 @@ function TimelinesApp() {
             </Link>
 
             <HeaderButton buttonName="File">
+              <li>New file</li>
+              <div className="dropdown-line-divider" />
               <li>Open file</li>
               <li>Open recent</li>
               <div className="dropdown-line-divider" />
@@ -83,58 +85,39 @@ function TimelinesApp() {
               <li>Export image</li>
               <div className="dropdown-line-divider" />
               <li>Close file</li>
-              <div className="dropdown-line-divider" />
+              {/* <div className="dropdown-line-divider" />
               <li>
                 <img
                   src={smileyIcon}
                   style={{ width: 16, filter: "grayscale(1) contrast(3)" }}
                 />
                 &nbsp; Wpierdol 2
-              </li>
+              </li> */}
             </HeaderButton>
             <HeaderButton buttonName="Edit">
-              <li>Open file</li>
-              <li>Open recent</li>
+              <li>Undo</li>
+              <li>Redo</li>
               <div className="dropdown-line-divider" />
-              <li>Save file</li>
-              <li>Save file as</li>
+              <li>Cut</li>
+              <li>Copy</li>
+              <li>Paste</li>
               <div className="dropdown-line-divider" />
-              <li>Export image</li>
+              <li>Find event</li>
               <div className="dropdown-line-divider" />
-              <li>Close file</li>
+              <li>Change background</li>
             </HeaderButton>
             <HeaderButton buttonName="View">
-              <li>Open file</li>
-              <li>Open recent</li>
-              <div className="dropdown-line-divider" />
-              <li>Save file</li>
-              <li>Save file as</li>
-              <div className="dropdown-line-divider" />
-              <li>Export image</li>
-              <div className="dropdown-line-divider" />
-              <li>Close file</li>
+              <li>Fit to whole screen</li>
+              {/* <div className="dropdown-line-divider" /> */}
             </HeaderButton>
             <HeaderButton buttonName="Text">
-              <li>Open file</li>
-              <li>Open recent</li>
-              <div className="dropdown-line-divider" />
-              <li>Save file</li>
-              <li>Save file as</li>
-              <div className="dropdown-line-divider" />
-              <li>Export image</li>
-              <div className="dropdown-line-divider" />
-              <li>Close file</li>
+              <li>Change font</li>
+              <li>Change text size</li>
+              {/* <div className="dropdown-line-divider" /> */}
             </HeaderButton>
             <HeaderButton buttonName="Colors">
-              <li>Open file</li>
-              <li>Open recent</li>
-              <div className="dropdown-line-divider" />
-              <li>Save file</li>
-              <li>Save file as</li>
-              <div className="dropdown-line-divider" />
-              <li>Export image</li>
-              <div className="dropdown-line-divider" />
-              <li>Close file</li>
+              <li>Change color palette</li>
+              {/* <div className="dropdown-line-divider" /> */}
             </HeaderButton>
           </div>
 

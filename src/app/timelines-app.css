@@ -23,7 +23,7 @@ img {
 
 .username {
   /* background-color: #222; */
-  font-weight: 600;
+  font-weight: 500;
   border-radius: 3px;
   padding: 3px 6px;
 
@@ -46,7 +46,7 @@ button {
   position: relative;
   user-select: none;
   font-family: "Source Sans 3", sans-serif;
-  font-weight: 500;
+  /* font-weight: 500; */
   font-size: 16px;
 
   padding: 3px 6px;
@@ -98,7 +98,7 @@ button:hover {
   text-wrap: nowrap;
   text-align: right;
   list-style-type: none;
-  font-weight: 500;
+  /* font-weight: 500; */
 }
 
 .dropdown-menu ul li {
@@ -106,7 +106,7 @@ button:hover {
   justify-content: space-between;
   align-items: center;
 
-  gap: 3px;
+  gap: 5px;
   padding: 10px 10px 10px 5px;
   cursor: pointer;
   border-radius: 3px;
@@ -169,7 +169,7 @@ button:hover {
   gap: 3px;
   text-wrap: nowrap;
   list-style-type: none;
-  font-weight: 500;
+  /* font-weight: 500; */
 }
 
 .header-dropdown-menu ul li {
