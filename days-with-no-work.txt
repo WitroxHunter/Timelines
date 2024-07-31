@@ -6,3 +6,4 @@ witrox:
 
 
 kubixek:
+31.07 - nie ma roboty od wiktora, więc nie ma roboty
