@@ -7,6 +7,7 @@ import {
   doSignInWithGoogle,
 } from "../firebase/auth";
 import GoogleLogo from "../assets/images/Google__G__logo.svg";
+import { auth, firestore } from "../firebase/firebase";
 
 export default function SignUp() {
   const [nickname, setNickname] = useState("");
