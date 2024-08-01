@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/authContext";
 import { Navigate, Link } from "react-router-dom";
 import "./dashboard.css";
 import Header from "../app-components/header";
+import logo from "../../assets/images/Logo.png";
 
 import plusIcon from "../../assets/icons/plus.svg";
 
@@ -54,36 +55,24 @@ function Dashboard() {
     <>
       <div className="main">
         <Header>
-          <div>
-            Witaj <label className="username">eustachy@motyka.pl</label>
+          <div className="header-logo">
+            <img src={logo} style={{ width: 24 }} />
+            <div>Lifelines</div>
           </div>
 
           <button onClick={handleLogout}>Log Out</button>
-          {/* onClick={handleLogout} */}
         </Header>
         <div className="dashboard-wrapper">
           <div className="dashboard-user">
             <h3>User panel</h3>
-            <div style={{ textAlign: "justify" }}>
-              Szambo lub dół chambeau (rzekomo od fr. nazwiska Chambeau) –
-              podziemny zbiornik, zazwyczaj bezodpływowy, wykonany np. z betonu,
-              do którego odprowadzane są ścieki z domowych urządzeń
-              kanalizacyjnych. Szamba mogą być podłączone do systemu kanalizacji
-              miejskiej, gdzie stanowią rodzaj zbiornika retencyjnego
-              zapobiegającego zatykaniu się uzbrojenia podziemnego. W przypadku
-              braku takiego połączenia budowane są pojemniejsze szamba
-              bezodpływowe, z których nieczystości są wywożone przez tabor
-              asenizacyjny bezpośrednio do punktów zlewnych. Zgodnie z
-              rozporządzeniem Ministra Infrastruktury z 12 kwietnia 2002 r. w
-              sprawie warunków technicznych, jakim powinny odpowiadać budynki i
-              ich usytuowanie, zbiorniki bezodpływowe mogą być stosowane tylko
-              na działkach budowlanych niemających możliwości przyłączenia do
-              sieci kanalizacyjnej.
-            </div>
+            <h5>
+              Welcome <label className="username">eustachy@motyka.pl</label>
+            </h5>
           </div>
 
           <div className="dashboard-timelines">
-            <h1>My lifelines</h1>
+            <div className="dashboard-advertisement"></div>
+            <h1>My Timelines</h1>
             <div className="timelines-box">
               <TimelineButtonAdd />
               <TimelineButton fileName={"My timeline 1"} edited={"2 hours"} />
