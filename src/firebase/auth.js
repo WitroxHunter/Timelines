@@ -28,6 +28,7 @@ export const doCreateUserWithEmailAndPassword = async (
     {
       email: user.email,
       nickname: nickname,
+      timelines: {},
       createdAt: new Date(),
     },
     { merge: true }
@@ -52,6 +53,7 @@ export const doSignInWithGoogle = async () => {
     await setDoc(userDocRef, {
       email: user.email,
       nickname: user.displayName || "Anonymous",
+      timelines: {},
       createdAt: new Date(),
     });
   }
