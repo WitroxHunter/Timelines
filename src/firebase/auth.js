@@ -53,8 +53,8 @@ export const doSignInWithGoogle = async () => {
     await setDoc(userDocRef, {
       email: user.email,
       nickname: user.displayName || "Anonymous",
-      timelines: {},
       createdAt: new Date(),
+      timelines: {},
     });
   }
 
