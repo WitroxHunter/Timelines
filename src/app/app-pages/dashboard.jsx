@@ -5,6 +5,8 @@ import { Navigate, Link } from "react-router-dom";
 import "./dashboard.css";
 import Header from "../app-components/header";
 import logo from "../../assets/images/Logo.png";
+import { useEffect, useState } from "react";
+import { getUserData } from "../../firebase/auth";
 
 import plusIcon from "../../assets/icons/plus.svg";
 
@@ -47,6 +49,18 @@ const TimelineButtonAdd = (props) => {
 
 function Dashboard() {
   const { currentUser } = useAuth();
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (currentUser) {
+        const data = await getUserData(currentUser.uid);
+        setUserData(data);
+      }
+    };
+
+    fetchUserData();
+  }, [currentUser]);
 
   if (!currentUser) {
     return <Navigate to="/Timelines/login" />;
@@ -66,7 +80,12 @@ function Dashboard() {
           <div className="dashboard-user">
             <h3>User panel</h3>
             <h5>
-              Welcome <label className="username">eustachy@motyka.pl</label>
+              Welcome{" "}
+              <label className="username">
+                {userData
+                  ? userData.nickname || currentUser.email
+                  : currentUser.email}
+              </label>
             </h5>
           </div>
 

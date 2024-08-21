@@ -24,6 +24,10 @@ export default function SignUp() {
       setError("Passwords do not match");
       return;
     }
+    if (nickname == "" || nickname == null) {
+      setError("Nickname field is empty");
+      return;
+    }
 
     console.log("Email:", email);
     console.log("Password:", password);
@@ -43,7 +47,6 @@ export default function SignUp() {
       setIsSigningIn(true);
       try {
         await doSignInWithGoogle();
-        // Navigate to a different page after successful Google sign-in
         navigate("/Timelines/app");
       } catch (error) {
         setError(error.message);
