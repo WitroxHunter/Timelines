@@ -29,8 +29,7 @@ export default function SignUp() {
     console.log("Password:", password);
 
     try {
-      await doCreateUserWithEmailAndPassword(email, password);
-      // Navigate to a different page after successful registration
+      await doCreateUserWithEmailAndPassword(email, password, nickname);
       navigate("/Timelines/login");
     } catch (error) {
       console.error("Error creating user:", error);
