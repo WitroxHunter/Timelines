@@ -141,15 +141,19 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.modal-content-close-button {
+.modal-button {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #007bff;
-  float: left;
-  color: white;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.float-right {
+  float: right;
+  background-color: #007bff;
 }
 
 .modal-input {

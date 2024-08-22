@@ -118,11 +118,14 @@ function Dashboard() {
                 <label>Ending date:</label>
                 <input className="modal-input" type="date" name="end-date" />
               </div>
+              <button className="modal-button" onClick={toggleModal}>
+                Cancel
+              </button>
               <button
-                className="modal-content-close-button"
+                className="modal-button float-right"
                 onClick={toggleModal}
               >
-                Cancel
+                Proceed
               </button>
             </div>
           </div>
