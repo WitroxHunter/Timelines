@@ -7,8 +7,46 @@ import Header from "../app-components/header";
 import logo from "../../assets/images/Logo.png";
 import { useEffect, useState } from "react";
 import { getUserData } from "../../firebase/auth";
-
 import plusIcon from "../../assets/icons/plus.svg";
+import { doc, updateDoc, onSnapshot } from "firebase/firestore";
+import { firestore } from "../../firebase/firebase";
+
+const addTimelineToFirestore = async (
+  newTimelineTitle,
+  startDate,
+  endDate,
+  currentUser,
+  toggleModal
+) => {
+  if (!newTimelineTitle || !startDate || !endDate) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  const uid = currentUser.uid;
+  const timelineId = `timeline_${Date.now()}`;
+
+  const newTimelineData = {
+    title: newTimelineTitle,
+    startDate,
+    endDate,
+    periods: {},
+    points: {},
+  };
+
+  try {
+    const userDocRef = doc(firestore, "users", uid);
+    await updateDoc(userDocRef, {
+      [`timelines.${timelineId}`]: newTimelineData,
+    });
+
+    console.log("New timeline added successfully");
+
+    toggleModal();
+  } catch (error) {
+    console.error("Error adding timeline: ", error);
+  }
+};
 
 const handleLogout = async () => {
   try {
@@ -50,15 +88,22 @@ function Dashboard() {
   const [userData, setUserData] = useState(null);
   const [addTimelineScreen, setAddTimelineScreen] = useState(false);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (currentUser) {
-        const data = await getUserData(currentUser.uid);
-        setUserData(data);
-      }
-    };
+  const [newTimelineTitle, setNewTimelineTitle] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
-    fetchUserData();
+  useEffect(() => {
+    if (currentUser) {
+      const userDocRef = doc(firestore, "users", currentUser.uid);
+      const unsubscribe = onSnapshot(userDocRef, (doc) => {
+        if (doc.exists()) {
+          setUserData(doc.data());
+        }
+      });
+
+      // Clean up subscription on unmount
+      return () => unsubscribe();
+    }
   }, [currentUser]);
 
   if (!currentUser) {
@@ -66,6 +111,11 @@ function Dashboard() {
   }
 
   const toggleModal = () => {
+    if (addTimelineScreen) {
+      setNewTimelineTitle("");
+      setStartDate("");
+      setEndDate("");
+    }
     setAddTimelineScreen(!addTimelineScreen);
   };
 
@@ -96,7 +146,17 @@ function Dashboard() {
             <h1>My Timelines</h1>
             <div className="timelines-box">
               <TimelineButtonAdd onClick={toggleModal} />
-              <TimelineButton fileName={"My timeline 1"} edited={"2 hours"} />
+              {userData && userData.timelines ? (
+                Object.keys(userData.timelines).map((timelineId) => (
+                  <TimelineButton
+                    key={timelineId}
+                    fileName={userData.timelines[timelineId].title}
+                    edited={"Just now"} // Możesz dodać logikę do obliczania czasu ostatniej edycji
+                  />
+                ))
+              ) : (
+                <p>No timelines available.</p>
+              )}
             </div>
           </div>
         </div>
@@ -104,26 +164,54 @@ function Dashboard() {
           <div className="modal-overlay" onClick={toggleModal}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               <h2>New Timeline Settings</h2>
+
               <div>
-                Title:
-                <input className="modal-input" type="text" name="title" />
+                <label>Title:</label>
+                <input
+                  className="modal-input"
+                  type="text"
+                  name="title"
+                  value={newTimelineTitle}
+                  onChange={(e) => setNewTimelineTitle(e.target.value)}
+                />
               </div>
 
               <div>
                 <label>Starting date:</label>
-                <input className="modal-input" type="date" name="start-date" />
+                <input
+                  className="modal-input"
+                  type="date"
+                  name="start-date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
               </div>
 
               <div>
                 <label>Ending date:</label>
-                <input className="modal-input" type="date" name="end-date" />
+                <input
+                  className="modal-input"
+                  type="date"
+                  name="end-date"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
               </div>
+
               <button className="modal-button" onClick={toggleModal}>
                 Cancel
               </button>
               <button
                 className="modal-button float-right"
-                onClick={toggleModal}
+                onClick={() =>
+                  addTimelineToFirestore(
+                    newTimelineTitle,
+                    startDate,
+                    endDate,
+                    currentUser,
+                    toggleModal
+                  )
+                }
               >
                 Proceed
               </button>

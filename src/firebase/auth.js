@@ -52,7 +52,7 @@ export const doSignInWithGoogle = async () => {
   if (!userDoc.exists()) {
     await setDoc(userDocRef, {
       email: user.email,
-      nickname: user.displayName || "Anonymous",
+      nickname: user.displayName || user.email,
       createdAt: new Date(),
       timelines: {},
     });
