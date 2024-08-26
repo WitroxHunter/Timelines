@@ -76,6 +76,7 @@ button:hover {
 }
 
 .dropdown-menu {
+  user-select: none;
   display: block;
   position: absolute;
   bottom: 100%;
@@ -115,6 +116,7 @@ button:hover {
 }
 
 .add-button {
+  user-select: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -127,6 +129,10 @@ button:hover {
   border: solid 1px #007bff;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.add-button img {
+  user-select: none;
 }
 
 .add-button:hover {
@@ -148,6 +154,7 @@ button:hover {
 }
 
 .header-dropdown-menu {
+  user-select: none;
   display: block;
   position: absolute;
   top: 100%;
@@ -193,6 +200,7 @@ button:hover {
 /*Header dropdown menu - END*/
 
 .opened-timeline-file-name {
+  user-select: none;
   display: flex;
   justify-content: center;
   align-items: center;
