@@ -66,14 +66,14 @@ export default function Canvas({ timelineData }) {
   const [scale, setScale] = useState(0.9);
   const [isDragging, setIsDragging] = useState(false);
 
-  const startDate = new Date("2006-08-24");
-  const endDate = new Date("2024-07-18");
-  const points = [
-    { date: new Date("2007-04-21"), label: "Event 1" },
-    { date: new Date("2024-01-23"), label: "Event 2" },
-    { date: new Date("2010-02-02"), label: "Event 3" },
-    { date: new Date("2015-02-02"), label: "Event 4" },
-  ];
+  const startDate = new Date(timelineData.startDate);
+  const endDate = new Date(timelineData.endDate);
+  const [points, setPoints] = useState([
+    { date: new Date("2024-08-01"), label: "Event 1" },
+    { date: new Date("2024-08-02"), label: "Event 2" },
+    { date: new Date("2024-08-03"), label: "Event 3" },
+    { date: new Date("2024-08-04"), label: "Event 4" },
+  ]);
 
   const calculateXPosition = (date) => {
     const totalDuration = endDate - startDate;
