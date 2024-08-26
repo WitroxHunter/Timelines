@@ -10,6 +10,7 @@ import { getUserData } from "../../firebase/auth";
 import plusIcon from "../../assets/icons/plus.svg";
 import { doc, updateDoc, onSnapshot } from "firebase/firestore";
 import { firestore } from "../../firebase/firebase";
+import Modal from "../app-components/modal";
 
 const addTimelineToFirestore = async (
   newTimelineTitle,
@@ -108,7 +109,7 @@ function Dashboard() {
   }
 
   if (!userData) {
-    return <div>Loading...</div>; // Dodaj jakiś wskaźnik ładowania
+    return <div>Loading...</div>; // Dodać animacje ładowania ‼️‼️
   }
 
   const toggleModal = () => {
@@ -159,6 +160,7 @@ function Dashboard() {
           </div>
         </div>
         {addTimelineScreen && (
+          // Zrób komponent modala w modal.jsx czy coś, żeby łatwo sie je dodawało
           <div className="modal-overlay" onClick={toggleModal}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               <h2>New Timeline Settings</h2>

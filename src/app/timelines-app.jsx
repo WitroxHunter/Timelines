@@ -82,7 +82,7 @@ function TimelinesApp() {
   }, [timelineId]);
 
   if (!timelineData) {
-    return <div>Loading timeline...</div>;
+    return <div>Loading timeline...</div>; // Dodać animacje ładowania ‼️‼️
   }
 
   if (!currentUser) {
