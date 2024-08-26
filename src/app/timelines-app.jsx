@@ -1,8 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useAuth } from "../contexts/authContext";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase/firebase"; // Adjust the import based on your file structure
-import { Navigate, Link } from "react-router-dom";
+import { auth, firestore } from "../firebase/firebase";
+import { getDoc, doc } from "firebase/firestore";
+import { Navigate, Link, useParams } from "react-router-dom";
 import "./timelines-app.css";
 import smileyIcon from "../assets/icons/smiley.webp";
 
@@ -52,7 +53,37 @@ const handleLogout = async () => {
 };
 
 function TimelinesApp() {
+  const { timelineId } = useParams();
+  const [timelineData, setTimelineData] = useState(null);
+
   const { currentUser } = useAuth();
+
+  useEffect(() => {
+    const fetchTimelineData = async () => {
+      if (!currentUser) return;
+
+      const userDocRef = doc(firestore, "users", currentUser.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const timeline = userData.timelines[timelineId];
+        if (timeline) {
+          setTimelineData(timeline);
+        } else {
+          console.error("No such timeline!");
+        }
+      } else {
+        console.error("No such user document!");
+      }
+    };
+
+    fetchTimelineData();
+  }, [timelineId]);
+
+  if (!timelineData) {
+    return <div>Loading timeline...</div>;
+  }
 
   if (!currentUser) {
     return <Navigate to="/Timelines/login" />;
@@ -126,7 +157,7 @@ function TimelinesApp() {
           </button>
         </Header>
 
-        <Canvas />
+        <Canvas timelineData={timelineData} />
       </div>
     </>
   );

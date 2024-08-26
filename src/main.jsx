@@ -34,7 +34,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/Timelines/app/timeline",
+    path: "/Timelines/app/:timelineId",
     element: <TimelinesApp />,
     errorElement: <ErrorPage />,
   },

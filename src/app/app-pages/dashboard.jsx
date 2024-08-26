@@ -56,17 +56,15 @@ const handleLogout = async () => {
   }
 };
 
-const TimelineButton = (props) => {
+const TimelineButton = ({ fileName, timelineId, edited }) => {
   return (
-    <>
-      <div className="timeline-button-box">
-        <Link to={"timeline"}>
-          <button className="timeline-button"></button>
-          <div className="timeline-file-name">{props.fileName}</div>
-          <div className="timeline-edited">Edited {props.edited} ago</div>
-        </Link>
-      </div>
-    </>
+    <div className="timeline-button-box">
+      <Link to={`/Timelines/app/${timelineId}`}>
+        <button className="timeline-button"></button>
+        <div className="timeline-file-name">{fileName}</div>
+        <div className="timeline-edited">Edited {edited} ago</div>
+      </Link>
+    </div>
   );
 };
 
@@ -101,13 +99,16 @@ function Dashboard() {
         }
       });
 
-      // Clean up subscription on unmount
       return () => unsubscribe();
     }
   }, [currentUser]);
 
   if (!currentUser) {
     return <Navigate to="/Timelines/login" />;
+  }
+
+  if (!userData) {
+    return <div>Loading...</div>; // Dodaj jakiś wskaźnik ładowania
   }
 
   const toggleModal = () => {
@@ -146,17 +147,14 @@ function Dashboard() {
             <h1>My Timelines</h1>
             <div className="timelines-box">
               <TimelineButtonAdd onClick={toggleModal} />
-              {userData && userData.timelines ? (
-                Object.keys(userData.timelines).map((timelineId) => (
-                  <TimelineButton
-                    key={timelineId}
-                    fileName={userData.timelines[timelineId].title}
-                    edited={"Just now"} // Możesz dodać logikę do obliczania czasu ostatniej edycji
-                  />
-                ))
-              ) : (
-                <p>No timelines available.</p>
-              )}
+              {Object.keys(userData.timelines || {}).map((timelineId) => (
+                <TimelineButton
+                  key={timelineId}
+                  timelineId={timelineId}
+                  fileName={userData.timelines[timelineId].title}
+                  edited={"Just now"}
+                />
+              ))}
             </div>
           </div>
         </div>

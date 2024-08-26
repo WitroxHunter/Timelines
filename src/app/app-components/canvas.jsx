@@ -60,7 +60,7 @@ const DropdownMenu = () => {
   );
 };
 
-export default function Canvas() {
+export default function Canvas({ timelineData }) {
   const canvasRef = useRef(null);
   const [offset, setOffset] = useState({ x: 80, y: window.innerHeight / 2 });
   const [scale, setScale] = useState(0.9);
@@ -243,7 +243,7 @@ export default function Canvas() {
       style={{ overflow: "hidden", position: "relative" }}
     >
       <div className="opened-timeline-file-name">
-        <div>My timeline 1</div>
+        <div>{timelineData.title}</div>
         <img src={editIcon} />
       </div>
       <canvas
