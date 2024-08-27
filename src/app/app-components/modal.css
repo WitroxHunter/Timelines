@@ -15,17 +15,56 @@
   background-color: #111;
   padding: 20px;
   border-radius: 8px;
-  max-width: 500px;
-  width: 100%;
+  width: fit-content;
+  outline: 1px solid #4f4f4f;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .modal-button {
-  margin-top: 20px;
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 500;
   padding: 10px 20px;
-  background-color: #ffffff;
-  color: rgb(0, 0, 0);
-  border: none;
-  border-radius: 5px;
+  background: none;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 10px;
   cursor: pointer;
+}
+
+.proceed-button {
+  border-color: #007bff;
+}
+
+.proceed-button:hover {
+  background-color: #007bff;
+  color: #111;
+}
+
+.modal-input {
+  padding: 5px;
+  height: auto;
+}
+
+.modal-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-input-box {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 10px;
+}
+
+.modal-input-box label {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  text-wrap: nowrap;
+}
+
+.modal-content h1 {
+  margin-top: -5px;
+  margin-bottom: 10px;
 }

@@ -156,54 +156,78 @@ function Dashboard() {
         </div>
       </div>
       <Modal isOpen={addTimelineScreen} toggleModal={toggleModal}>
-        <h2>New Timeline Settings</h2>
-        <div>
-          <label>Title:</label>
-          <input
-            className="modal-input"
-            type="text"
-            name="title"
-            value={newTimelineTitle}
-            onChange={(e) => setNewTimelineTitle(e.target.value)}
-          />
+        <h1>Add new timeline</h1>
+        <div className="modal-grid">
+          <div className="modal-input-box">
+            <label>Title</label>
+            <input
+              className="modal-input"
+              type="text"
+              name="title"
+              value={newTimelineTitle}
+              onChange={(e) => setNewTimelineTitle(e.target.value)}
+            />
+          </div>
+          <div className="modal-input-box">
+            <label>Starting date</label>
+            <input
+              className="modal-input"
+              type="date"
+              name="start-date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </div>
+          <div className="modal-input-box">
+            <label>Ending date</label>
+            <input
+              className="modal-input"
+              type="date"
+              name="end-date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+          <div className="modal-input-box">
+            <label>Visibility</label>
+            <input
+              className="modal-input"
+              type="range"
+              name="visibility"
+              // value={endDate}
+              // onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+          <div className="modal-input-box">
+            <label>Thumbnail</label>
+            <input
+              className="modal-input"
+              type="text"
+              name="thumbnail"
+              // value={endDate}
+              // onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+          <div className="modal-input-box">
+            <button className="modal-button" onClick={toggleModal}>
+              Cancel
+            </button>
+            <button
+              className="modal-button proceed-button"
+              onClick={() =>
+                addTimelineToFirestore(
+                  newTimelineTitle,
+                  startDate,
+                  endDate,
+                  currentUser,
+                  toggleModal
+                )
+              }
+            >
+              Proceed
+            </button>
+          </div>
         </div>
-        <div>
-          <label>Starting date:</label>
-          <input
-            className="modal-input"
-            type="date"
-            name="start-date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Ending date:</label>
-          <input
-            className="modal-input"
-            type="date"
-            name="end-date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </div>
-        <button className="modal-button" onClick={toggleModal}>
-          Cancel
-        </button>
-        <button
-          className="modal-button float-right"
-          onClick={() =>
-            addTimelineToFirestore(
-              newTimelineTitle,
-              startDate,
-              endDate,
-              currentUser,
-              toggleModal
-            )
-          }
-        >
-          Proceed
-        </button>
       </Modal>
     </div>
   );

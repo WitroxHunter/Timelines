@@ -117,14 +117,3 @@
 .timeline-button-box:hover .timeline-button {
   filter: contrast(0.75);
 }
-
-.float-right {
-  float: right;
-  background-color: #007bff;
-}
-
-.modal-input {
-  padding: 5px;
-  margin-left: 20px;
-  height: auto;
-}
