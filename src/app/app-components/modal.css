@@ -41,8 +41,38 @@
 }
 
 .modal-input {
-  padding: 5px;
+  width: 100%;
   height: auto;
+}
+
+.modal-content input[type="date"]::-webkit-calendar-picker-indicator {
+  /* display: none; */
+  -webkit-appearance: none;
+  opacity: 0;
+}
+
+.modal-content select {
+  -moz-appearance: none; /* Firefox  */
+  -webkit-appearance: none; /* Safari and Chrome */
+  appearance: none;
+}
+
+/* .modal-input-container:active .modal-input-image {
+  transform: rotateZ(180deg) translateY(50%);
+} */
+
+.modal-input-image {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 10px;
+  transition: 0.1s;
+}
+
+.modal-input-container {
+  width: 100%;
+  position: relative;
 }
 
 .modal-grid {

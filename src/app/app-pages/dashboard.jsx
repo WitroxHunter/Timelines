@@ -10,6 +10,8 @@ import { doc, updateDoc, onSnapshot } from "firebase/firestore";
 import { firestore } from "../../firebase/firebase";
 import Modal from "../app-components/modal";
 import plusIcon from "../../assets/icons/plus.svg";
+import calendarIcon from "../../assets/icons/calendar-event.svg";
+import caretDownIcon from "../../assets/icons/caret-down.svg";
 
 const addTimelineToFirestore = async (
   newTimelineTitle,
@@ -170,33 +172,39 @@ function Dashboard() {
           </div>
           <div className="modal-input-box">
             <label>Starting date</label>
-            <input
-              className="modal-input"
-              type="date"
-              name="start-date"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-            />
+            <div className="modal-input-container">
+              <img src={calendarIcon} className="modal-input-image" />
+              <input
+                className="modal-input"
+                type="date"
+                name="start-date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+            </div>
           </div>
           <div className="modal-input-box">
             <label>Ending date</label>
-            <input
-              className="modal-input"
-              type="date"
-              name="end-date"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-            />
+            <div className="modal-input-container">
+              <img src={calendarIcon} className="modal-input-image" />
+              <input
+                className="modal-input"
+                type="date"
+                name="end-date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </div>
           </div>
           <div className="modal-input-box">
             <label>Visibility</label>
-            <input
-              className="modal-input"
-              type="range"
-              name="visibility"
-              // value={endDate}
-              // onChange={(e) => setEndDate(e.target.value)}
-            />
+            <div className="modal-input-container">
+              <img src={caretDownIcon} className="modal-input-image" />
+              <select className="modal-input" name="visibility">
+                <option value="public">Public</option>
+                <option value="private">Private</option>
+              </select>
+            </div>
           </div>
           <div className="modal-input-box">
             <label>Thumbnail</label>
