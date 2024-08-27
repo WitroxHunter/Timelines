@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useAuth } from "../contexts/authContext";
 import { signOut } from "firebase/auth";
 import { auth, firestore } from "../firebase/firebase";
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, onSnapshot } from "firebase/firestore";
 import { Navigate, Link, useParams } from "react-router-dom";
 import "./timelines-app.css";
 import smileyIcon from "../assets/icons/smiley.webp";
@@ -59,27 +59,25 @@ function TimelinesApp() {
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    const fetchTimelineData = async () => {
-      if (!currentUser) return;
-
+    if (currentUser) {
       const userDocRef = doc(firestore, "users", currentUser.uid);
-      const userDoc = await getDoc(userDocRef);
-
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        const timeline = userData.timelines[timelineId];
-        if (timeline) {
-          setTimelineData(timeline);
+      const unsubscribe = onSnapshot(userDocRef, (doc) => {
+        if (doc.exists()) {
+          const userData = doc.data();
+          const timeline = userData.timelines[timelineId];
+          if (timeline) {
+            setTimelineData(timeline);
+          } else {
+            console.error("No such timeline!");
+          }
         } else {
-          console.error("No such timeline!");
+          console.error("No such user document!");
         }
-      } else {
-        console.error("No such user document!");
-      }
-    };
+      });
 
-    fetchTimelineData();
-  }, [timelineId]);
+      return () => unsubscribe();
+    }
+  }, [currentUser, timelineId]);
 
   if (!timelineData) {
     return <div>Loading timeline...</div>; // Dodać animacje ładowania ‼️‼️
@@ -157,7 +155,11 @@ function TimelinesApp() {
           </button>
         </Header>
 
-        <Canvas timelineData={timelineData} />
+        <Canvas
+          timelineData={timelineData}
+          currentUser={currentUser}
+          timelineId={timelineId}
+        />
       </div>
     </>
   );

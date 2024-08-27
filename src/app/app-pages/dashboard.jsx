@@ -6,11 +6,10 @@ import "./dashboard.css";
 import Header from "../app-components/header";
 import logo from "../../assets/images/Logo.png";
 import { useEffect, useState } from "react";
-import { getUserData } from "../../firebase/auth";
-import plusIcon from "../../assets/icons/plus.svg";
 import { doc, updateDoc, onSnapshot } from "firebase/firestore";
 import { firestore } from "../../firebase/firebase";
 import Modal from "../app-components/modal";
+import plusIcon from "../../assets/icons/plus.svg";
 
 const addTimelineToFirestore = async (
   newTimelineTitle,
@@ -71,14 +70,12 @@ const TimelineButton = ({ fileName, timelineId, edited }) => {
 
 const TimelineButtonAdd = ({ onClick }) => {
   return (
-    <>
-      <button onClick={onClick} className="add-timeline-button">
-        <div className="add-timeline-icon">
-          <img src={plusIcon} alt="plus icon" />
-        </div>
-        <div>Create a new file</div>
-      </button>
-    </>
+    <button onClick={onClick} className="add-timeline-button">
+      <div className="add-timeline-icon">
+        <img src={plusIcon} alt="plus icon" />
+      </div>
+      <div>Create a new file</div>
+    </button>
   );
 };
 
@@ -109,117 +106,106 @@ function Dashboard() {
   }
 
   if (!userData) {
-    return <div>Loading...</div>; // Dodać animacje ładowania ‼️‼️
+    return <div>Loading...</div>; // Dodać animacje ładowania
   }
 
   const toggleModal = () => {
-    if (addTimelineScreen) {
+    setAddTimelineScreen(!addTimelineScreen);
+    if (!addTimelineScreen) {
       setNewTimelineTitle("");
       setStartDate("");
       setEndDate("");
     }
-    setAddTimelineScreen(!addTimelineScreen);
   };
 
   return (
-    <>
-      <div className="main">
-        <Header>
-          <div className="header-logo">
-            <img src={logo} style={{ width: 24 }} alt="Logo" />
-            <div>Timelines</div>
-          </div>
-          <button onClick={handleLogout}>Log Out</button>
-        </Header>
-        <div className="dashboard-wrapper">
-          <div className="dashboard-user">
-            <h3>User panel</h3>
-            <h5>
-              Welcome{" "}
-              <label className="username">
-                {userData
-                  ? userData.nickname || currentUser.email
-                  : currentUser.email}
-              </label>
-            </h5>
-          </div>
-          <div className="dashboard-timelines">
-            <div className="dashboard-advertisement"></div>
-            <h1>My Timelines</h1>
-            <div className="timelines-box">
-              <TimelineButtonAdd onClick={toggleModal} />
-              {Object.keys(userData.timelines || {}).map((timelineId) => (
-                <TimelineButton
-                  key={timelineId}
-                  timelineId={timelineId}
-                  fileName={userData.timelines[timelineId].title}
-                  edited={"Just now"}
-                />
-              ))}
-            </div>
+    <div className="main">
+      <Header>
+        <div className="header-logo">
+          <img src={logo} style={{ width: 24 }} alt="Logo" />
+          <div>Timelines</div>
+        </div>
+        <button onClick={handleLogout}>Log Out</button>
+      </Header>
+      <div className="dashboard-wrapper">
+        <div className="dashboard-user">
+          <h3>User panel</h3>
+          <h5>
+            Welcome{" "}
+            <label className="username">
+              {userData
+                ? userData.nickname || currentUser.email
+                : currentUser.email}
+            </label>
+          </h5>
+        </div>
+        <div className="dashboard-timelines">
+          <div className="dashboard-advertisement"></div>
+          <h1>My Timelines</h1>
+          <div className="timelines-box">
+            <TimelineButtonAdd onClick={toggleModal} />
+            {Object.keys(userData.timelines || {}).map((timelineId) => (
+              <TimelineButton
+                key={timelineId}
+                timelineId={timelineId}
+                fileName={userData.timelines[timelineId].title}
+                edited={"Just now"}
+              />
+            ))}
           </div>
         </div>
-        {addTimelineScreen && (
-          // Zrób komponent modala w modal.jsx czy coś, żeby łatwo sie je dodawało
-          <div className="modal-overlay" onClick={toggleModal}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <h2>New Timeline Settings</h2>
-
-              <div>
-                <label>Title:</label>
-                <input
-                  className="modal-input"
-                  type="text"
-                  name="title"
-                  value={newTimelineTitle}
-                  onChange={(e) => setNewTimelineTitle(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label>Starting date:</label>
-                <input
-                  className="modal-input"
-                  type="date"
-                  name="start-date"
-                  value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                />
-              </div>
-
-              <div>
-                <label>Ending date:</label>
-                <input
-                  className="modal-input"
-                  type="date"
-                  name="end-date"
-                  value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                />
-              </div>
-
-              <button className="modal-button" onClick={toggleModal}>
-                Cancel
-              </button>
-              <button
-                className="modal-button float-right"
-                onClick={() =>
-                  addTimelineToFirestore(
-                    newTimelineTitle,
-                    startDate,
-                    endDate,
-                    currentUser,
-                    toggleModal
-                  )
-                }
-              >
-                Proceed
-              </button>
-            </div>
-          </div>
-        )}
       </div>
-    </>
+      <Modal isOpen={addTimelineScreen} toggleModal={toggleModal}>
+        <h2>New Timeline Settings</h2>
+        <div>
+          <label>Title:</label>
+          <input
+            className="modal-input"
+            type="text"
+            name="title"
+            value={newTimelineTitle}
+            onChange={(e) => setNewTimelineTitle(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Starting date:</label>
+          <input
+            className="modal-input"
+            type="date"
+            name="start-date"
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Ending date:</label>
+          <input
+            className="modal-input"
+            type="date"
+            name="end-date"
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+          />
+        </div>
+        <button className="modal-button" onClick={toggleModal}>
+          Cancel
+        </button>
+        <button
+          className="modal-button float-right"
+          onClick={() =>
+            addTimelineToFirestore(
+              newTimelineTitle,
+              startDate,
+              endDate,
+              currentUser,
+              toggleModal
+            )
+          }
+        >
+          Proceed
+        </button>
+      </Modal>
+    </div>
   );
 }
 

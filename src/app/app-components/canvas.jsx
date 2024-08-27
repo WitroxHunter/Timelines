@@ -1,13 +1,18 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import firebase from "firebase/compat/app";
+import { Firestore } from "firebase/firestore";
+import { firestore } from "../../firebase/firebase";
 
 import editIcon from "../../assets/icons/edit.svg";
 import addIcon from "../../assets/icons/plus.svg";
 
 import singleEventIcon from "../../assets/icons/pin.svg";
 import multipleEventIcon from "../../assets/icons/calendar-event.svg";
-import smileyIcon from "../../assets/icons/smiley.webp";
 
-const DropdownMenu = () => {
+import Modal from "./modal";
+
+const DropdownMenu = ({ onSingleEventClick, onLongEventClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -38,21 +43,24 @@ const DropdownMenu = () => {
       {isOpen && (
         <div className="dropdown-menu">
           <ul>
-            <li>
+            <li
+              onClick={() => {
+                toggleMenu();
+                onSingleEventClick();
+              }}
+            >
               <img src={singleEventIcon} />
               Single event
             </li>
-            <li>
+            <li
+              onClick={() => {
+                toggleMenu();
+                onLongEventClick();
+              }}
+            >
               <img src={multipleEventIcon} />
               Long event
             </li>
-            {/* <li>
-              <img
-                src={smileyIcon}
-                style={{ width: 24, filter: "grayscale(1) contrast(3)" }}
-              />
-              Wpierdol
-            </li> */}
           </ul>
         </div>
       )}
@@ -60,7 +68,42 @@ const DropdownMenu = () => {
   );
 };
 
-export default function Canvas({ timelineData }) {
+const addPointToFirestore = async (
+  pointTitle,
+  pointDate,
+  pointDesc,
+  currentUser,
+  timelineId
+) => {
+  if (!point || !pointDate) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  const uid = currentUser.uid;
+  const pointId = `point_${Date.now()}`;
+
+  const newPointData = {
+    title: pointTitle,
+    pointDate,
+    pointDesc,
+  };
+
+  try {
+    const userDocRef = doc(firestore, "users", uid);
+    await updateDoc(userDocRef, {
+      [`timelines.${timelineId}.points.${pointId}`]: newPointData,
+    });
+
+    console.log("New timeline added successfully");
+
+    toggleModal();
+  } catch (error) {
+    console.error("Error adding timeline: ", error);
+  }
+};
+
+export default function Canvas({ timelineData, currentUser, timelineId }) {
   const canvasRef = useRef(null);
   const [offset, setOffset] = useState({ x: 80, y: window.innerHeight / 2 });
   const [scale, setScale] = useState(0.9);
@@ -68,12 +111,10 @@ export default function Canvas({ timelineData }) {
 
   const startDate = new Date(timelineData.startDate);
   const endDate = new Date(timelineData.endDate);
-  const [points, setPoints] = useState([
-    { date: new Date("2024-08-01"), label: "Event 1" },
-    { date: new Date("2024-08-02"), label: "Event 2" },
-    { date: new Date("2024-08-03"), label: "Event 3" },
-    { date: new Date("2024-08-04"), label: "Event 4" },
-  ]);
+  const points = Object.values(timelineData.points).map((point) => ({
+    date: new Date(point.date),
+    label: point.title,
+  }));
 
   const calculateXPosition = (date) => {
     const totalDuration = endDate - startDate;
@@ -237,6 +278,37 @@ export default function Canvas({ timelineData }) {
     setScale((prevScale) => Math.max(0.1, prevScale * scaleAmount));
   };
 
+  const [pointAddScreen, setPointAddScreen] = useState(false);
+  const [longEventScreen, setLongEventScreen] = useState(false);
+
+  const [pointTitle, setPointTitle] = useState("");
+  const [pointDate, setPointDate] = useState("");
+  const [pointDesc, setPointDesc] = useState("");
+
+  const [longEventTitle, setLongEventTitle] = useState("");
+  const [longEventStartDate, setLongEventStartDate] = useState("");
+  const [longEventEndDate, setLongEventEndDate] = useState("");
+  const [longEventDesc, setLongEventDesc] = useState("");
+
+  const toggleSingleEventModal = () => {
+    setPointAddScreen(!pointAddScreen);
+    if (!pointAddScreen) {
+      setPointTitle("");
+      setPointDate("");
+      setPointDesc("");
+    }
+  };
+
+  const toggleLongEventModal = () => {
+    setLongEventScreen(!longEventScreen);
+    if (!longEventScreen) {
+      setLongEventTitle("");
+      setLongEventStartDate("");
+      setLongEventEndDate("");
+      setLongEventDesc("");
+    }
+  };
+
   return (
     <div
       className="canvas-box"
@@ -256,11 +328,119 @@ export default function Canvas({ timelineData }) {
         style={{ cursor: isDragging ? "grabbing" : "grab" }}
       ></canvas>
 
-      {/* <button className="add-button">
-        <img src={addIcon} />
-        <div>Add</div>
-      </button> */}
-      <DropdownMenu />
+      <DropdownMenu
+        onSingleEventClick={toggleSingleEventModal}
+        onLongEventClick={toggleLongEventModal}
+      />
+
+      {/* Modal for Single Event */}
+      <Modal isOpen={pointAddScreen} toggleModal={toggleSingleEventModal}>
+        <h2>Add Single Event</h2>
+        <div>
+          <label>Title:</label>
+          <input
+            className="modal-input"
+            type="text"
+            name="title"
+            value={pointTitle}
+            onChange={(e) => setPointTitle(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Date:</label>
+          <input
+            className="modal-input"
+            type="date"
+            name="date"
+            value={pointDate}
+            onChange={(e) => setPointDate(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Description:</label>
+          <textarea
+            className="modal-input"
+            name="desc"
+            value={pointDesc}
+            onChange={(e) => setPointDesc(e.target.value)}
+          />
+        </div>
+        <button className="modal-button" onClick={toggleSingleEventModal}>
+          Cancel
+        </button>
+        <button
+          className="modal-button float-right"
+          onClick={() => {
+            addPointToFirestore(
+              pointTitle,
+              pointDate,
+              pointDesc,
+              currentUser,
+              timelineId
+            );
+
+            toggleSingleEventModal();
+          }}
+        >
+          Proceed
+        </button>
+      </Modal>
+
+      {/* Modal for Long Event */}
+      <Modal isOpen={longEventScreen} toggleModal={toggleLongEventModal}>
+        <h2>Add Long Event</h2>
+        <div>
+          <label>Title:</label>
+          <input
+            className="modal-input"
+            type="text"
+            name="longEventTitle"
+            value={longEventTitle}
+            onChange={(e) => setLongEventTitle(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Start Date:</label>
+          <input
+            className="modal-input"
+            type="date"
+            name="longEventStartDate"
+            value={longEventStartDate}
+            onChange={(e) => setLongEventStartDate(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>End Date:</label>
+          <input
+            className="modal-input"
+            type="date"
+            name="longEventEndDate"
+            value={longEventEndDate}
+            onChange={(e) => setLongEventEndDate(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Description:</label>
+          <textarea
+            className="modal-input"
+            name="longEventDesc"
+            value={longEventDesc}
+            onChange={(e) => setLongEventDesc(e.target.value)}
+          />
+        </div>
+        <button className="modal-button" onClick={toggleLongEventModal}>
+          Cancel
+        </button>
+        <button
+          className="modal-button float-right"
+          onClick={() => {
+            // Add logic here to save the event data to Firebase or perform other actions
+            toggleLongEventModal();
+          }}
+        >
+          Proceed
+        </button>
+      </Modal>
     </div>
   );
 }
