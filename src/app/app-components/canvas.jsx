@@ -267,7 +267,6 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   };
 
   const handleWheel = (e) => {
-    e.preventDefault();
     const scaleAmount = e.deltaY > 0 ? 0.9 : 1.1;
     const rect = canvasRef.current.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
