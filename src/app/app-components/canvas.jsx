@@ -6,6 +6,7 @@ import { firestore } from "../../firebase/firebase";
 
 import editIcon from "../../assets/icons/edit.svg";
 import addIcon from "../../assets/icons/plus.svg";
+import { doc, updateDoc } from "firebase/firestore";
 
 import singleEventIcon from "../../assets/icons/pin.svg";
 import multipleEventIcon from "../../assets/icons/calendar-event.svg";
@@ -75,7 +76,7 @@ const addPointToFirestore = async (
   currentUser,
   timelineId
 ) => {
-  if (!point || !pointDate) {
+  if (!pointTitle || !pointDate) {
     alert("Please fill in all fields.");
     return;
   }
@@ -85,8 +86,8 @@ const addPointToFirestore = async (
 
   const newPointData = {
     title: pointTitle,
-    pointDate,
-    pointDesc,
+    date: pointDate,
+    description: pointDesc,
   };
 
   try {
@@ -95,11 +96,12 @@ const addPointToFirestore = async (
       [`timelines.${timelineId}.points.${pointId}`]: newPointData,
     });
 
-    console.log("New timeline added successfully");
+    console.log("New point added successfully");
 
-    toggleModal();
+    // Zamknięcie modalu (jeśli to jest potrzebne tutaj, ale wydaje się być wywoływane w onClick)
+    // toggleModal();
   } catch (error) {
-    console.error("Error adding timeline: ", error);
+    console.error("Error adding point: ", error);
   }
 };
 
