@@ -32,17 +32,24 @@
 }
 
 .proceed-button {
-  border-color: #007bff;
+  border-color: var(--UIcoolblue);
 }
 
 .proceed-button:hover {
-  background-color: #007bff;
+  background-color: var(--UIcoolblue);
   color: #111;
 }
 
 .modal-input {
+  font-family: "Source Sans 3", sans-serif;
   width: 100%;
   height: auto;
+}
+
+input::file-selector-button {
+  /* Uwielbiam, jak to nie jest uznawane przez VSC jako element html */
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 500;
 }
 
 .modal-content input[type="date"]::-webkit-calendar-picker-indicator {

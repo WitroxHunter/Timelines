@@ -210,7 +210,7 @@ function Dashboard() {
             <label>Thumbnail</label>
             <input
               className="modal-input"
-              type="text"
+              type="file"
               name="thumbnail"
               // value={endDate}
               // onChange={(e) => setEndDate(e.target.value)}
