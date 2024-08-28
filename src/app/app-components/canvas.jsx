@@ -98,8 +98,16 @@ const addPointToFirestore = async (
 
     console.log("New point added successfully");
 
-    // Zamknięcie modalu (jeśli to jest potrzebne tutaj, ale wydaje się być wywoływane w onClick)
-    // toggleModal();
+    // Aktualizacja lokalnego stanu timelineData
+    setTimelineData((prevData) => {
+      return {
+        ...prevData,
+        points: {
+          ...prevData.points,
+          [pointId]: newPointData,
+        },
+      };
+    });
   } catch (error) {
     console.error("Error adding point: ", error);
   }
@@ -166,7 +174,6 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         xPosition -= boxWidth;
       }
 
-      // Border radius
       context.fillStyle = "gray";
       context.beginPath();
       context.moveTo(
@@ -226,7 +233,6 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       context.fillStyle = "white";
       context.font = "12px 'Source Sans 3'";
 
-      // Text position
       const textWidth = context.measureText(formattedDate).width;
       const textX = xPosition + (alignRight ? boxWidth - textWidth + 53 : 5);
       const textY = yPosition + 4;
@@ -248,7 +254,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     };
 
     draw();
-  }, [offset, scale]);
+  }, [timelineData, offset, scale, points]);
 
   const handleMouseDown = () => {
     setIsDragging(true);
