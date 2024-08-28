@@ -164,7 +164,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     };
 
     const drawTimeline = (context) => {
-      context.strokeStyle = "white";
+      context.strokeStyle = "#555555";
       context.lineWidth = 2;
       const yPosition = 0;
       context.beginPath();
