@@ -13,8 +13,9 @@
 }
 
 .dashboard-timelines {
-  padding: 20px 150px;
+  padding: 20px 150px 0 150px;
   width: 100%;
+  overflow-y: auto;
 }
 
 .dashboard-advertisement {
@@ -43,13 +44,14 @@
 }
 
 .timelines-box {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  /* flex-direction: row;
+  flex-wrap: wrap; */
   align-content: flex-start;
 
   gap: 20px;
-  height: 100%;
+  /* height: 100%; */
 
   background-color: #111;
   outline: 1px solid #4f4f4f;
@@ -70,8 +72,8 @@
 }
 
 .add-timeline-button {
-  width: 250px;
-  height: 150px;
+  width: 100%;
+  height: 200px;
   border-radius: 10px;
   outline: 1px solid #4f4f4f;
   background-color: #000;
@@ -103,8 +105,8 @@
 }
 
 .timeline-button {
-  width: 250px;
-  height: 150px;
+  width: 100%;
+  height: 200px;
   border-radius: 10px;
   outline: 1px solid #4f4f4f;
 
