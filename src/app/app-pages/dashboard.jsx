@@ -72,10 +72,10 @@ const TimelineButton = ({ fileName, timelineId, edited }) => {
           <div className="timeline-edited">Edited {edited} ago</div>
         </Link>
         <div style={{ display: "flex", gap: 5 }}>
-          <div className="timeline-button-subbutton">
+          <div className="timeline-button-subbutton settings-button">
             <img src={settings2Icon} />
           </div>
-          <div className="timeline-button-subbutton">
+          <div className="timeline-button-subbutton trash-button">
             <img src={trashIcon} />
           </div>
         </div>
