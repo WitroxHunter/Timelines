@@ -175,59 +175,59 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
 
     const drawDateBox = (context, date, xPosition, alignRight = false) => {
       const yPosition = 0;
-      const boxWidth = 60;
-      const boxHeight = 20;
+      const textMargin = 7;
       const borderRadius = 5;
+      const boxMargin = 5; // Adjust this value to set the desired margin from the timeline
+
+      const formattedDate = `${date.getDate()}-${
+        date.getMonth() + 1
+      }-${date.getFullYear()}`;
+
+      context.font = "12px 'Source Sans 3'";
+      const textWidth = context.measureText(formattedDate).width;
+
+      const boxWidth = textWidth + 2 * textMargin;
+      const boxHeight = 20;
 
       if (alignRight) {
-        xPosition -= boxWidth;
+        xPosition = timelineWidth + boxMargin; // Set margin for the right box
+      } else {
+        xPosition = 0 - boxWidth - boxMargin; // Set margin for the left box
       }
 
-      context.fillStyle = "gray";
+      context.fillStyle = "white";
       context.beginPath();
-      context.moveTo(
-        xPosition + (alignRight ? boxWidth : 0) + borderRadius,
-        yPosition - 10
-      );
-      context.lineTo(
-        xPosition + (alignRight ? boxWidth : 0) + boxWidth - borderRadius,
-        yPosition - 10
-      );
+      context.moveTo(xPosition + borderRadius, yPosition - 10);
+      context.lineTo(xPosition + boxWidth - borderRadius, yPosition - 10);
       context.arc(
-        xPosition + (alignRight ? boxWidth : 0) + boxWidth - borderRadius,
+        xPosition + boxWidth - borderRadius,
         yPosition - 10 + borderRadius,
         borderRadius,
         -Math.PI / 2,
         0
       );
       context.lineTo(
-        xPosition + (alignRight ? boxWidth : 0) + boxWidth,
+        xPosition + boxWidth,
         yPosition - 10 + boxHeight - borderRadius
       );
       context.arc(
-        xPosition + (alignRight ? boxWidth : 0) + boxWidth - borderRadius,
+        xPosition + boxWidth - borderRadius,
         yPosition - 10 + boxHeight - borderRadius,
         borderRadius,
         0,
         Math.PI / 2
       );
-      context.lineTo(
-        xPosition + (alignRight ? boxWidth : 0) + borderRadius,
-        yPosition - 10 + boxHeight
-      );
+      context.lineTo(xPosition + borderRadius, yPosition - 10 + boxHeight);
       context.arc(
-        xPosition + (alignRight ? boxWidth : 0) + borderRadius,
+        xPosition + borderRadius,
         yPosition - 10 + boxHeight - borderRadius,
         borderRadius,
         Math.PI / 2,
         Math.PI
       );
-      context.lineTo(
-        xPosition + (alignRight ? boxWidth : 0),
-        yPosition - 10 + borderRadius
-      );
+      context.lineTo(xPosition, yPosition - 10 + borderRadius);
       context.arc(
-        xPosition + (alignRight ? boxWidth : 0) + borderRadius,
+        xPosition + borderRadius,
         yPosition - 10 + borderRadius,
         borderRadius,
         Math.PI,
@@ -236,14 +236,9 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       context.closePath();
       context.fill();
 
-      const formattedDate = `${date.getDate()}-${
-        date.getMonth() + 1
-      }-${date.getFullYear()}`;
-      context.fillStyle = "white";
-      context.font = "12px 'Source Sans 3'";
-
-      const textWidth = context.measureText(formattedDate).width;
-      const textX = xPosition + (alignRight ? boxWidth - textWidth + 53 : 5);
+      // Text
+      context.fillStyle = "black";
+      const textX = xPosition + textMargin;
       const textY = yPosition + 4;
 
       context.fillText(formattedDate, textX, textY);
