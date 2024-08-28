@@ -12,6 +12,7 @@ import singleEventIcon from "../../assets/icons/pin.svg";
 import multipleEventIcon from "../../assets/icons/calendar-event.svg";
 import calendarIcon from "../../assets/icons/calendar-event.svg";
 
+import ModalPoint from "./modal-point-click";
 import Modal from "./modal";
 
 const DropdownMenu = ({ onSingleEventClick, onLongEventClick }) => {
@@ -122,6 +123,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   const points = Object.values(timelineData.points).map((point) => ({
     date: new Date(point.date),
     label: point.title,
+    description: point.description,
   }));
 
   // Ustal długość osi czasu na podstawie liczby dni
@@ -135,6 +137,8 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   });
   const [scale, setScale] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
+
+  const [selectedPoint, setSelectedPoint] = useState(null); // Dodano nowy stan
 
   const calculateXPosition = (date) => {
     const totalDuration = endDate - startDate;
@@ -263,11 +267,33 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       context.beginPath();
       context.arc(xPosition, yPosition, 5, 0, 2 * Math.PI);
       context.fill();
-
-      context.fillStyle = "white";
-      context.font = "12px 'Source Sans 3'";
-      context.fillText(point.label, xPosition - 20, yPosition + 20);
     };
+
+    const handleClick = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const adjustedX = (x - offset.x) / scale;
+      const adjustedY = (y - offset.y) / scale;
+
+      points.forEach((point) => {
+        const xPosition = calculateXPosition(point.date);
+        const yPosition = 0;
+
+        if (
+          adjustedX >= xPosition - 5 &&
+          adjustedX <= xPosition + 5 &&
+          adjustedY >= yPosition - 5 &&
+          adjustedY <= yPosition + 5
+        ) {
+          console.log("Point clicked:", point);
+          setSelectedPoint(point);
+        }
+      });
+    };
+
+    canvas.addEventListener("click", handleClick);
 
     draw();
   }, [timelineData, offset, scale, points]);
@@ -303,6 +329,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
 
   const [pointAddScreen, setPointAddScreen] = useState(false);
   const [longEventScreen, setLongEventScreen] = useState(false);
+  const [pointModalScreen, setPointModalScreen] = useState(false);
 
   const [pointTitle, setPointTitle] = useState("");
   const [pointDate, setPointDate] = useState("");
@@ -332,6 +359,12 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     }
   };
 
+  const togglePointInfo = () => {
+    setPointModalScreen(!pointModalScreen);
+    if (!pointModalScreen) {
+    }
+  };
+
   return (
     <div
       className="canvas-box"
@@ -356,6 +389,12 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         onLongEventClick={toggleLongEventModal}
       />
 
+      {/* Modal for clicking on point */}
+      <ModalPoint
+        isOpen={!!selectedPoint} // Modal powinien otworzyć się, gdy `selectedPoint` nie jest null
+        point={selectedPoint}
+        toggleModal={() => setSelectedPoint(null)}
+      ></ModalPoint>
       {/* Modal for Single Event */}
       <Modal isOpen={pointAddScreen} toggleModal={toggleSingleEventModal}>
         <h1>Add Single Event</h1>
