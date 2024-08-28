@@ -12,6 +12,8 @@ import Modal from "../app-components/modal";
 import plusIcon from "../../assets/icons/plus.svg";
 import calendarIcon from "../../assets/icons/calendar-event.svg";
 import caretDownIcon from "../../assets/icons/caret-down.svg";
+import settings2Icon from "../../assets/icons/settings-2.svg";
+import trashIcon from "../../assets/icons/trash.svg";
 
 const addTimelineToFirestore = async (
   newTimelineTitle,
@@ -63,9 +65,21 @@ const TimelineButton = ({ fileName, timelineId, edited }) => {
     <div className="timeline-button-box">
       <Link to={`/Timelines/app/${timelineId}`}>
         <button className="timeline-button"></button>
-        <div className="timeline-file-name">{fileName}</div>
-        <div className="timeline-edited">Edited {edited} ago</div>
       </Link>
+      <div className="timeline-button-flex-wrapper">
+        <Link to={`/Timelines/app/${timelineId}`}>
+          <div className="timeline-file-name">{fileName}</div>
+          <div className="timeline-edited">Edited {edited} ago</div>
+        </Link>
+        <div style={{ display: "flex", gap: 5 }}>
+          <div className="timeline-button-subbutton">
+            <img src={settings2Icon} />
+          </div>
+          <div className="timeline-button-subbutton">
+            <img src={trashIcon} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

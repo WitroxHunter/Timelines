@@ -25,7 +25,8 @@
   outline: 1px solid #4f4f4f;
   border-radius: 10px;
   margin-bottom: 20px;
-  background-image: url("../../assets/images/dashboard-advertisement.jpg");
+  /* background-image: url("../../assets/images/dashboard-advertisement.jpg"); */
+  background-image: url("https://picsum.photos/1920/1080");
   background-size: cover;
   background-position: center;
 
@@ -68,7 +69,7 @@
   display: flex;
   flex-direction: column;
   height: fit-content;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 
 .add-timeline-button {
@@ -110,7 +111,8 @@
   border-radius: 10px;
   outline: 1px solid #4f4f4f;
 
-  background-image: url("/src/assets/images/timeline-temporary-button.png");
+  /* background-image: url("/src/assets/images/timeline-temporary-button.png"); */
+  background-image: url("https://picsum.photos/1280/720");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat; /* Ensure the image doesn't repeat */
@@ -118,6 +120,29 @@
   transition: 0.2s;
 }
 
-.timeline-button-box:hover .timeline-button {
-  filter: contrast(0.75);
+.timeline-button-subbutton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  padding: 3px;
+  border-radius: 5px;
+
+  background-color: #222;
+  transition: 0.1s;
+}
+
+.timeline-button-subbutton:hover {
+  background-color: #333;
+}
+
+.timeline-button-flex-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.timeline-button:hover {
+  filter: contrast(0.5);
 }
