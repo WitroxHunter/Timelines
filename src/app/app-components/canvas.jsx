@@ -116,9 +116,6 @@ const addPointToFirestore = async (
 
 export default function Canvas({ timelineData, currentUser, timelineId }) {
   const canvasRef = useRef(null);
-  const [offset, setOffset] = useState({ x: 80, y: window.innerHeight / 2 });
-  const [scale, setScale] = useState(0.9);
-  const [isDragging, setIsDragging] = useState(false);
 
   const startDate = new Date(timelineData.startDate);
   const endDate = new Date(timelineData.endDate);
@@ -131,6 +128,13 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
   const pixelsPerDay = 10; // Dostosuj wartość, aby zmienić szerokość osi czasu
   const timelineWidth = totalDays * pixelsPerDay; // Całkowita szerokość osi czasu
+
+  const [offset, setOffset] = useState({
+    x: (window.innerWidth - timelineWidth) / 2, // Center the timeline
+    y: window.innerHeight / 2,
+  });
+  const [scale, setScale] = useState(1);
+  const [isDragging, setIsDragging] = useState(false);
 
   const calculateXPosition = (date) => {
     const totalDuration = endDate - startDate;
