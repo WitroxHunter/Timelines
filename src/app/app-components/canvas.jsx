@@ -126,21 +126,22 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     label: point.title,
   }));
 
+  // Ustal długość osi czasu na podstawie liczby dni
+  const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+  const pixelsPerDay = 10; // Dostosuj wartość, aby zmienić szerokość osi czasu
+  const timelineWidth = totalDays * pixelsPerDay; // Całkowita szerokość osi czasu
+
   const calculateXPosition = (date) => {
     const totalDuration = endDate - startDate;
     const currentDuration = date - startDate;
-    const canvasWidth = window.innerWidth;
-    return (currentDuration / totalDuration) * canvasWidth;
+    return (currentDuration / totalDuration) * timelineWidth;
   };
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
+    canvas.width = window.innerWidth; // Ustaw szerokość canvasa na podstawie długości osi czasu
     canvas.height = window.innerHeight;
-    const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
-    const pixelsPerDay = 10;
-    const timelineWidth = totalDays * pixelsPerDay;
 
     const draw = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
@@ -163,7 +164,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       const yPosition = 0;
       context.beginPath();
       context.moveTo(0, yPosition);
-      context.lineTo(timelineWidth, yPosition);
+      context.lineTo(timelineWidth, yPosition); // Użyj timelineWidth tutaj
       context.stroke();
     };
 
