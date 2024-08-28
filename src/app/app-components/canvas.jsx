@@ -138,6 +138,9 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     const context = canvas.getContext("2d");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
+    const pixelsPerDay = 10;
+    const timelineWidth = totalDays * pixelsPerDay;
 
     const draw = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
@@ -149,7 +152,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       points.forEach((point) => drawPoint(context, point));
       const dateBoxMargin = 65;
       drawDateBox(context, startDate, 0 - dateBoxMargin);
-      drawDateBox(context, endDate, canvas.width + dateBoxMargin - 60, true);
+      drawDateBox(context, endDate, timelineWidth + dateBoxMargin - 60, true);
 
       context.restore();
     };
@@ -160,7 +163,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       const yPosition = 0;
       context.beginPath();
       context.moveTo(0, yPosition);
-      context.lineTo(canvas.width, yPosition);
+      context.lineTo(timelineWidth, yPosition);
       context.stroke();
     };
 
