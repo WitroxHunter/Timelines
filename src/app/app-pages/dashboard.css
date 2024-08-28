@@ -45,6 +45,8 @@
 .timelines-box {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
 
   gap: 20px;
   height: 100%;
