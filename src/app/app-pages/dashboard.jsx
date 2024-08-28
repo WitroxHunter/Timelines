@@ -6,7 +6,14 @@ import "./dashboard.css";
 import Header from "../app-components/header";
 import logo from "../../assets/images/Logo.png";
 import { useEffect, useState } from "react";
-import { doc, updateDoc, onSnapshot } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  onSnapshot,
+  FieldValue,
+  deleteDoc,
+  deleteField,
+} from "firebase/firestore";
 import { firestore } from "../../firebase/firebase";
 import Modal from "../app-components/modal";
 import plusIcon from "../../assets/icons/plus.svg";
@@ -52,6 +59,27 @@ const addTimelineToFirestore = async (
   }
 };
 
+const deleteTimeline = async (timelineId, currentUser, toggleDeleteModal) => {
+  if (!timelineId || !currentUser) {
+    alert("Missing information to delete timeline.");
+    return;
+  }
+
+  const uid = currentUser.uid;
+
+  try {
+    const userDocRef = doc(firestore, "users", uid);
+    await updateDoc(userDocRef, {
+      [`timelines.${timelineId}`]: deleteField(),
+    });
+
+    console.log("Timeline deleted successfully");
+    toggleDeleteModal(); // Close the modal after deleting
+  } catch (error) {
+    console.error("Error deleting timeline: ", error);
+  }
+};
+
 const handleLogout = async () => {
   try {
     await signOut(auth);
@@ -60,7 +88,12 @@ const handleLogout = async () => {
   }
 };
 
-const TimelineButton = ({ fileName, timelineId, edited }) => {
+const TimelineButton = ({ fileName, timelineId, edited, currentUser }) => {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const toggleDeleteModal = () => {
+    setIsDeleteModalOpen(!isDeleteModalOpen);
+  };
   return (
     <div className="timeline-button-box">
       <Link to={`/Timelines/app/${timelineId}`}>
@@ -75,11 +108,32 @@ const TimelineButton = ({ fileName, timelineId, edited }) => {
           <div className="timeline-button-subbutton settings-button">
             <img src={settings2Icon} />
           </div>
-          <div className="timeline-button-subbutton trash-button">
+          <div
+            className="timeline-button-subbutton trash-button"
+            onClick={toggleDeleteModal}
+          >
             <img src={trashIcon} />
           </div>
         </div>
       </div>
+      <Modal isOpen={isDeleteModalOpen} toggleModal={toggleDeleteModal}>
+        <h1>Delete Timeline?</h1>
+        <div className="modal-grid">
+          <div className="modal-input-box">
+            <button className="modal-button" onClick={toggleDeleteModal}>
+              Cancel
+            </button>
+            <button
+              className="modal-button proceed-button"
+              onClick={() =>
+                deleteTimeline(timelineId, currentUser, toggleDeleteModal)
+              }
+            >
+              Proceed
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };
@@ -166,6 +220,7 @@ function Dashboard() {
                 timelineId={timelineId}
                 fileName={userData.timelines[timelineId].title}
                 edited={"Just now"}
+                currentUser={currentUser}
               />
             ))}
           </div>
