@@ -112,7 +112,7 @@ button:hover {
 }
 
 .dropdown-menu ul li:hover {
-  background-color: #007bff;
+  background-color: var(--UIcoolblue);
 }
 
 .add-button {
@@ -126,7 +126,7 @@ button:hover {
   margin-right: 0 !important;
   background: none;
   color: white;
-  border: solid 1px #007bff;
+  border: solid 2px var(--UIcoolblue);
   border-radius: 5px;
   cursor: pointer;
 }
@@ -136,7 +136,7 @@ button:hover {
 }
 
 .add-button:hover {
-  background-color: #007bff;
+  background-color: var(--UIcoolblue);
 }
 
 /*zastrzel.mp4*/
@@ -186,7 +186,7 @@ button:hover {
 }
 
 .header-dropdown-menu ul li:hover {
-  background-color: #007bff;
+  background-color: var(--UIcoolblue);
 }
 
 .dropdown-line-divider {

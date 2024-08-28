@@ -31,6 +31,11 @@
   cursor: pointer;
 }
 
+.modal-button:hover {
+  background-color: #fff;
+  color: #000;
+}
+
 .proceed-button {
   border-color: var(--UIcoolblue);
 }
@@ -44,6 +49,19 @@
   font-family: "Source Sans 3", sans-serif;
   width: 100%;
   height: auto;
+}
+
+textarea.modal-input {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 16px;
+  padding: 10px;
+  position: relative;
+  background: none;
+  border-radius: 10px;
+  border: solid 2px #808080;
+  height: 200px;
+
+  resize: none;
 }
 
 input::file-selector-button {

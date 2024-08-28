@@ -10,6 +10,7 @@ import { doc, updateDoc } from "firebase/firestore";
 
 import singleEventIcon from "../../assets/icons/pin.svg";
 import multipleEventIcon from "../../assets/icons/calendar-event.svg";
+import calendarIcon from "../../assets/icons/calendar-event.svg";
 
 import Modal from "./modal";
 
@@ -346,111 +347,135 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
 
       {/* Modal for Single Event */}
       <Modal isOpen={pointAddScreen} toggleModal={toggleSingleEventModal}>
-        <h2>Add Single Event</h2>
-        <div>
-          <label>Title:</label>
-          <input
-            className="modal-input"
-            type="text"
-            name="title"
-            value={pointTitle}
-            onChange={(e) => setPointTitle(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Date:</label>
-          <input
-            className="modal-input"
-            type="date"
-            name="date"
-            value={pointDate}
-            onChange={(e) => setPointDate(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Description:</label>
-          <textarea
-            className="modal-input"
-            name="desc"
-            value={pointDesc}
-            onChange={(e) => setPointDesc(e.target.value)}
-          />
-        </div>
-        <button className="modal-button" onClick={toggleSingleEventModal}>
-          Cancel
-        </button>
-        <button
-          className="modal-button float-right"
-          onClick={() => {
-            addPointToFirestore(
-              pointTitle,
-              pointDate,
-              pointDesc,
-              currentUser,
-              timelineId
-            );
+        <h1>Add Single Event</h1>
+        <div className="modal-grid">
+          <div className="modal-input-box">
+            <label>Title</label>
+            <input
+              className="modal-input"
+              type="text"
+              name="title"
+              value={pointTitle}
+              onChange={(e) => setPointTitle(e.target.value)}
+            />
+          </div>
 
-            toggleSingleEventModal();
-          }}
-        >
-          Proceed
-        </button>
+          <div className="modal-input-box">
+            <label>Starting date</label>
+            <div className="modal-input-container">
+              <img src={calendarIcon} className="modal-input-image" />
+              <input
+                className="modal-input"
+                type="date"
+                name="date"
+                value={pointDate}
+                onChange={(e) => setPointDate(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="modal-input-box">
+            <label>Description</label>
+            <textarea
+              className="modal-input"
+              name="desc"
+              value={pointDesc}
+              onChange={(e) => setPointDesc(e.target.value)}
+            />
+          </div>
+
+          <div className="modal-input-box">
+            <button className="modal-button" onClick={toggleSingleEventModal}>
+              Cancel
+            </button>
+            <button
+              className="modal-button proceed-button"
+              onClick={() => {
+                addPointToFirestore(
+                  pointTitle,
+                  pointDate,
+                  pointDesc,
+                  currentUser,
+                  timelineId
+                );
+
+                toggleSingleEventModal();
+              }}
+            >
+              Proceed
+            </button>
+          </div>
+        </div>
       </Modal>
 
       {/* Modal for Long Event */}
       <Modal isOpen={longEventScreen} toggleModal={toggleLongEventModal}>
-        <h2>Add Long Event</h2>
-        <div>
-          <label>Title:</label>
-          <input
-            className="modal-input"
-            type="text"
-            name="longEventTitle"
-            value={longEventTitle}
-            onChange={(e) => setLongEventTitle(e.target.value)}
-          />
+        <h1>Add Long Event</h1>
+        <div className="modal-grid">
+          <div className="modal-input-box">
+            <label>Title</label>
+            <input
+              className="modal-input"
+              type="text"
+              name="longEventTitle"
+              value={longEventTitle}
+              onChange={(e) => setLongEventTitle(e.target.value)}
+            />
+          </div>
+
+          <div className="modal-input-box">
+            <label>Starting date</label>
+            <div className="modal-input-container">
+              <img src={calendarIcon} className="modal-input-image" />
+              <input
+                className="modal-input"
+                type="date"
+                name="longEventStartDate"
+                value={longEventStartDate}
+                onChange={(e) => setLongEventStartDate(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="modal-input-box">
+            <label>Ending Date</label>
+            <div className="modal-input-container">
+              <img src={calendarIcon} className="modal-input-image" />
+              <input
+                className="modal-input"
+                type="date"
+                name="longEventEndDate"
+                value={longEventEndDate}
+                onChange={(e) => setLongEventEndDate(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="modal-input-box">
+            <label>Description</label>
+            <textarea
+              className="modal-input"
+              name="longEventDesc"
+              value={longEventDesc}
+              onChange={(e) => setLongEventDesc(e.target.value)}
+            />
+          </div>
+
+          <div className="modal-input-box">
+            <button className="modal-button" onClick={toggleLongEventModal}>
+              Cancel
+            </button>
+            <button
+              className="modal-button proceed-button"
+              onClick={() => {
+                // Add logic here to save the event data to Firebase or perform other actions
+                toggleLongEventModal();
+              }}
+            >
+              Proceed
+            </button>
+          </div>
         </div>
-        <div>
-          <label>Start Date:</label>
-          <input
-            className="modal-input"
-            type="date"
-            name="longEventStartDate"
-            value={longEventStartDate}
-            onChange={(e) => setLongEventStartDate(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>End Date:</label>
-          <input
-            className="modal-input"
-            type="date"
-            name="longEventEndDate"
-            value={longEventEndDate}
-            onChange={(e) => setLongEventEndDate(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Description:</label>
-          <textarea
-            className="modal-input"
-            name="longEventDesc"
-            value={longEventDesc}
-            onChange={(e) => setLongEventDesc(e.target.value)}
-          />
-        </div>
-        <button className="modal-button" onClick={toggleLongEventModal}>
-          Cancel
-        </button>
-        <button
-          className="modal-button float-right"
-          onClick={() => {
-            // Add logic here to save the event data to Firebase or perform other actions
-            toggleLongEventModal();
-          }}
-        >
-          Proceed
-        </button>
       </Modal>
     </div>
   );
