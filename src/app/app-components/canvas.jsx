@@ -145,7 +145,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
-    canvas.width = window.innerWidth; // Ustaw szerokość canvasa na podstawie długości osi czasu
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
     const draw = () => {
@@ -159,6 +159,8 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       const dateBoxMargin = 65;
       drawDateBox(context, startDate, 0 - dateBoxMargin);
       drawDateBox(context, endDate, timelineWidth + dateBoxMargin - 60, true);
+      drawTimelineEndLines(context, 0);
+      drawTimelineEndLines(context, timelineWidth);
 
       context.restore();
     };
@@ -242,6 +244,16 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       const textY = yPosition + 4;
 
       context.fillText(formattedDate, textX, textY);
+    };
+
+    const drawTimelineEndLines = (context, xPosition) => {
+      context.strokeStyle = "#555555";
+      context.lineWidth = 2;
+
+      context.beginPath();
+      context.moveTo(xPosition, -5); // Linia do góry o 10px
+      context.lineTo(xPosition, 5); // Linia w dół o 10px
+      context.stroke();
     };
 
     const drawPoint = (context, point) => {
