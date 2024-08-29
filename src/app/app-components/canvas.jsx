@@ -159,7 +159,11 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       context.scale(scale, scale);
 
       drawTimeline(context);
-      points.forEach((point) => drawPoint(context, point));
+      points.forEach((point) => {
+        const isHovered = canvasRef.current.style.cursor === "pointer";
+        drawPoint(context, point, isHovered);
+      });
+
       const dateBoxMargin = 65;
       drawDateBox(context, startDate, 0 - dateBoxMargin);
       drawDateBox(context, endDate, timelineWidth + dateBoxMargin - 60, true);
@@ -260,10 +264,10 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       context.stroke();
     };
 
-    const drawPoint = (context, point) => {
+    const drawPoint = (context, point, isHovered = false) => {
       const xPosition = calculateXPosition(point.date);
       const yPosition = 0;
-      context.fillStyle = "red";
+      context.fillStyle = isHovered ? "blue" : "red"; // Zmiana koloru punktu, gdy jest nad nim kursor
       context.beginPath();
       context.arc(xPosition, yPosition, 5, 0, 2 * Math.PI);
       context.fill();
@@ -307,11 +311,37 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   };
 
   const handleMouseMove = (e) => {
-    if (!isDragging) return;
-    setOffset((prevOffset) => ({
-      x: prevOffset.x + e.movementX,
-      y: prevOffset.y,
-    }));
+    if (!isDragging) {
+      const rect = canvasRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const adjustedX = (x - offset.x) / scale;
+      const adjustedY = (y - offset.y) / scale;
+
+      let cursorStyle = "grab";
+
+      points.forEach((point) => {
+        const xPosition = calculateXPosition(point.date);
+        const yPosition = 0;
+
+        if (
+          adjustedX >= xPosition - 5 &&
+          adjustedX <= xPosition + 5 &&
+          adjustedY >= yPosition - 5 &&
+          adjustedY <= yPosition + 5
+        ) {
+          cursorStyle = "pointer"; // Zmiana kursora na pointer
+        }
+      });
+
+      canvasRef.current.style.cursor = cursorStyle;
+    } else {
+      setOffset((prevOffset) => ({
+        x: prevOffset.x + e.movementX,
+        y: prevOffset.y,
+      }));
+    }
   };
 
   const handleWheel = (e) => {
