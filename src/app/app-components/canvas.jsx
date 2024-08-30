@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import firebase from "firebase/compat/app";
 import { Firestore } from "firebase/firestore";
@@ -15,26 +15,26 @@ import calendarIcon from "../../assets/icons/calendar-event.svg";
 import ModalPoint from "./modal-point-click";
 import Modal from "./modal";
 
-const DropdownMenu = ({ onSingleEventClick, onLongEventClick }) => {
+const DropdownMenu = React.memo(({ onSingleEventClick, onLongEventClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleMenu = useCallback(() => {
+    setIsOpen((prev) => !prev);
+  }, []);
 
-  const handleClickOutside = (event) => {
+  const handleClickOutside = useCallback((event) => {
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       setIsOpen(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [handleClickOutside]);
 
   return (
     <div className="add-button-dropdown" ref={menuRef}>
@@ -69,7 +69,7 @@ const DropdownMenu = ({ onSingleEventClick, onLongEventClick }) => {
       )}
     </div>
   );
-};
+});
 
 const addPointToFirestore = async (
   pointTitle,
@@ -370,7 +370,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     }
   };
 
-  const handleWheel = (e) => {
+  const handleWheel = useCallback((e) => {
     const scaleAmount = e.deltaY > 0 ? 0.9 : 1.1;
     const rect = canvasRef.current.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
@@ -381,7 +381,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       y: prevOffset.y,
     }));
     setScale((prevScale) => Math.max(0.1, prevScale * scaleAmount));
-  };
+  }, []);
 
   const [pointAddScreen, setPointAddScreen] = useState(false);
   const [longEventScreen, setLongEventScreen] = useState(false);
