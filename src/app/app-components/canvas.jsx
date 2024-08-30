@@ -157,6 +157,9 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       context.translate(offset.x, offset.y);
       context.scale(scale, scale);
 
+      drawTimelineEndLines(context, -6, 6);
+      drawTimelineEndLines(context, timelineWidth + 6, -6);
+
       drawTimeline(context);
       points.forEach((point) => {
         const isHovered = hoveredPoint === point;
@@ -166,8 +169,6 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       const dateBoxMargin = 65;
       drawDateBox(context, startDate, 0 - dateBoxMargin);
       drawDateBox(context, endDate, timelineWidth + dateBoxMargin - 60, true);
-      drawTimelineEndLines(context, 0);
-      drawTimelineEndLines(context, timelineWidth);
 
       context.restore();
     };
@@ -186,7 +187,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       const yPosition = 0;
       const textMargin = 7;
       const borderRadius = 5;
-      const boxMargin = 5; // Date box margin
+      const boxMargin = 10; // Date box margin
 
       const formattedDate = `${date.getDate()}-${
         date.getMonth() + 1
@@ -253,13 +254,18 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       context.fillText(formattedDate, textX, textY);
     };
 
-    const drawTimelineEndLines = (context, xPosition) => {
+    const drawTimelineEndLines = (context, xPosition, finishHorizontal) => {
       context.strokeStyle = "#555555";
       context.lineWidth = 2;
 
       context.beginPath();
       context.moveTo(xPosition, -5);
       context.lineTo(xPosition, 5);
+      context.stroke();
+
+      context.beginPath();
+      context.moveTo(xPosition, 0); // Punkt startowy - przesunięcie o 5px w lewo
+      context.lineTo(xPosition + finishHorizontal, 0); // Punkt końcowy - przesunięcie o 5px w prawo
       context.stroke();
     };
 
