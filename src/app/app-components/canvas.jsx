@@ -139,6 +139,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   const [isDragging, setIsDragging] = useState(false);
 
   const [selectedPoint, setSelectedPoint] = useState(null); // Dodano nowy stan
+  const [hoveredPoint, setHoveredPoint] = useState(null);
 
   const calculateXPosition = (date) => {
     const totalDuration = endDate - startDate;
@@ -160,7 +161,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
 
       drawTimeline(context);
       points.forEach((point) => {
-        const isHovered = canvasRef.current.style.cursor === "pointer";
+        const isHovered = hoveredPoint === point;
         drawPoint(context, point, isHovered);
       });
 
@@ -281,26 +282,47 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       const adjustedX = (x - offset.x) / scale;
       const adjustedY = (y - offset.y) / scale;
 
+      let clickedPoint = null;
+
       points.forEach((point) => {
         const xPosition = calculateXPosition(point.date);
         const yPosition = 0;
 
-        if (
-          adjustedX >= xPosition - 5 &&
-          adjustedX <= xPosition + 5 &&
-          adjustedY >= yPosition - 5 &&
-          adjustedY <= yPosition + 5
-        ) {
-          console.log("Point clicked:", point);
-          setSelectedPoint(point);
+        const distance = Math.sqrt(
+          Math.pow(adjustedX - xPosition, 2) +
+            Math.pow(adjustedY - yPosition, 2)
+        );
+
+        if (distance <= 5) {
+          // 5 to promień punktu
+          clickedPoint = point;
         }
       });
+
+      if (clickedPoint) {
+        console.log("Point clicked:", clickedPoint);
+        setSelectedPoint(clickedPoint);
+      } else {
+        setSelectedPoint(null);
+      }
     };
 
     canvas.addEventListener("click", handleClick);
 
     draw();
-  }, [timelineData, offset, scale, points]);
+
+    return () => {
+      canvas.removeEventListener("click", handleClick);
+    };
+  }, [
+    offset,
+    scale,
+    timelineWidth,
+    hoveredPoint, // Dodaj hoveredPoint jako zależność
+    points,
+    startDate,
+    endDate,
+  ]);
 
   const handleMouseDown = () => {
     setIsDragging(true);
@@ -319,23 +341,27 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       const adjustedX = (x - offset.x) / scale;
       const adjustedY = (y - offset.y) / scale;
 
-      let cursorStyle = "grab";
+      let isHovered = false;
+      let newHoveredPoint = null;
 
       points.forEach((point) => {
         const xPosition = calculateXPosition(point.date);
         const yPosition = 0;
 
-        if (
-          adjustedX >= xPosition - 5 &&
-          adjustedX <= xPosition + 5 &&
-          adjustedY >= yPosition - 5 &&
-          adjustedY <= yPosition + 5
-        ) {
-          cursorStyle = "pointer"; // Zmiana kursora na pointer
+        const distance = Math.sqrt(
+          Math.pow(adjustedX - xPosition, 2) +
+            Math.pow(adjustedY - yPosition, 2)
+        );
+
+        if (distance <= 5) {
+          // 5 to promień punktu
+          isHovered = true;
+          newHoveredPoint = point;
         }
       });
 
-      canvasRef.current.style.cursor = cursorStyle;
+      setHoveredPoint(newHoveredPoint);
+      canvasRef.current.style.cursor = isHovered ? "pointer" : "grab";
     } else {
       setOffset((prevOffset) => ({
         x: prevOffset.x + e.movementX,
