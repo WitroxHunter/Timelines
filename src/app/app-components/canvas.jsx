@@ -100,7 +100,6 @@ const addPointToFirestore = async (
 
     console.log("New point added successfully");
 
-    // Aktualizacja lokalnego stanu timelineData
     setTimelineData((prevData) => {
       return {
         ...prevData,
@@ -126,10 +125,9 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     description: point.description,
   }));
 
-  // Ustal długość osi czasu na podstawie liczby dni
   const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
-  const pixelsPerDay = 10; // Dostosuj wartość, aby zmienić szerokość osi czasu
-  const timelineWidth = totalDays * pixelsPerDay; // Całkowita szerokość osi czasu
+  const pixelsPerDay = 10; // Day width
+  const timelineWidth = totalDays * pixelsPerDay; // Timeline width
 
   const [offset, setOffset] = useState({
     x: (window.innerWidth - timelineWidth) / 2, // Center the timeline
@@ -138,7 +136,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   const [scale, setScale] = useState(1);
   const [isDragging, setIsDragging] = useState(false);
 
-  const [selectedPoint, setSelectedPoint] = useState(null); // Dodano nowy stan
+  const [selectedPoint, setSelectedPoint] = useState(null);
   const [hoveredPoint, setHoveredPoint] = useState(null);
 
   const calculateXPosition = (date) => {
@@ -180,7 +178,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       const yPosition = 0;
       context.beginPath();
       context.moveTo(0, yPosition);
-      context.lineTo(timelineWidth, yPosition); // Użyj timelineWidth tutaj
+      context.lineTo(timelineWidth, yPosition);
       context.stroke();
     };
 
@@ -188,7 +186,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       const yPosition = 0;
       const textMargin = 7;
       const borderRadius = 5;
-      const boxMargin = 5; // Adjust this value to set the desired margin from the timeline
+      const boxMargin = 5; // Date box margin
 
       const formattedDate = `${date.getDate()}-${
         date.getMonth() + 1
@@ -201,9 +199,9 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       const boxHeight = 20;
 
       if (alignRight) {
-        xPosition = timelineWidth + boxMargin; // Set margin for the right box
+        xPosition = timelineWidth + boxMargin;
       } else {
-        xPosition = 0 - boxWidth - boxMargin; // Set margin for the left box
+        xPosition = 0 - boxWidth - boxMargin;
       }
 
       context.fillStyle = "white";
@@ -260,8 +258,8 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       context.lineWidth = 2;
 
       context.beginPath();
-      context.moveTo(xPosition, -5); // Linia do góry o 10px
-      context.lineTo(xPosition, 5); // Linia w dół o 10px
+      context.moveTo(xPosition, -5);
+      context.lineTo(xPosition, 5);
       context.stroke();
     };
 
@@ -314,15 +312,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     return () => {
       canvas.removeEventListener("click", handleClick);
     };
-  }, [
-    offset,
-    scale,
-    timelineWidth,
-    hoveredPoint, // Dodaj hoveredPoint jako zależność
-    points,
-    startDate,
-    endDate,
-  ]);
+  }, [offset, scale, timelineWidth, hoveredPoint, points, startDate, endDate]);
 
   const handleMouseDown = () => {
     setIsDragging(true);
@@ -415,12 +405,6 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     }
   };
 
-  const togglePointInfo = () => {
-    setPointModalScreen(!pointModalScreen);
-    if (!pointModalScreen) {
-    }
-  };
-
   return (
     <div
       className="canvas-box"
@@ -447,7 +431,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
 
       {/* Modal for clicking on point */}
       <ModalPoint
-        isOpen={!!selectedPoint} // Modal powinien otworzyć się, gdy `selectedPoint` nie jest null
+        isOpen={!!selectedPoint}
         point={selectedPoint}
         toggleModal={() => setSelectedPoint(null)}
       ></ModalPoint>
