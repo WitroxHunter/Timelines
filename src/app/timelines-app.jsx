@@ -6,6 +6,7 @@ import { getDoc, doc, onSnapshot } from "firebase/firestore";
 import { Navigate, Link, useParams } from "react-router-dom";
 import "./timelines-app.css";
 import smileyIcon from "../assets/icons/smiley.webp";
+import homeIcon from "../assets/icons/home.svg";
 
 import Header from "./app-components/header";
 import Canvas from "./app-components/canvas";
@@ -98,8 +99,10 @@ function TimelinesApp() {
                 ? currentUser.displayName
                 : currentUser.email}
             </label> */}
-            <Link to="/Timelines/app">
-              <button>Dashboard</button>
+            <Link to="/Timelines/app" style={{ display: "flex" }}>
+              <button>
+                <img src={homeIcon} />
+              </button>
             </Link>
 
             <HeaderButton buttonName="File">
@@ -150,9 +153,9 @@ function TimelinesApp() {
             </HeaderButton>
           </div>
 
-          <button onClick={handleLogout} className="logout-button">
+          {/* <button onClick={handleLogout} className="logout-button">
             Log Out
-          </button>
+          </button> */}
         </Header>
 
         <Canvas

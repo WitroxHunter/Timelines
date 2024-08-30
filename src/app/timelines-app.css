@@ -1,5 +1,6 @@
 img {
   user-select: none;
+  display: flex;
 }
 
 .horizontal-gradient {
@@ -144,6 +145,7 @@ button:hover {
 .header-option-buttons {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 /*Header dropdown menu - START*/
