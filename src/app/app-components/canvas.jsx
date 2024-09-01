@@ -121,10 +121,30 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   const endDate = new Date(timelineData.endDate);
 
   const periods = [
-    { date: new Date("2007-04-21"), label: "Event 1" },
-    { date: new Date("2024-01-23"), label: "Event 2" },
-    { date: new Date("2010-02-02"), label: "Event 3" },
-    { date: new Date("2015-02-02"), label: "Event 4" },
+    {
+      startDate: new Date("2007-04-21"),
+      endDate: new Date("2007-04-22"),
+      label: "Period 1",
+      color: "white",
+    },
+    {
+      startDate: new Date("2007-04-21"),
+      endDate: new Date("2007-04-22"),
+      label: "Period 1",
+      color: "white",
+    },
+    {
+      startDate: new Date("2007-04-21"),
+      endDate: new Date("2007-04-22"),
+      label: "Period 1",
+      color: "white",
+    },
+    {
+      startDate: new Date("2007-04-21"),
+      endDate: new Date("2007-04-22"),
+      label: "Period 1",
+      color: "white",
+    },
   ];
 
   const points = Object.values(timelineData.points).map((point) => ({
