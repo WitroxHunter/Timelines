@@ -4,6 +4,11 @@ import firebase from "firebase/compat/app";
 import { Firestore } from "firebase/firestore";
 import { firestore } from "../../firebase/firebase";
 
+import { drawTimeline } from "./canvas-components/drawTimeline";
+import { drawTimelineEndLines } from "./canvas-components/drawTimelineEndLines";
+import { drawDateBox } from "./canvas-components/drawDateBox";
+import { drawPoint } from "./canvas-components/drawPoint";
+
 import editIcon from "../../assets/icons/edit.svg";
 import addIcon from "../../assets/icons/plus.svg";
 import { doc, updateDoc } from "firebase/firestore";
@@ -188,122 +193,17 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       drawTimelineEndLines(context, -6, 6);
       drawTimelineEndLines(context, timelineWidth + 6, -6);
 
-      drawTimeline(context);
+      drawTimeline(context, timelineWidth);
       points.forEach((point) => {
         const isHovered = hoveredPoint === point;
-        drawPoint(context, point, isHovered);
+        drawPoint(context, point, isHovered, calculateXPosition(point.date));
       });
 
       const dateBoxMargin = 65;
-      drawDateBox(context, startDate, 0 - dateBoxMargin);
-      drawDateBox(context, endDate, timelineWidth + dateBoxMargin - 60, true);
+      drawDateBox(context, startDate, 0 - dateBoxMargin, timelineWidth,);
+      drawDateBox(context, endDate, timelineWidth + dateBoxMargin - 60, timelineWidth, true);
 
       context.restore();
-    };
-
-    const drawTimeline = (context) => {
-      context.strokeStyle = "#555555";
-      context.lineWidth = 2;
-      const yPosition = 0;
-      context.beginPath();
-      context.moveTo(0, yPosition);
-      context.lineTo(timelineWidth, yPosition);
-      context.stroke();
-    };
-
-    const drawDateBox = (context, date, xPosition, alignRight = false) => {
-      const yPosition = 0;
-      const textMargin = 7;
-      const borderRadius = 5;
-      const boxMargin = 10; // Date box margin
-
-      const formattedDate = `${date.getDate()}-${
-        date.getMonth() + 1
-      }-${date.getFullYear()}`;
-
-      context.font = "12px 'Source Sans 3'";
-      const textWidth = context.measureText(formattedDate).width;
-
-      const boxWidth = textWidth + 2 * textMargin;
-      const boxHeight = 20;
-
-      if (alignRight) {
-        xPosition = timelineWidth + boxMargin;
-      } else {
-        xPosition = 0 - boxWidth - boxMargin;
-      }
-
-      context.fillStyle = "white";
-      context.beginPath();
-      context.moveTo(xPosition + borderRadius, yPosition - 10);
-      context.lineTo(xPosition + boxWidth - borderRadius, yPosition - 10);
-      context.arc(
-        xPosition + boxWidth - borderRadius,
-        yPosition - 10 + borderRadius,
-        borderRadius,
-        -Math.PI / 2,
-        0
-      );
-      context.lineTo(
-        xPosition + boxWidth,
-        yPosition - 10 + boxHeight - borderRadius
-      );
-      context.arc(
-        xPosition + boxWidth - borderRadius,
-        yPosition - 10 + boxHeight - borderRadius,
-        borderRadius,
-        0,
-        Math.PI / 2
-      );
-      context.lineTo(xPosition + borderRadius, yPosition - 10 + boxHeight);
-      context.arc(
-        xPosition + borderRadius,
-        yPosition - 10 + boxHeight - borderRadius,
-        borderRadius,
-        Math.PI / 2,
-        Math.PI
-      );
-      context.lineTo(xPosition, yPosition - 10 + borderRadius);
-      context.arc(
-        xPosition + borderRadius,
-        yPosition - 10 + borderRadius,
-        borderRadius,
-        Math.PI,
-        1.5 * Math.PI
-      );
-      context.closePath();
-      context.fill();
-
-      // Text
-      context.fillStyle = "black";
-      const textX = xPosition + textMargin;
-      const textY = yPosition + 4;
-
-      context.fillText(formattedDate, textX, textY);
-    };
-
-    const drawTimelineEndLines = (context, xPosition, finishHorizontal) => {
-      context.strokeStyle = "#555555";
-      context.lineWidth = 2;
-
-      context.beginPath();
-      context.moveTo(xPosition, -5);
-      context.lineTo(xPosition, 5);
-      context.stroke();
-
-      context.beginPath();
-      context.moveTo(xPosition, 0); // Punkt startowy - przesunięcie o 5px w lewo
-      context.lineTo(xPosition + finishHorizontal, 0); // Punkt końcowy - przesunięcie o 5px w prawo
-      context.stroke();
-    };
-
-    const drawPoint = (context, point, isHovered = false) => {
-      const xPosition = calculateXPosition(point.date);
-      const yPosition = 0;
-      context.fillStyle = isHovered ? "blue" : "red"; // Zmiana koloru punktu, gdy jest nad nim kursor
-      context.beginPath();
-      context.arc(xPosition, yPosition, 5, 0, 2 * Math.PI);
-      context.fill();
     };
 
     const handleClick = (e) => {
