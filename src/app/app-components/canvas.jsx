@@ -1,9 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 
-import { drawTimeline } from "./canvas-components/drawTimeline";
-import { drawTimelineEndLines } from "./canvas-components/drawTimelineEndLines";
-import { drawDateBox } from "./canvas-components/drawDateBox";
-import { drawPoint } from "./canvas-components/drawPoint";
 import { draw } from "./canvas-components/draw";
 import { addPointToFirestore } from "./canvas-components/firebaseUtils";
 import DropdownMenu from "./canvas-components/dropdownMenu";
@@ -12,9 +8,6 @@ import ModalPoint from "./modal-point-click";
 import Modal from "./modal";
 
 import editIcon from "../../assets/icons/edit.svg";
-import addIcon from "../../assets/icons/plus.svg";
-import singleEventIcon from "../../assets/icons/pin.svg";
-import multipleEventIcon from "../../assets/icons/calendar-event.svg";
 import calendarIcon from "../../assets/icons/calendar-event.svg";
 
 
