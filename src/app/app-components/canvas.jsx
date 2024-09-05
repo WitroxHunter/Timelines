@@ -1,123 +1,22 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
-import firebase from "firebase/compat/app";
-import { Firestore } from "firebase/firestore";
-import { firestore } from "../../firebase/firebase";
 
 import { drawTimeline } from "./canvas-components/drawTimeline";
 import { drawTimelineEndLines } from "./canvas-components/drawTimelineEndLines";
 import { drawDateBox } from "./canvas-components/drawDateBox";
 import { drawPoint } from "./canvas-components/drawPoint";
-
-import editIcon from "../../assets/icons/edit.svg";
-import addIcon from "../../assets/icons/plus.svg";
-import { doc, updateDoc } from "firebase/firestore";
-
-import singleEventIcon from "../../assets/icons/pin.svg";
-import multipleEventIcon from "../../assets/icons/calendar-event.svg";
-import calendarIcon from "../../assets/icons/calendar-event.svg";
+import { draw } from "./canvas-components/draw";
+import { addPointToFirestore } from "./canvas-components/firebaseUtils";
+import DropdownMenu from "./canvas-components/dropdownMenu";
 
 import ModalPoint from "./modal-point-click";
 import Modal from "./modal";
 
-const DropdownMenu = React.memo(({ onSingleEventClick, onLongEventClick }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef(null);
+import editIcon from "../../assets/icons/edit.svg";
+import addIcon from "../../assets/icons/plus.svg";
+import singleEventIcon from "../../assets/icons/pin.svg";
+import multipleEventIcon from "../../assets/icons/calendar-event.svg";
+import calendarIcon from "../../assets/icons/calendar-event.svg";
 
-  const toggleMenu = useCallback(() => {
-    setIsOpen((prev) => !prev);
-  }, []);
-
-  const handleClickOutside = useCallback((event) => {
-    if (menuRef.current && !menuRef.current.contains(event.target)) {
-      setIsOpen(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [handleClickOutside]);
-
-  return (
-    <div className="add-button-dropdown" ref={menuRef}>
-      <button className="add-button" onClick={toggleMenu}>
-        <img src={addIcon} />
-        <div>Add</div>
-      </button>
-
-      {isOpen && (
-        <div className="dropdown-menu">
-          <ul>
-            <li
-              onClick={() => {
-                toggleMenu();
-                onSingleEventClick();
-              }}
-            >
-              <img src={singleEventIcon} />
-              Single event
-            </li>
-            <li
-              onClick={() => {
-                toggleMenu();
-                onLongEventClick();
-              }}
-            >
-              <img src={multipleEventIcon} />
-              Long event
-            </li>
-          </ul>
-        </div>
-      )}
-    </div>
-  );
-});
-
-const addPointToFirestore = async (
-  pointTitle,
-  pointDate,
-  pointDesc,
-  currentUser,
-  timelineId
-) => {
-  if (!pointTitle || !pointDate) {
-    alert("Please fill in all fields.");
-    return;
-  }
-
-  const uid = currentUser.uid;
-  const pointId = `point_${Date.now()}`;
-
-  const newPointData = {
-    title: pointTitle,
-    date: pointDate,
-    description: pointDesc,
-  };
-
-  try {
-    const userDocRef = doc(firestore, "users", uid);
-    await updateDoc(userDocRef, {
-      [`timelines.${timelineId}.points.${pointId}`]: newPointData,
-    });
-
-    console.log("New point added successfully");
-
-    setTimelineData((prevData) => {
-      return {
-        ...prevData,
-        points: {
-          ...prevData.points,
-          [pointId]: newPointData,
-        },
-      };
-    });
-  } catch (error) {
-    console.error("Error adding point: ", error);
-  }
-};
 
 export default function Canvas({ timelineData, currentUser, timelineId }) {
   const canvasRef = useRef(null);
@@ -183,54 +82,31 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     const context = canvas.getContext("2d");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
-    const draw = () => {
-      context.clearRect(0, 0, canvas.width, canvas.height);
-      context.save();
-      context.translate(offset.x, offset.y);
-      context.scale(scale, scale);
-
-      drawTimelineEndLines(context, -6, 6);
-      drawTimelineEndLines(context, timelineWidth + 6, -6);
-
-      drawTimeline(context, timelineWidth);
-      points.forEach((point) => {
-        const isHovered = hoveredPoint === point;
-        drawPoint(context, point, isHovered, calculateXPosition(point.date));
-      });
-
-      const dateBoxMargin = 65;
-      drawDateBox(context, startDate, 0 - dateBoxMargin, timelineWidth,);
-      drawDateBox(context, endDate, timelineWidth + dateBoxMargin - 60, timelineWidth, true);
-
-      context.restore();
-    };
-
+  
     const handleClick = (e) => {
       const rect = canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-
+  
       const adjustedX = (x - offset.x) / scale;
       const adjustedY = (y - offset.y) / scale;
-
+  
       let clickedPoint = null;
-
+  
       points.forEach((point) => {
         const xPosition = calculateXPosition(point.date);
         const yPosition = 0;
-
+  
         const distance = Math.sqrt(
-          Math.pow(adjustedX - xPosition, 2) +
-            Math.pow(adjustedY - yPosition, 2)
+          Math.pow(adjustedX - xPosition, 2) + Math.pow(adjustedY - yPosition, 2)
         );
-
+  
         if (distance <= 5) {
-          // 5 to promień punktu
+          // 5 is the point radius
           clickedPoint = point;
         }
       });
-
+  
       if (clickedPoint) {
         console.log("Point clicked:", clickedPoint);
         setSelectedPoint(clickedPoint);
@@ -238,15 +114,17 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         setSelectedPoint(null);
       }
     };
-
+  
     canvas.addEventListener("click", handleClick);
-
-    draw();
-
+  
+    // Call the draw function
+    draw(context, offset, scale, timelineWidth, points, hoveredPoint, startDate, endDate, calculateXPosition);
+  
     return () => {
       canvas.removeEventListener("click", handleClick);
     };
   }, [offset, scale, timelineWidth, hoveredPoint, points, startDate, endDate]);
+  
 
   const handleMouseDown = () => {
     setIsDragging(true);
