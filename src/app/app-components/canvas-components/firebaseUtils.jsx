@@ -96,6 +96,23 @@ export const removePointFromFirestore = async (timelineId, pointKey, currentUser
   }
 };
 
-export const removePeriodFromFirestore = async () => {
-  
+export const removePeriodFromFirestore = async (timelineId, periodKey, currentUser) => {
+  if (!timelineId || !periodKey || !currentUser) {
+    alert("Missing information to delete point.");
+    return;
+  }
+  console.log(timelineId, periodKey)
+  const uid = currentUser.uid;
+
+  try {
+    const userDocRef = doc(firestore, "users", uid);
+
+    await updateDoc(userDocRef, {
+      [`timelines.${timelineId}.periods.${periodKey}`]: deleteField(),
+    });
+
+    console.log("Period deleted successfully");
+  } catch (error) {
+    console.error("Error removing period: ", error);
+  }
 }

@@ -1,6 +1,6 @@
 import React from "react";
-import "./modal-period-click.css"; // Zakładam, że będzie miał odpowiedni styl
-import { removePeriodFromFirestore } from "./canvas-components/firebaseUtils"; // Zaktualizowana funkcja do usuwania okresów
+import "./modal-period-click.css";
+import { removePeriodFromFirestore } from "./canvas-components/firebaseUtils"; 
 
 export default function ModalPeriod({ isOpen, toggleModal, period, currentUser, timelineId, children }) {
   if (!isOpen || !period) return null;
@@ -10,7 +10,7 @@ export default function ModalPeriod({ isOpen, toggleModal, period, currentUser, 
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this period?")) {
-      await removePeriodFromFirestore(timelineId, period.key, currentUser); // Usunięcie okresu z Firestore
+      await removePeriodFromFirestore(timelineId, period.key, currentUser);
       toggleModal();
     }
   };
