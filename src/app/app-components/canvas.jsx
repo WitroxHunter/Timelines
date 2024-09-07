@@ -6,6 +6,7 @@ import DropdownMenu from "./canvas-components/dropdownMenu";
 
 import ModalPoint from "./modal-point-click";
 import Modal from "./modal";
+import ModalPeriod from "./modal-period-click";
 
 import editIcon from "../../assets/icons/edit.svg";
 import calendarIcon from "../../assets/icons/calendar-event.svg";
@@ -45,6 +46,8 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [hoveredPoint, setHoveredPoint] = useState(null);
 
+  const [selectedPeriod, setSelectedPeriod] = useState(null);
+
   const calculateXPosition = (date) => {
     const totalDuration = endDate - startDate;
     const currentDuration = date - startDate;
@@ -66,7 +69,9 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       const adjustedY = (y - offset.y) / scale;
   
       let clickedPoint = null;
+      let clickedPeriod = null;
   
+      // Sprawdzenie kliknięcia na punkt
       points.forEach((point) => {
         const xPosition = calculateXPosition(point.date);
         const yPosition = 0;
@@ -76,27 +81,51 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         );
   
         if (distance <= 5) {
-          // 5 is the point radius
           clickedPoint = point;
+        }
+      });
+  
+      // Sprawdzenie kliknięcia na okres
+      periods.forEach((period) => {
+        const periodStartX = calculateXPosition(period.startDate);
+        const periodEndX = calculateXPosition(period.endDate);
+  
+        if (adjustedX >= periodStartX && adjustedX <= periodEndX && adjustedY >= -40 && adjustedY <= -15) {
+          clickedPeriod = period;
         }
       });
   
       if (clickedPoint) {
         console.log("Point clicked:", clickedPoint);
         setSelectedPoint(clickedPoint);
+      } else if (clickedPeriod) {
+        console.log("Period clicked:", clickedPeriod);
+        setSelectedPeriod(clickedPeriod);
       } else {
         setSelectedPoint(null);
+        setSelectedPeriod(null);
       }
     };
   
     canvas.addEventListener("click", handleClick);
   
-    draw(context, offset, scale, timelineWidth, points, periods, hoveredPoint, startDate, endDate, calculateXPosition);
+    draw(
+      context,
+      offset,
+      scale,
+      timelineWidth,
+      points,
+      periods,
+      hoveredPoint,
+      startDate,
+      endDate,
+      calculateXPosition
+    );
   
     return () => {
       canvas.removeEventListener("click", handleClick);
     };
-  }, [offset, scale, timelineWidth, hoveredPoint, points, startDate, endDate]);
+  }, [offset, scale, timelineWidth, hoveredPoint, points, periods, startDate, endDate]);
   
 
   const handleMouseDown = () => {
@@ -221,7 +250,14 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         currentUser={currentUser} 
         timelineId={timelineId}   
         toggleModal={() => setSelectedPoint(null)}
-      ></ModalPoint>
+      />
+      <ModalPeriod
+        isOpen={!!selectedPeriod}
+        period={selectedPeriod}
+        currentUser={currentUser}
+        timelineId={timelineId}
+        toggleModal={() => setSelectedPeriod(null)}
+      />
       {/* Modal for Single Event */}
       <Modal isOpen={pointAddScreen} toggleModal={toggleSingleEventModal}>
   <h1>Add Single Event</h1>

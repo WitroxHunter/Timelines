@@ -95,3 +95,7 @@ export const removePointFromFirestore = async (timelineId, pointKey, currentUser
     console.error("Error removing point: ", error);
   }
 };
+
+export const removePeriodFromFirestore = async () => {
+  
+}
