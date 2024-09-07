@@ -76,10 +76,6 @@ export const changeNickname = async () => {
 
 }
 
-
-
-
-
 export const removePointFromFirestore = async (timelineId, pointKey, currentUser) => {
   if (!timelineId || !pointKey || !currentUser) {
     alert("Missing information to delete point.");
@@ -88,10 +84,8 @@ export const removePointFromFirestore = async (timelineId, pointKey, currentUser
   console.log(timelineId, pointKey)
   const uid = currentUser.uid;
   try {
-    // Referencja do dokumentu osi czasu
     const userDocRef = doc(firestore, "users", uid);
 
-    // Aktualizacja dokumentu poprzez usunięcie pola punktu
     await updateDoc(userDocRef, {
       [`timelines.${timelineId}.points.${pointKey}`]: deleteField(),
     });
