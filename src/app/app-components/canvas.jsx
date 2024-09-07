@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 
 import { draw } from "./canvas-components/draw";
-import { addPointToFirestore } from "./canvas-components/firebaseUtils";
+import { addPointToFirestore, addPeriodToFirestore } from "./canvas-components/firebaseUtils";
 import DropdownMenu from "./canvas-components/dropdownMenu";
 
 import ModalPoint from "./modal-point-click";
@@ -17,37 +17,18 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   const startDate = new Date(timelineData.startDate);
   const endDate = new Date(timelineData.endDate);
 
-  const periods = [
-    {
-      startDate: new Date("2007-04-21"),
-      endDate: new Date("2007-04-22"),
-      label: "Period 1",
-      color: "white",
-    },
-    {
-      startDate: new Date("2007-04-21"),
-      endDate: new Date("2007-04-22"),
-      label: "Period 1",
-      color: "white",
-    },
-    {
-      startDate: new Date("2007-04-21"),
-      endDate: new Date("2007-04-22"),
-      label: "Period 1",
-      color: "white",
-    },
-    {
-      startDate: new Date("2007-04-21"),
-      endDate: new Date("2007-04-22"),
-      label: "Period 1",
-      color: "white",
-    },
-  ];
-
-  const points = Object.values(timelineData.points).map((point) => ({
+  const points = Object.entries(timelineData.points).map(([pointKey, point]) => ({
+    key: pointKey,
     date: new Date(point.date),
     label: point.title,
     description: point.description,
+  }));
+
+  const periods = Object.values(timelineData.periods).map((period) => ({
+    startDate: new Date(period.startDate),
+    endDate: new Date(period.endDate),
+    label: period.title,
+    description: period.description,
   }));
 
   const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
@@ -110,8 +91,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   
     canvas.addEventListener("click", handleClick);
   
-    // Call the draw function
-    draw(context, offset, scale, timelineWidth, points, hoveredPoint, startDate, endDate, calculateXPosition);
+    draw(context, offset, scale, timelineWidth, points, periods, hoveredPoint, startDate, endDate, calculateXPosition);
   
     return () => {
       canvas.removeEventListener("click", handleClick);
@@ -238,140 +218,173 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       <ModalPoint
         isOpen={!!selectedPoint}
         point={selectedPoint}
+        currentUser={currentUser} 
+        timelineId={timelineId}   
         toggleModal={() => setSelectedPoint(null)}
       ></ModalPoint>
       {/* Modal for Single Event */}
       <Modal isOpen={pointAddScreen} toggleModal={toggleSingleEventModal}>
-        <h1>Add Single Event</h1>
-        <div className="modal-grid">
-          <div className="modal-input-box">
-            <label>Title</label>
-            <input
-              className="modal-input"
-              type="text"
-              name="title"
-              value={pointTitle}
-              onChange={(e) => setPointTitle(e.target.value)}
-            />
-          </div>
+  <h1>Add Single Event</h1>
+  <div className="modal-grid">
+    <div className="modal-input-box">
+      <label>Title</label>
+      <input
+        className="modal-input"
+        type="text"
+        name="title"
+        value={pointTitle}
+        onChange={(e) => setPointTitle(e.target.value)}
+      />
+    </div>
 
-          <div className="modal-input-box">
-            <label>Starting date</label>
-            <div className="modal-input-container">
-              <img src={calendarIcon} className="modal-input-image" />
-              <input
-                className="modal-input"
-                type="date"
-                name="date"
-                value={pointDate}
-                onChange={(e) => setPointDate(e.target.value)}
-              />
-            </div>
-          </div>
+    <div className="modal-input-box">
+      <label>Starting date</label>
+      <div className="modal-input-container">
+        <img src={calendarIcon} className="modal-input-image" />
+        <input
+          className="modal-input"
+          type="date"
+          name="date"
+          value={pointDate}
+          onChange={(e) => setPointDate(e.target.value)}
+        />
+      </div>
+    </div>
 
-          <div className="modal-input-box">
-            <label>Description</label>
-            <textarea
-              className="modal-input"
-              name="desc"
-              value={pointDesc}
-              onChange={(e) => setPointDesc(e.target.value)}
-            />
-          </div>
+    <div className="modal-input-box">
+      <label>Description</label>
+      <textarea
+        className="modal-input"
+        name="desc"
+        value={pointDesc}
+        onChange={(e) => setPointDesc(e.target.value)}
+      />
+    </div>
 
-          <div className="modal-input-box">
-            <button className="modal-button" onClick={toggleSingleEventModal}>
-              Cancel
-            </button>
-            <button
-              className="modal-button proceed-button"
-              onClick={() => {
-                addPointToFirestore(
-                  pointTitle,
-                  pointDate,
-                  pointDesc,
-                  currentUser,
-                  timelineId
-                );
+    <div className="modal-input-box">
+      <button className="modal-button" onClick={toggleSingleEventModal}>
+        Cancel
+      </button>
+      <button
+        className="modal-button proceed-button"
+        onClick={() => {
+          const selectedDate = new Date(pointDate);
 
-                toggleSingleEventModal();
-              }}
-            >
-              Proceed
-            </button>
-          </div>
-        </div>
-      </Modal>
+          // Walidacja daty punktu
+          if (selectedDate < startDate || selectedDate > endDate) {
+            alert("Please enter a valid date within the timeline range.");
+            return;
+          }
+
+          // Dodaj punkt do Firestore
+          addPointToFirestore(
+            pointTitle,
+            pointDate,
+            pointDesc,
+            currentUser,
+            timelineId
+          );
+
+          toggleSingleEventModal();
+        }}
+      >
+        Proceed
+      </button>
+    </div>
+  </div>
+</Modal>
 
       {/* Modal for Long Event */}
       <Modal isOpen={longEventScreen} toggleModal={toggleLongEventModal}>
-        <h1>Add Long Event</h1>
-        <div className="modal-grid">
-          <div className="modal-input-box">
-            <label>Title</label>
-            <input
-              className="modal-input"
-              type="text"
-              name="longEventTitle"
-              value={longEventTitle}
-              onChange={(e) => setLongEventTitle(e.target.value)}
-            />
-          </div>
+  <h1>Add Long Event</h1>
+  <div className="modal-grid">
+    <div className="modal-input-box">
+      <label>Title</label>
+      <input
+        className="modal-input"
+        type="text"
+        name="longEventTitle"
+        value={longEventTitle}
+        onChange={(e) => setLongEventTitle(e.target.value)}
+      />
+    </div>
 
-          <div className="modal-input-box">
-            <label>Starting date</label>
-            <div className="modal-input-container">
-              <img src={calendarIcon} className="modal-input-image" />
-              <input
-                className="modal-input"
-                type="date"
-                name="longEventStartDate"
-                value={longEventStartDate}
-                onChange={(e) => setLongEventStartDate(e.target.value)}
-              />
-            </div>
-          </div>
+    <div className="modal-input-box">
+      <label>Starting date</label>
+      <div className="modal-input-container">
+        <img src={calendarIcon} className="modal-input-image" />
+        <input
+          className="modal-input"
+          type="date"
+          name="longEventStartDate"
+          value={longEventStartDate}
+          onChange={(e) => setLongEventStartDate(e.target.value)}
+        />
+      </div>
+    </div>
 
-          <div className="modal-input-box">
-            <label>Ending Date</label>
-            <div className="modal-input-container">
-              <img src={calendarIcon} className="modal-input-image" />
-              <input
-                className="modal-input"
-                type="date"
-                name="longEventEndDate"
-                value={longEventEndDate}
-                onChange={(e) => setLongEventEndDate(e.target.value)}
-              />
-            </div>
-          </div>
+    <div className="modal-input-box">
+      <label>Ending Date</label>
+      <div className="modal-input-container">
+        <img src={calendarIcon} className="modal-input-image" />
+        <input
+          className="modal-input"
+          type="date"
+          name="longEventEndDate"
+          value={longEventEndDate}
+          onChange={(e) => setLongEventEndDate(e.target.value)}
+        />
+      </div>
+    </div>
 
-          <div className="modal-input-box">
-            <label>Description</label>
-            <textarea
-              className="modal-input"
-              name="longEventDesc"
-              value={longEventDesc}
-              onChange={(e) => setLongEventDesc(e.target.value)}
-            />
-          </div>
+    <div className="modal-input-box">
+      <label>Description</label>
+      <textarea
+        className="modal-input"
+        name="longEventDesc"
+        value={longEventDesc}
+        onChange={(e) => setLongEventDesc(e.target.value)}
+      />
+    </div>
 
-          <div className="modal-input-box">
-            <button className="modal-button" onClick={toggleLongEventModal}>
-              Cancel
-            </button>
-            <button
-              className="modal-button proceed-button"
-              onClick={() => {
-                // Add logic here to save the event data to Firebase or perform other actions
-                toggleLongEventModal();
-              }}
-            >
-              Proceed
-            </button>
-          </div>
-        </div>
-      </Modal>
+    <div className="modal-input-box">
+      <button className="modal-button" onClick={toggleLongEventModal}>
+        Cancel
+      </button>
+      <button
+        className="modal-button proceed-button"
+        onClick={() => {
+          const startDateEvent = new Date(longEventStartDate);
+          const endDateEvent = new Date(longEventEndDate);
+
+          // Walidacja daty okresu
+          if (
+            startDateEvent < startDate ||
+            endDateEvent > endDate ||
+            startDateEvent > endDateEvent
+          ) {
+            alert("Please enter valid start and end dates within the timeline range.");
+            return;
+          }
+
+          // Dodaj okres do Firestore
+          addPeriodToFirestore(
+            longEventTitle,
+            longEventStartDate,
+            longEventEndDate,
+            longEventDesc,
+            currentUser,
+            timelineId
+          );
+
+          toggleLongEventModal();
+        }}
+      >
+        Proceed
+      </button>
+    </div>
+  </div>
+</Modal>
     </div>
   );
 }

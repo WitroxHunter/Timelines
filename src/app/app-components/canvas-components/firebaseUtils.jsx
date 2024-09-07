@@ -1,4 +1,4 @@
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, deleteField } from "firebase/firestore";
 import { firestore } from "../../../firebase/firebase";
 
 export const addPointToFirestore = async (
@@ -36,7 +36,7 @@ export const addPointToFirestore = async (
 };
 
 
-export const addLongEventToFirestore = async (
+export const addPeriodToFirestore = async (
     periodTitle,
     startPeriodDate,
     endPeriodDate,
@@ -44,7 +44,7 @@ export const addLongEventToFirestore = async (
     currentUser,
     timelineId,
   ) => {
-    if (!periodTitle || !startPeriodDate || endPeriodDate) {
+    if (!periodTitle || !startPeriodDate || !endPeriodDate) {
       alert("Please fill in all fields.");
       return;
     }
@@ -72,3 +72,32 @@ export const addLongEventToFirestore = async (
     }
   };
   
+export const changeNickname = async () => {
+
+}
+
+
+
+
+
+export const removePointFromFirestore = async (timelineId, pointKey, currentUser) => {
+  if (!timelineId || !pointKey || !currentUser) {
+    alert("Missing information to delete point.");
+    return;
+  }
+  console.log(timelineId, pointKey)
+  const uid = currentUser.uid;
+  try {
+    // Referencja do dokumentu osi czasu
+    const userDocRef = doc(firestore, "users", uid);
+
+    // Aktualizacja dokumentu poprzez usunięcie pola punktu
+    await updateDoc(userDocRef, {
+      [`timelines.${timelineId}.points.${pointKey}`]: deleteField(),
+    });
+
+    console.log("Point deleted successfully");
+  } catch (error) {
+    console.error("Error removing point: ", error);
+  }
+};
