@@ -98,7 +98,7 @@ export const removePointFromFirestore = async (timelineId, pointKey, currentUser
 
 export const removePeriodFromFirestore = async (timelineId, periodKey, currentUser) => {
   if (!timelineId || !periodKey || !currentUser) {
-    alert("Missing information to delete point.");
+    alert("Missing information to delete period.");
     return;
   }
   console.log(timelineId, periodKey)

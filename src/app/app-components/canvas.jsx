@@ -25,8 +25,8 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     description: point.description,
   }));
 
-  const periods = Object.values(timelineData.periods).map((period) => ({
-
+  const periods = Object.entries(timelineData.periods).map(([periodKey, period]) => ({
+    key: periodKey,
     startDate: new Date(period.startDate),
     endDate: new Date(period.endDate),
     label: period.title,

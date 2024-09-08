@@ -42,7 +42,7 @@ const DropdownMenu = React.memo(({ onSingleEventClick, onLongEventClick }) => {
               }}
             >
               <img src={singleEventIcon} alt="Single Event" />
-              Single event
+              Point in time
             </li>
             <li
               onClick={() => {
@@ -51,7 +51,7 @@ const DropdownMenu = React.memo(({ onSingleEventClick, onLongEventClick }) => {
               }}
             >
               <img src={multipleEventIcon} alt="Long Event" />
-              Long event
+              Period event
             </li>
           </ul>
         </div>
