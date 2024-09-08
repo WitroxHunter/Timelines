@@ -9,7 +9,7 @@ export const draw = (context, offset, scale, timelineWidth, points, periods, hov
     context.save();
     context.translate(offset.x, offset.y);
     context.scale(scale, scale);
-    console.log("uzyto draw")
+    //console.log("uzyto draw")
     drawTimelineEndLines(context, -6, 6);
     drawTimelineEndLines(context, timelineWidth + 6, -6);
   
@@ -20,34 +20,37 @@ export const draw = (context, offset, scale, timelineWidth, points, periods, hov
       drawPoint(context, point, isHovered, calculateXPosition(point.date));
     });
 
-    const calculateStackLevel = (currentPeriod, periods) => {
-      let level = 0;
-    
-      periods.forEach((period) => {
-        // Zainicjuj stackLevel, jeśli go nie ma
-        if (typeof period.stackLevel === "undefined") {
-          period.stackLevel = 0;
+    points.forEach((point) => {
+      const isHovered = hoveredPoint === point;
+      drawPoint(context, point, isHovered, calculateXPosition(point.date));
+    });
+
+    periods.sort((a, b) => a.startDate - b.startDate);
+
+    let layers = [];
+
+    periods.forEach((currentPeriod) => {
+      let assignedLayer = -1;
+
+      for (let i = 0; i < layers.length; i++) {
+        const layer = layers[i];
+        const conflict = layer.some(period =>
+          !(currentPeriod.endDate < period.startDate || currentPeriod.startDate > period.endDate)
+        );
+
+        if (!conflict) {
+          assignedLayer = i;
+          break;
         }
-    
-        if (period !== currentPeriod) {
-          const overlap = (
-            currentPeriod.startDate <= period.endDate &&
-            currentPeriod.endDate >= period.startDate
-          );
-    
-          // Only increase level if periods overlap
-          if (overlap) {
-            level = Math.max(level, period.stackLevel + 1);
-          }
-        }
-      });
-    
-      return level;
-    };
-    
-  
-    periods.forEach((period) => {
-      period.stackLevel = calculateStackLevel(period, periods);
+      }
+
+      if (assignedLayer === -1) {
+        assignedLayer = layers.length;
+        layers.push([]);
+      }
+
+      layers[assignedLayer].push(currentPeriod);
+      currentPeriod.stackLevel = assignedLayer;
     });
 
     periods.forEach((period) => {

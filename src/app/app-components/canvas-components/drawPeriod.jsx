@@ -4,14 +4,7 @@ export const drawPeriod = (context, period, calculateXPosition, stackLevel) => {
   const rectHeight = 25; // Height of the rectangle
   const paddingBetweenLevels = 7; // Space between stacked periods
 
-  // Adjust Y position based on stack level
-  let rectY = 0;
-  if(stackLevel > 0) {
-    rectY = -(3 + stackLevel * (rectHeight + paddingBetweenLevels)); 
-  } else {
-    rectY = -(35 + stackLevel * (rectHeight + paddingBetweenLevels)); 
-  }
-  console.log(`Rysowanie periodu na poziomie: ${stackLevel}, rectY: ${rectY} o kolorze ${period.color} o nazwie ${period.title}`);
+  let rectY = -(35 + stackLevel * (rectHeight + paddingBetweenLevels));
 
   const radius = 5; // Corner rounding radius
 

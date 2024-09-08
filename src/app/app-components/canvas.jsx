@@ -68,37 +68,49 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       const rect = canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-  
+    
       const adjustedX = (x - offset.x) / scale;
       const adjustedY = (y - offset.y) / scale;
-  
+    
       let clickedPoint = null;
       let clickedPeriod = null;
-  
-      // Sprawdzenie kliknięcia na punkt
-      points.forEach((point) => {
-        const xPosition = calculateXPosition(point.date);
-        const yPosition = 0;
-  
-        const distance = Math.sqrt(
-          Math.pow(adjustedX - xPosition, 2) + Math.pow(adjustedY - yPosition, 2)
-        );
-  
-        if (distance <= 5) {
-          clickedPoint = point;
-        }
-      });
-  
-      // Sprawdzenie kliknięcia na okres
-      periods.forEach((period) => {
+    
+      // Check period first
+      periods.forEach((period, index) => {
         const periodStartX = calculateXPosition(period.startDate);
         const periodEndX = calculateXPosition(period.endDate);
-  
-        if (adjustedX >= periodStartX && adjustedX <= periodEndX && adjustedY >= -40 && adjustedY <= -15) {
+    
+        const rectHeight = 25;
+        const paddingBetweenLevels = 7;
+    
+        const rectY = -(35 + index * (rectHeight + paddingBetweenLevels));
+    
+        if (
+          adjustedX >= periodStartX &&
+          adjustedX <= periodEndX &&
+          adjustedY >= rectY &&
+          adjustedY <= rectY + rectHeight
+        ) {
           clickedPeriod = period;
         }
       });
-  
+    
+      // Then check point
+      if (!clickedPeriod) {
+        points.forEach((point) => {
+          const xPosition = calculateXPosition(point.date);
+          const yPosition = 0;
+    
+          const distance = Math.sqrt(
+            Math.pow(adjustedX - xPosition, 2) + Math.pow(adjustedY - yPosition, 2)
+          );
+    
+          if (distance <= 5) {
+            clickedPoint = point;
+          }
+        });
+      }
+    
       if (clickedPoint) {
         console.log("Point clicked:", clickedPoint);
         setSelectedPoint(clickedPoint);
@@ -110,6 +122,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         setSelectedPeriod(null);
       }
     };
+    
   
     canvas.addEventListener("click", handleClick);
   
@@ -280,92 +293,92 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         currentUser={currentUser} 
         timelineId={timelineId}   
         toggleModal={() => setSelectedPoint(null)}
-      />
+      ></ModalPoint>
       <ModalPeriod
         isOpen={!!selectedPeriod}
         period={selectedPeriod}
         currentUser={currentUser}
         timelineId={timelineId}
         toggleModal={() => setSelectedPeriod(null)}
-      />
+      ></ModalPeriod>
       {/* Modal for Single Event */}
       <Modal isOpen={pointAddScreen} toggleModal={toggleSingleEventModal}>
-  <h1>Add Single Event</h1>
-  <div className="modal-grid">
-    <div className="modal-input-box">
-      <label>Title</label>
-      <input
-        className="modal-input"
-        type="text"
-        name="title"
-        value={pointTitle}
-        onChange={(e) => setPointTitle(e.target.value)}
-      />
-    </div>
+        <h1>Add Single Event</h1>
+        <div className="modal-grid">
+          <div className="modal-input-box">
+            <label>Title</label>
+            <input
+              className="modal-input"
+              type="text"
+              name="title"
+              value={pointTitle}
+              onChange={(e) => setPointTitle(e.target.value)}
+            />
+          </div>
 
-    <div className="modal-input-box">
-      <label>Starting date</label>
-      <div className="modal-input-container">
-        <img src={calendarIcon} className="modal-input-image" />
-        <input
-          className="modal-input"
-          type="date"
-          name="date"
-          value={pointDate}
-          onChange={(e) => setPointDate(e.target.value)}
-        />
-      </div>
-    </div>
+          <div className="modal-input-box">
+            <label>Starting date</label>
+            <div className="modal-input-container">
+              <img src={calendarIcon} className="modal-input-image" />
+              <input
+                className="modal-input"
+                type="date"
+                name="date"
+                value={pointDate}
+                onChange={(e) => setPointDate(e.target.value)}
+              />
+            </div>
+          </div>
 
-    <div className="modal-input-box">
-      <label>Description</label>
-      <textarea
-        className="modal-input"
-        name="desc"
-        value={pointDesc}
-        onChange={(e) => setPointDesc(e.target.value)}
-      />
-    </div>
+          <div className="modal-input-box">
+            <label>Description</label>
+            <textarea
+              className="modal-input"
+              name="desc"
+              value={pointDesc}
+              onChange={(e) => setPointDesc(e.target.value)}
+            />
+          </div>
 
-    <div className="modal-input-box">
-      <label>Color</label>
-        <div className="color-picker-box"><HexColorPicker color={pointColor} onChange={setPointColor} />
-        <input type="text" placeholder="#ffffff" value={pointColor} className="color-picker-input" onChange={(e) => setPointColor(e.target.value)}></input></div>
-        
-    </div>
+          <div className="modal-input-box">
+            <label>Color</label>
+              <div className="color-picker-box"><HexColorPicker color={pointColor} onChange={setPointColor} />
+              <input type="text" placeholder="#ffffff" value={pointColor} className="color-picker-input" onChange={(e) => setPointColor(e.target.value)}></input></div>
 
-    <div className="modal-input-box">
-      <button className="modal-button" onClick={toggleSingleEventModal}>
-        Cancel
-      </button>
-      <button
-        className="modal-button proceed-button"
-        onClick={() => {
-          const selectedDate = new Date(pointDate);
+          </div>
 
-          // Walidacja daty punktu
-          if (selectedDate < startDate || selectedDate > endDate) {
-            alert("Please enter a valid date within the timeline range.");
-            return;
-          }
-
-          // Dodaj punkt do Firestore
-          addPointToFirestore(
-            pointTitle,
-            pointDate,
-            pointDesc,
-            pointColor,
-            currentUser,
-            timelineId
-          );
-
-          toggleSingleEventModal();
-        }}
-      >
-        Proceed
-      </button>
-    </div>
-  </div>
+          <div className="modal-input-box">
+            <button className="modal-button" onClick={toggleSingleEventModal}>
+              Cancel
+            </button>
+            <button
+              className="modal-button proceed-button"
+              onClick={() => {
+                const selectedDate = new Date(pointDate);
+              
+                // Walidacja daty punktu
+                if (selectedDate < startDate || selectedDate > endDate) {
+                  alert("Please enter a valid date within the timeline range.");
+                  return;
+                }
+              
+                // Dodaj punkt do Firestore
+                addPointToFirestore(
+                  pointTitle,
+                  pointDate,
+                  pointDesc,
+                  pointColor,
+                  currentUser,
+                  timelineId
+                );
+              
+                toggleSingleEventModal();
+              }}
+            >
+              Proceed
+            </button>
+          </div>
+        </div>
       </Modal>
 
       {/* Modal for Long Event */}
