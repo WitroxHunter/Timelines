@@ -76,8 +76,25 @@ export const addPeriodToFirestore = async (
     }
   };
   
-export const changeNickname = async () => {
+export const changeTimelineName = async ( nickname, currentUser, timelineId,) => {
+    if (!nickname) {
+      alert("Enter a new name.");
+      return;
+    }
 
+    const uid = currentUser.uid;
+
+    try {
+      const userDocRef = doc(firestore, "users", uid);
+      await updateDoc(userDocRef, {
+        [`timelines.${timelineId}.title`]: nickname,
+      });
+  
+      console.log("Title changed succesfully!");
+  
+    } catch (error) {
+      console.error("Error changing nickname: ", error);
+    }
 }
 
 export const removePointFromFirestore = async (timelineId, pointKey, currentUser) => {
