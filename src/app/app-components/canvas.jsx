@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
+import { HexColorPicker, HexColorInput } from "react-colorful";
 
 import { draw } from "./canvas-components/draw";
 import { addPointToFirestore, addPeriodToFirestore } from "./canvas-components/firebaseUtils";
@@ -23,6 +24,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     date: new Date(point.date),
     label: point.title,
     description: point.description,
+    color: point.color
   }));
 
   const periods = Object.entries(timelineData.periods).map(([periodKey, period]) => ({
@@ -31,6 +33,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     endDate: new Date(period.endDate),
     label: period.title,
     description: period.description,
+    color: period.color
   }));
 
   const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
@@ -192,16 +195,17 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
 
   const [pointAddScreen, setPointAddScreen] = useState(false);
   const [longEventScreen, setLongEventScreen] = useState(false);
-  const [pointModalScreen, setPointModalScreen] = useState(false);
-
+  
   const [pointTitle, setPointTitle] = useState("");
   const [pointDate, setPointDate] = useState("");
   const [pointDesc, setPointDesc] = useState("");
+  const [pointColor, setPointColor] = useState("#0094FF");
 
   const [longEventTitle, setLongEventTitle] = useState("");
   const [longEventStartDate, setLongEventStartDate] = useState("");
   const [longEventEndDate, setLongEventEndDate] = useState("");
   const [longEventDesc, setLongEventDesc] = useState("");
+  const [periodColor, setPeriodColor] = useState("#FF007A");
 
   const toggleSingleEventModal = () => {
     setPointAddScreen(!pointAddScreen);
@@ -301,6 +305,13 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     </div>
 
     <div className="modal-input-box">
+      <label>Color</label>
+        <div className="color-picker-box"><HexColorPicker color={pointColor} onChange={setPointColor} />
+        <input type="text" placeholder="#ffffff" value={pointColor} className="color-picker-input" onChange={(e) => setPointColor(e.target.value)}></input></div>
+        
+    </div>
+
+    <div className="modal-input-box">
       <button className="modal-button" onClick={toggleSingleEventModal}>
         Cancel
       </button>
@@ -320,6 +331,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
             pointTitle,
             pointDate,
             pointDesc,
+            pointColor,
             currentUser,
             timelineId
           );
@@ -385,6 +397,12 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         onChange={(e) => setLongEventDesc(e.target.value)}
       />
     </div>
+    <div className="modal-input-box">
+      <label>Color</label>
+        <div className="color-picker-box"><HexColorPicker color={periodColor} onChange={setPeriodColor} />
+        <input type="text" placeholder="#ffffff" value={periodColor} className="color-picker-input" onChange={(e) => setPeriodColor(e.target.value)}></input></div>
+        
+    </div>
 
     <div className="modal-input-box">
       <button className="modal-button" onClick={toggleLongEventModal}>
@@ -412,6 +430,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
             longEventStartDate,
             longEventEndDate,
             longEventDesc,
+            periodColor,
             currentUser,
             timelineId
           );

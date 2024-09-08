@@ -11,7 +11,7 @@ export const drawPeriod = (context, period, calculateXPosition, stackLevel) => {
   } else {
     rectY = -(35 + stackLevel * (rectHeight + paddingBetweenLevels)); 
   }
-  console.log(`Rysowanie periodu na poziomie: ${stackLevel}, rectY: ${rectY}`);
+  console.log(`Rysowanie periodu na poziomie: ${stackLevel}, rectY: ${rectY} o kolorze ${period.color} o nazwie ${period.title}`);
 
   const radius = 5; // Corner rounding radius
 
@@ -27,7 +27,7 @@ export const drawPeriod = (context, period, calculateXPosition, stackLevel) => {
   context.quadraticCurveTo(startX, rectY, startX + radius, rectY);
   context.closePath();
 
-  context.fillStyle = "green";
+  context.fillStyle = period.color;
   context.fill();
 };
 

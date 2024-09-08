@@ -1,6 +1,6 @@
 export const drawPoint = (context, point, isHovered = false, xPosition) => {
     const yPosition = 0;
-    context.fillStyle = isHovered ? "blue" : "red";
+    context.fillStyle = isHovered ? "blue" : point.color;
     context.beginPath();
     context.arc(xPosition, yPosition, 5, 0, 2 * Math.PI);
     context.fill();

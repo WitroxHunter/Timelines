@@ -22,6 +22,7 @@ export default function ModalPeriod({ isOpen, toggleModal, period, currentUser, 
         <p>{period.description}</p>
         <p>{`From: ${formattedStartDate}`}</p>
         <p>{`To: ${formattedEndDate}`}</p>
+        <p>Period color:{period.color}</p>
         {children}
         <button className="modal-button" onClick={handleDelete}>
           Delete period

@@ -5,6 +5,7 @@ export const addPointToFirestore = async (
   pointTitle,
   pointDate,
   pointDesc,
+  pointColor,
   currentUser,
   timelineId,
 ) => {
@@ -20,6 +21,7 @@ export const addPointToFirestore = async (
     title: pointTitle,
     date: pointDate,
     description: pointDesc,
+    color: pointColor,
   };
 
   try {
@@ -41,6 +43,7 @@ export const addPeriodToFirestore = async (
     startPeriodDate,
     endPeriodDate,
     periodDesc,
+    periodColor,
     currentUser,
     timelineId,
   ) => {
@@ -57,6 +60,7 @@ export const addPeriodToFirestore = async (
       startDate: startPeriodDate,
       endDate: endPeriodDate,
       description: periodDesc,
+      color: periodColor,
     };
   
     try {
