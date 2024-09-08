@@ -110,6 +110,8 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   
     canvas.addEventListener("click", handleClick);
   
+
+    
     draw(
       context,
       offset,
