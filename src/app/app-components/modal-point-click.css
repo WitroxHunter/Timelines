@@ -77,14 +77,10 @@ input::file-selector-button {
 }
 
 .modal-content select {
-  -moz-appearance: none; /* Firefox  */
-  -webkit-appearance: none; /* Safari and Chrome */
+  -moz-appearance: none;
+  -webkit-appearance: none;
   appearance: none;
 }
-
-/* .modal-input-container:active .modal-input-image {
-    transform: rotateZ(180deg) translateY(50%);
-  } */
 
 .modal-input-image {
   position: absolute;
