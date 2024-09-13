@@ -43,15 +43,13 @@ img {
   height: 96%;
 }
 
-button {
+/* button {
   position: relative;
   user-select: none;
   font-family: "Source Sans 3", sans-serif;
-  /* font-weight: 500; */
   font-size: 16px;
 
   padding: 3px 6px;
-  /* margin-right: 3px; */
 
   cursor: pointer;
   border: none;
@@ -68,7 +66,7 @@ button {
 
 button:hover {
   background-color: #333;
-}
+} */
 
 .add-button-dropdown {
   position: absolute;
@@ -176,7 +174,6 @@ button:hover {
   gap: 3px;
   text-wrap: nowrap;
   list-style-type: none;
-  /* font-weight: 500; */
 }
 
 .header-dropdown-menu ul li {

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./sign-up.css";
+import "./sign-up-login.css";
+
 import Logo from "../assets/images/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -57,7 +58,7 @@ export default function SignUp() {
 
   return (
     <>
-      <div className="main-signup">
+      <div className="main-signup-login">
         <img src={Logo} className="logo" alt="Logo" />
         <h1>Create account</h1>
         <form onSubmit={handleSubmit}>
@@ -100,14 +101,16 @@ export default function SignUp() {
               <span className="blue-font"> Log in</span>
             </Link>
           </p>
-          <input type="submit" className="submit-button" value="Submit" />
+          <button type="submit" className="button-submit">
+            Sign Up
+          </button>
           <div className="divider">
             <div className="divider-line"></div>
             <div>OR</div>
             <div className="divider-line"></div>
           </div>
           <button
-            className="button-google"
+            className="button-alternative"
             onClick={onGoogleSignIn}
             disabled={isSigningIn}
           >

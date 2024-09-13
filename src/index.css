@@ -15,6 +15,7 @@
   --UIbackground: #242424;
   --UIcoolblue: #0094ff;
   /* --UIcoolblue: #00a6ed; */
+  --UIlightgray: #eee;
 
   --FontSizeSmall: 14px;
 }
@@ -57,4 +58,77 @@ a {
 .footer {
   text-align: center;
   font-size: 14px;
+}
+
+/*---------------------BUTTON---------------------*/
+/*---------------------BUTTON---------------------*/
+/*---------------------BUTTON---------------------*/
+
+button {
+  user-select: none;
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  background: none;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: var(--UIlightgray) 2px solid;
+
+  transition: 0.1s;
+}
+button:hover {
+  background-color: var(--UIlightgray);
+  color: #000;
+}
+
+button.button-submit {
+  border: var(--UIcoolblue) 2px solid;
+}
+button.button-submit:hover {
+  background-color: var(--UIcoolblue);
+}
+
+button.button-alternative {
+  user-select: none;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  width: 100%;
+  margin: 5px 0;
+}
+button.button-alternative:hover {
+  background-color: #262626;
+  color: #fff;
+}
+
+.button-header {
+  position: relative;
+  width: fit-content;
+  font-family: "Source Sans 3", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+
+  margin: 3px;
+  padding: 3px 6px;
+
+  border: none;
+  border-radius: 3px;
+  background-color: #222;
+  color: white;
+
+  transition: 0.1s;
+}
+
+/*---------------------BUTTON END---------------------*/
+/*---------------------BUTTON END---------------------*/
+/*---------------------BUTTON END---------------------*/
+
+.blue-font {
+  color: var(--UIcoolblue);
 }

@@ -195,7 +195,9 @@ function Dashboard() {
           <img src={logo} style={{ width: 24 }} alt="Logo" />
           <div>Timelines</div>
         </div>
-        <button onClick={handleLogout}>Log Out</button>
+        <button className="button-header" onClick={handleLogout}>
+          Log Out
+        </button>
       </Header>
       <div className="dashboard-wrapper">
         <div className="dashboard-user">

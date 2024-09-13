@@ -1,4 +1,4 @@
-.main-login {
+.main-signup-login {
   background: linear-gradient(90deg, #111 0%, #000 50%, #111 100%);
 
   display: flex;
@@ -19,28 +19,11 @@
   font-size: var(--FontSizeSmall);
 }
 
-.blue-font {
-  color: var(--UIcoolblue);
-}
-
-.submit-button {
-  user-select: none;
-  font-family: "Source Sans 3", sans-serif;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  background: none;
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: var(--UIcoolblue) 2px solid;
-
-  transition: 0.2s;
-}
-
-.submit-button:hover {
-  background-color: var(--UIcoolblue);
-  color: #000;
+.input {
+  background-color: var(--UIbackground);
+  border-radius: 15px;
+  width: 250px;
+  height: 25px;
 }
 
 .input-box {
@@ -66,24 +49,6 @@ select,
 
 input:focus {
   border-radius: 10px;
-}
-
-.button-google {
-  user-select: none;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  cursor: pointer;
-  width: 100%;
-  margin: 5px 0;
-}
-
-.button-google:hover {
-  background-color: #262626;
-  /* color: #000; */
 }
 
 .divider {

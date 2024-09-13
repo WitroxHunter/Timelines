@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "./sign-up-login.css";
+
 import { Navigate, Link } from "react-router-dom";
 import {
   doSignInWithEmailAndPassword,
@@ -6,7 +8,6 @@ import {
   doPasswordReset,
 } from "../firebase/auth";
 import { useAuth } from "../contexts/authContext";
-import "./login.css";
 
 import Logo from "../assets/images/Logo.png";
 import GoogleLogo from "../assets/images/Google__G__logo.svg";
@@ -67,7 +68,7 @@ export default function Login() {
 
   return (
     <>
-      <div className="main-login">
+      <div className="main-signup-login">
         <img src={Logo} className="logo" alt="Logo" />
         <h1>Welcome back</h1>
         {errorMessage && (
@@ -78,7 +79,6 @@ export default function Login() {
         )}
         <form onSubmit={onSubmit}>
           <div className="input-box">
-            {/* <label className="label">Email</label> */}
             <input
               type="email"
               value={email}
@@ -88,7 +88,6 @@ export default function Login() {
             />
           </div>
           <div className="input-box">
-            {/* <label className="label">Password</label> */}
             <input
               type="password"
               value={password}
@@ -108,7 +107,7 @@ export default function Login() {
             </span>
           </p>
           <button
-            className="submit-button"
+            className="button-submit"
             type="submit"
             disabled={isSigningIn}
           >
@@ -126,7 +125,7 @@ export default function Login() {
             <div className="divider-line"></div>
           </div>
           <button
-            className="button-google"
+            className="button-alternative"
             onClick={onGoogleSignIn}
             disabled={isSigningInWithGoogle}
           >

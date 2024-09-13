@@ -34,11 +34,13 @@ const HeaderButton = (props, { children }) => {
 
   return (
     <div className="header-button-dropdown" ref={menuRef}>
-      <button onClick={toggleMenu}>{props.buttonName}</button>
+      <button className="button-header" onClick={toggleMenu}>
+        {props.buttonName}
+      </button>
 
       {isOpen && (
         <div className="header-dropdown-menu">
-          <ul>{props.children}</ul>
+          <ul>{children}</ul>
         </div>
       )}
     </div>
@@ -100,7 +102,7 @@ function TimelinesApp() {
                 : currentUser.email}
             </label> */}
             <Link to="/Timelines/app" style={{ display: "flex" }}>
-              <button>
+              <button className="button-header">
                 <img src={homeIcon} />
               </button>
             </Link>
@@ -117,14 +119,6 @@ function TimelinesApp() {
               <li>Export image</li>
               <div className="dropdown-line-divider" />
               <li>Close file</li>
-              {/* <div className="dropdown-line-divider" />
-              <li>
-                <img
-                  src={smileyIcon}
-                  style={{ width: 16, filter: "grayscale(1) contrast(3)" }}
-                />
-                &nbsp; Wpierdol 2
-              </li> */}
             </HeaderButton>
             <HeaderButton buttonName="Edit">
               <li>Undo</li>
