@@ -5,9 +5,12 @@ import { draw } from "./canvas-components/draw";
 import { addPointToFirestore, addPeriodToFirestore, changeTimelineName } from "./canvas-components/firebaseUtils";
 import DropdownMenu from "./canvas-components/dropdownMenu";
 
-import ModalPoint from "./modal-point-click";
+
 import Modal from "./modal";
 import ModalPeriod from "./modal-period-click";
+import AddPeriodModal from "./canvas-components/addPeriodModal";
+import ModalPoint from "./modal-point-click";
+import AddPointModal from "./canvas-components/addPointModal";
 
 import editIcon from "../../assets/icons/edit.svg";
 import calendarIcon from "../../assets/icons/calendar-event.svg";
@@ -301,184 +304,26 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         timelineId={timelineId}
         toggleModal={() => setSelectedPeriod(null)}
       ></ModalPeriod>
-      {/* Modal for Single Event */}
-      <Modal isOpen={pointAddScreen} toggleModal={toggleSingleEventModal}>
-        <h1>Add Single Event</h1>
-        <div className="modal-grid">
-          <div className="modal-input-box">
-            <label>Title</label>
-            <input
-              className="modal-input"
-              type="text"
-              name="title"
-              value={pointTitle}
-              onChange={(e) => setPointTitle(e.target.value)}
-            />
-          </div>
+      {/* Modal for adding point */}
+      <AddPointModal
+        isOpen={pointAddScreen}
+        toggleModal={toggleSingleEventModal}
+        currentUser={currentUser}
+        timelineId={timelineId}
+        startDate={startDate}
+        endDate={endDate}
+      />
 
-          <div className="modal-input-box">
-            <label>Starting date</label>
-            <div className="modal-input-container">
-              <img src={calendarIcon} className="modal-input-image" />
-              <input
-                className="modal-input"
-                type="date"
-                name="date"
-                value={pointDate}
-                onChange={(e) => setPointDate(e.target.value)}
-              />
-            </div>
-          </div>
 
-          <div className="modal-input-box">
-            <label>Description</label>
-            <textarea
-              className="modal-input"
-              name="desc"
-              value={pointDesc}
-              onChange={(e) => setPointDesc(e.target.value)}
-            />
-          </div>
-
-          <div className="modal-input-box">
-            <label>Color</label>
-              <div className="color-picker-box"><HexColorPicker color={pointColor} onChange={setPointColor} />
-              <input type="text" placeholder="#ffffff" value={pointColor} className="color-picker-input" onChange={(e) => setPointColor(e.target.value)}></input></div>
-
-          </div>
-
-          <div className="modal-input-box">
-            <button className="modal-button" onClick={toggleSingleEventModal}>
-              Cancel
-            </button>
-            <button
-              className="modal-button proceed-button"
-              onClick={() => {
-                const selectedDate = new Date(pointDate);
-              
-                // Walidacja daty punktu
-                if (selectedDate < startDate || selectedDate > endDate) {
-                  alert("Please enter a valid date within the timeline range.");
-                  return;
-                }
-              
-                // Dodaj punkt do Firestore
-                addPointToFirestore(
-                  pointTitle,
-                  pointDate,
-                  pointDesc,
-                  pointColor,
-                  currentUser,
-                  timelineId
-                );
-              
-                toggleSingleEventModal();
-              }}
-            >
-              Proceed
-            </button>
-          </div>
-        </div>
-      </Modal>
-
-      {/* Modal for Long Event */}
-      <Modal isOpen={longEventScreen} toggleModal={toggleLongEventModal}>
-        <h1>Add Long Event</h1>
-        <div className="modal-grid">
-          <div className="modal-input-box">
-            <label>Title</label>
-            <input
-              className="modal-input"
-              type="text"
-              name="longEventTitle"
-              value={longEventTitle}
-              onChange={(e) => setLongEventTitle(e.target.value)}
-            />
-          </div>
-
-          <div className="modal-input-box">
-            <label>Starting date</label>
-            <div className="modal-input-container">
-              <img src={calendarIcon} className="modal-input-image" />
-              <input
-                className="modal-input"
-                type="date"
-                name="longEventStartDate"
-                value={longEventStartDate}
-                onChange={(e) => setLongEventStartDate(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="modal-input-box">
-            <label>Ending Date</label>
-            <div className="modal-input-container">
-              <img src={calendarIcon} className="modal-input-image" />
-              <input
-                className="modal-input"
-                type="date"
-                name="longEventEndDate"
-                value={longEventEndDate}
-                onChange={(e) => setLongEventEndDate(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="modal-input-box">
-            <label>Description</label>
-            <textarea
-              className="modal-input"
-              name="longEventDesc"
-              value={longEventDesc}
-              onChange={(e) => setLongEventDesc(e.target.value)}
-            />
-          </div>
-          <div className="modal-input-box">
-            <label>Color</label>
-              <div className="color-picker-box"><HexColorPicker color={periodColor} onChange={setPeriodColor} />
-              <input type="text" placeholder="#ffffff" value={periodColor} className="color-picker-input" onChange={(e) => setPeriodColor(e.target.value)}></input></div>
-
-          </div>
-
-          <div className="modal-input-box">
-            <button className="modal-button" onClick={toggleLongEventModal}>
-              Cancel
-            </button>
-            <button
-              className="modal-button proceed-button"
-              onClick={() => {
-                const startDateEvent = new Date(longEventStartDate);
-                const endDateEvent = new Date(longEventEndDate);
-              
-                // Walidacja daty okresu
-                if (
-                  startDateEvent < startDate ||
-                  endDateEvent > endDate ||
-                  startDateEvent > endDateEvent
-                ) {
-                  alert("Please enter valid start and end dates within the timeline range.");
-                  return;
-                }
-              
-                // Dodaj okres do Firestore
-                addPeriodToFirestore(
-                  longEventTitle,
-                  longEventStartDate,
-                  longEventEndDate,
-                  longEventDesc,
-                  periodColor,
-                  currentUser,
-                  timelineId
-                );
-              
-                toggleLongEventModal();
-              }}
-            >
-              Proceed
-            </button>
-          </div>
-        </div>
-      </Modal>
+      {/* Modal for adding period */}
+      <AddPeriodModal
+        isOpen={longEventScreen}
+        toggleModal={toggleLongEventModal}
+        timelineStartDate={startDate}
+        timelineEndDate={endDate}
+        currentUser={currentUser}
+        timelineId={timelineId}
+      />
     </div>
   );
 }
