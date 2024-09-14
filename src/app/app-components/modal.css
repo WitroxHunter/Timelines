@@ -65,7 +65,6 @@ textarea.modal-input {
 }
 
 input::file-selector-button {
-  /* Uwielbiam, jak to nie jest uznawane przez VSC jako element html */
   font-family: "Source Sans 3", sans-serif;
   font-weight: 500;
 }
@@ -77,14 +76,10 @@ input::file-selector-button {
 }
 
 .modal-content select {
-  -moz-appearance: none; /* Firefox  */
-  -webkit-appearance: none; /* Safari and Chrome */
+  -moz-appearance: none;
+  -webkit-appearance: none;
   appearance: none;
 }
-
-/* .modal-input-container:active .modal-input-image {
-  transform: rotateZ(180deg) translateY(50%);
-} */
 
 .modal-input-image {
   position: absolute;

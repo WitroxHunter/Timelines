@@ -138,8 +138,6 @@ button:hover {
   background-color: var(--UIcoolblue);
 }
 
-/*zastrzel.mp4*/
-
 .header-option-buttons {
   display: flex;
   flex-direction: row;
