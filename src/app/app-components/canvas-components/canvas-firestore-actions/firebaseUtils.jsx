@@ -1,5 +1,5 @@
 import { doc, updateDoc, deleteField } from "firebase/firestore";
-import { firestore } from "../../../firebase/firebase";
+import { firestore } from "../../../../firebase/firebase";
 
 export const addPointToFirestore = async (
   pointTitle,

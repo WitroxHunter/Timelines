@@ -1,6 +1,6 @@
 import React from "react";
 import "./modal.css";
-import { removePeriodFromFirestore } from "./canvas-components/firebaseUtils";
+import { removePeriodFromFirestore } from "./canvas-components/canvas-firestore-actions/firebaseUtils";
 
 export default function ModalPeriod({
   isOpen,

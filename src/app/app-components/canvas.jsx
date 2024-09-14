@@ -4,8 +4,8 @@ import DropdownMenu from "./canvas-components/dropdownMenu";
 import TimelineTitleEditor from "./canvas-components/canvas-firestore-actions/timelineTitleEditor";
 import ModalPoint from "./modal-point-click";
 import ModalPeriod from "./modal-period-click";
-import AddPointModal from "./canvas-components/addPointModal";
-import AddPeriodModal from "./canvas-components/addPeriodModal";
+import AddPointModal from "./canvas-components/canvas-firestore-actions/addPointModal";
+import AddPeriodModal from "./canvas-components/canvas-firestore-actions/addPeriodModal";
 
 export default function Canvas({ timelineData, currentUser, timelineId }) {
   const canvasRef = useRef(null);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import Modal from "../modal";
-import calendarIcon from "../../../assets/icons/calendar-event.svg";
+import Modal from "../../modal";
+import calendarIcon from "../../../../assets/icons/calendar-event.svg";
 import { addPointToFirestore } from "./firebaseUtils";
 
 export default function AddPointModal({

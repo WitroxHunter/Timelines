@@ -1,6 +1,6 @@
 import React from "react";
 import "./modal.css";
-import { removePointFromFirestore } from "./canvas-components/firebaseUtils";
+import { removePointFromFirestore } from "./canvas-components/canvas-firestore-actions/firebaseUtils";
 
 export default function ModalPoint({
   isOpen,
