@@ -40,7 +40,7 @@ const HeaderButton = (props, { children }) => {
 
       {isOpen && (
         <div className="header-dropdown-menu">
-          <ul>{children}</ul>
+          <ul>{props.children}</ul>
         </div>
       )}
     </div>
