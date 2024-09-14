@@ -4,6 +4,7 @@ import { HexColorPicker } from "react-colorful";
 import { draw } from "./canvas-components/draw";
 import { addPointToFirestore, addPeriodToFirestore, changeTimelineName } from "./canvas-components/firebaseUtils";
 import DropdownMenu from "./canvas-components/dropdownMenu";
+import TimelineTitleEditor from "./canvas-components/canvas-firestore-actions/timelineTitleEditor";
 
 
 import Modal from "./modal";
@@ -209,49 +210,12 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     setScale((prevScale) => Math.max(0.1, prevScale * scaleAmount));
   }, []);
 
-  const [pointAddScreen, setPointAddScreen] = useState(false);
-  const [longEventScreen, setLongEventScreen] = useState(false);
+  const [showModal, setShowModal] = useState({ point: false, period: false });
 
-  const [pointTitle, setPointTitle] = useState("");
-  const [pointDate, setPointDate] = useState("");
-  const [pointDesc, setPointDesc] = useState("");
-  const [pointColor, setPointColor] = useState("#0094FF");
-
-  const [longEventTitle, setLongEventTitle] = useState("");
-  const [longEventStartDate, setLongEventStartDate] = useState("");
-  const [longEventEndDate, setLongEventEndDate] = useState("");
-  const [longEventDesc, setLongEventDesc] = useState("");
-  const [periodColor, setPeriodColor] = useState("#FF007A");
-
-  const [changeTimelineTitle, setChangeTimelineTitle] = useState(false);
   const [timelineTitle, setTimelineTitle] = useState(timelineData.title)
 
-  const titleInputRef = useRef(null);
-
-  const handleSaveTitle = () => {
-    setChangeTimelineTitle(false);
-    if (timelineTitle !== timelineData.title) {
-      changeTimelineName(timelineTitle, currentUser, timelineId);
-    }
-  };
-
-  const toggleSingleEventModal = () => {
-    setPointAddScreen(!pointAddScreen);
-    if (!pointAddScreen) {
-      setPointTitle("");
-      setPointDate("");
-      setPointDesc("");
-    }
-  };
-
-  const toggleLongEventModal = () => {
-    setLongEventScreen(!longEventScreen);
-    if (!longEventScreen) {
-      setLongEventTitle("");
-      setLongEventStartDate("");
-      setLongEventEndDate("");
-      setLongEventDesc("");
-    }
+  const toggleModal = (type) => {
+    setShowModal((prev) => ({ ...prev, [type]: !prev[type] }));
   };
 
   return (
@@ -259,21 +223,13 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       className="canvas-box"
       style={{ overflow: "hidden", position: "relative" }}
     >
-        <div className="opened-timeline-file-name" onClick={() => setChangeTimelineTitle(true)}>
-          {changeTimelineTitle ? (
-            <input
-              ref={titleInputRef}
-              className="edit-timeline-title-input"
-              value={timelineTitle}
-              onChange={(e) => setTimelineTitle(e.target.value)}
-              onBlur={handleSaveTitle}
-              autoFocus
-            />
-          ) : (
-            <div>{timelineData.title}</div>
-          )}
-          <img src={editIcon} alt="Edit Icon" />
-      </div>
+      <TimelineTitleEditor
+        timelineTitle={timelineTitle}
+        setTimelineTitle={setTimelineTitle}
+        timelineData={timelineData}
+        currentUser={currentUser}
+        timelineId={timelineId}
+      />
       <canvas
         className="canvas"
         ref={canvasRef}
@@ -285,8 +241,8 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       ></canvas>
 
       <DropdownMenu
-        onSingleEventClick={toggleSingleEventModal}
-        onLongEventClick={toggleLongEventModal}
+        onSingleEventClick={() => toggleModal("point")}
+        onLongEventClick={() => toggleModal("period")}
       />
 
       {/* Modal for clicking on point */}
@@ -297,6 +253,8 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         timelineId={timelineId}   
         toggleModal={() => setSelectedPoint(null)}
       ></ModalPoint>
+
+      {/* Modal for clicking on period */}
       <ModalPeriod
         isOpen={!!selectedPeriod}
         period={selectedPeriod}
@@ -304,21 +262,21 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         timelineId={timelineId}
         toggleModal={() => setSelectedPeriod(null)}
       ></ModalPeriod>
+
       {/* Modal for adding point */}
       <AddPointModal
-        isOpen={pointAddScreen}
-        toggleModal={toggleSingleEventModal}
+        isOpen={showModal.point}
+        toggleModal={() => toggleModal("point")}
         currentUser={currentUser}
         timelineId={timelineId}
         startDate={startDate}
         endDate={endDate}
       />
 
-
       {/* Modal for adding period */}
       <AddPeriodModal
-        isOpen={longEventScreen}
-        toggleModal={toggleLongEventModal}
+        isOpen={showModal.period}
+        toggleModal={() => toggleModal("period")}
         timelineStartDate={startDate}
         timelineEndDate={endDate}
         currentUser={currentUser}
