@@ -94,16 +94,10 @@ function TimelinesApp() {
     <>
       <div className="main horizontal-gradient">
         <Header>
-          <div className="header-option-buttons">
-            {/* Witaj{" "}
-            <label className="username">
-              {currentUser.displayName
-                ? currentUser.displayName
-                : currentUser.email}
-            </label> */}
+          <div className="header-buttons-wrapper">
             <Link to="/Timelines/app" style={{ display: "flex" }}>
               <button className="button-header">
-                <img src={homeIcon} />
+                <img className="header-home-icon" src={homeIcon} />
               </button>
             </Link>
 
@@ -146,10 +140,6 @@ function TimelinesApp() {
               {/* <div className="dropdown-line-divider" /> */}
             </HeaderButton>
           </div>
-
-          {/* <button onClick={handleLogout} className="logout-button">
-            Log Out
-          </button> */}
         </Header>
 
         <Canvas

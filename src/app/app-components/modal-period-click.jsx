@@ -1,12 +1,23 @@
 import React from "react";
-import "./modal-period-click.css";
-import { removePeriodFromFirestore } from "./canvas-components/firebaseUtils"; 
+import "./modal.css";
+import { removePeriodFromFirestore } from "./canvas-components/firebaseUtils";
 
-export default function ModalPeriod({ isOpen, toggleModal, period, currentUser, timelineId, children }) {
+export default function ModalPeriod({
+  isOpen,
+  toggleModal,
+  period,
+  currentUser,
+  timelineId,
+  children,
+}) {
   if (!isOpen || !period) return null;
 
-  const formattedStartDate = `${period.startDate.getDate()}-${period.startDate.getMonth() + 1}-${period.startDate.getFullYear()}`;
-  const formattedEndDate = `${period.endDate.getDate()}-${period.endDate.getMonth() + 1}-${period.endDate.getFullYear()}`;
+  const formattedStartDate = `${period.startDate.getDate()}-${
+    period.startDate.getMonth() + 1
+  }-${period.startDate.getFullYear()}`;
+  const formattedEndDate = `${period.endDate.getDate()}-${
+    period.endDate.getMonth() + 1
+  }-${period.endDate.getFullYear()}`;
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this period?")) {

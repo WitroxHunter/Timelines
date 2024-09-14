@@ -1,11 +1,20 @@
 import React from "react";
-import "./modal-point-click.css";
+import "./modal.css";
 import { removePointFromFirestore } from "./canvas-components/firebaseUtils";
 
-export default function ModalPoint({ isOpen, toggleModal, point, currentUser, timelineId, children }) {
+export default function ModalPoint({
+  isOpen,
+  toggleModal,
+  point,
+  currentUser,
+  timelineId,
+  children,
+}) {
   if (!isOpen || !point) return null;
 
-  const formattedDate = `${point.date.getDate()}-${point.date.getMonth() + 1}-${point.date.getFullYear()}`;
+  const formattedDate = `${point.date.getDate()}-${
+    point.date.getMonth() + 1
+  }-${point.date.getFullYear()}`;
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this point?")) {

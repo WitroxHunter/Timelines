@@ -60,6 +60,12 @@ a {
   font-size: 14px;
 }
 
+img {
+  user-select: none;
+  display: flex;
+  transition: 0.1s;
+}
+
 /*---------------------BUTTON---------------------*/
 /*---------------------BUTTON---------------------*/
 /*---------------------BUTTON---------------------*/
@@ -114,15 +120,17 @@ button.button-alternative:hover {
   font-weight: 500;
   font-size: 16px;
 
-  margin: 3px;
+  margin: 0 3px;
   padding: 3px 6px;
 
   border: none;
   border-radius: 3px;
-  background-color: #222;
   color: white;
 
   transition: 0.1s;
+}
+.button-header:hover img {
+  filter: invert(1);
 }
 
 /*---------------------BUTTON END---------------------*/
