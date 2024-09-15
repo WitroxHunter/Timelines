@@ -2,7 +2,7 @@ export const drawPeriod = (context, period, calculateXPosition, stackLevel) => {
   const startX = calculateXPosition(period.startDate);
   const endX = calculateXPosition(period.endDate);
   const rectHeight = 25; // Height of the rectangle
-  const paddingBetweenLevels = 7; // Space between stacked periods
+  const paddingBetweenLevels = 5; // Space between stacked periods
 
   let rectY = -(35 + stackLevel * (rectHeight + paddingBetweenLevels));
 
