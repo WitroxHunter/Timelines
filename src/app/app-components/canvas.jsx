@@ -30,18 +30,23 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     color: period.color
   }));
 
+  /*
   const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
   const pixelsPerDay = 10;
   const timelineWidth = totalDays * pixelsPerDay;
+*/
+
+const timelineWidth = window.innerWidth - 300;  // Ustaw szerokość timeline na szerokość okna
 
   const { offset, scale, handleMouseDown, handleMouseUp, handleMouseMove, handleWheel, isDragging } =
     useCanvasInteractions(timelineWidth);
 
-  const calculateXPosition = (date) => {
-    const totalDuration = endDate - startDate;
-    const currentDuration = date - startDate;
-    return (currentDuration / totalDuration) * timelineWidth;
-  };
+    const calculateXPosition = (date) => {
+      const totalDuration = endDate - startDate;
+      const currentDuration = date - startDate;
+      return (currentDuration / totalDuration) * timelineWidth;  // Proporcja do szerokości ekranu
+    };
+    
 
   const { selectedPoint, setSelectedPoint, selectedPeriod, setSelectedPeriod } =
     useCanvasClickHandler(canvasRef, points, periods, offset, scale, calculateXPosition);

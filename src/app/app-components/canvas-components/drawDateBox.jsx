@@ -1,8 +1,8 @@
 export const drawDateBox = (context, date, xPosition, timelineWidth, alignRight = false) => {
     const yPosition = 0;
-    const textMargin = 7;
+    const textMargin = 8;
     const borderRadius = 5;
-    const boxMargin = 10;
+    const boxMargin = 15;
   
     const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
   
