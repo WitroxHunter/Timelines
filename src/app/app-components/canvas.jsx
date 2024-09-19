@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useCanvasInteractions, useCanvasClickHandler, useCanvasHoverHandler, useCanvasDraw } from "./canvas-components/canvasHooks";
 import DropdownMenu from "./canvas-components/dropdownMenu";
 import TimelineTitleEditor from "./canvas-components/canvas-firestore-actions/timelineTitleEditor";
@@ -44,22 +44,54 @@ const timelineWidth = window.innerWidth - 300;  // Ustaw szerokość timeline na
     const calculateXPosition = (date) => {
       const totalDuration = endDate - startDate;
       const currentDuration = date - startDate;
-      return (currentDuration / totalDuration) * timelineWidth;  // Proporcja do szerokości ekranu
+      return (currentDuration / totalDuration) * timelineWidth;  // Dynamiczna szerokość timeline
     };
     
+      // Funkcja do obliczania warstw dla periodów
+  const calculatePeriodLayers = (periods) => {
+    let layers = [];
+
+    periods.forEach((currentPeriod) => {
+      let assignedLayer = -1;
+
+      for (let i = 0; i < layers.length; i++) {
+        const layer = layers[i];
+        const conflict = layer.some(period =>
+          !(currentPeriod.endDate < period.startDate || currentPeriod.startDate > period.endDate)
+        );
+
+        if (!conflict) {
+          assignedLayer = i;
+          break;
+        }
+      }
+
+      if (assignedLayer === -1) {
+        assignedLayer = layers.length;
+        layers.push([]);
+      }
+
+      layers[assignedLayer].push(currentPeriod);
+      currentPeriod.stackLevel = assignedLayer;
+    });
+
+    return periods;
+  };
+
+  // Obliczanie warstw dla periodów
+  const periodsWithLayers = calculatePeriodLayers(periods);
 
   const { selectedPoint, setSelectedPoint, selectedPeriod, setSelectedPeriod } =
-    useCanvasClickHandler(canvasRef, points, periods, offset, scale, calculateXPosition);
+    useCanvasClickHandler(canvasRef, points, periodsWithLayers, offset, scale, calculateXPosition);
 
   const { hoveredPoint, handleMouseMove: handleHoverMove } =
     useCanvasHoverHandler(canvasRef, points, offset, scale, calculateXPosition);
 
-  useCanvasDraw(canvasRef, offset, scale, timelineWidth, points, periods, hoveredPoint, startDate, endDate, calculateXPosition);
-
+  useCanvasDraw(canvasRef, offset, scale, timelineWidth, points, periodsWithLayers, hoveredPoint, startDate, endDate, calculateXPosition);
 
   const [showModal, setShowModal] = useState({ point: false, period: false });
 
-  const [timelineTitle, setTimelineTitle] = useState(timelineData.title)
+  const [timelineTitle, setTimelineTitle] = useState(timelineData.title);
 
   const toggleModal = (type) => {
     setShowModal((prev) => ({ ...prev, [type]: !prev[type] }));

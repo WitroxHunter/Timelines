@@ -25,38 +25,10 @@ export const draw = (context, offset, scale, timelineWidth, points, periods, hov
       drawPoint(context, point, isHovered, calculateXPosition(point.date));
     });
 
-    periods.sort((a, b) => a.startDate - b.startDate);
 
-    let layers = [];
-
-    periods.forEach((currentPeriod) => {
-      let assignedLayer = -1;
-
-      for (let i = 0; i < layers.length; i++) {
-        const layer = layers[i];
-        const conflict = layer.some(period =>
-          !(currentPeriod.endDate < period.startDate || currentPeriod.startDate > period.endDate)
-        );
-
-        if (!conflict) {
-          assignedLayer = i;
-          break;
-        }
-      }
-
-      if (assignedLayer === -1) {
-        assignedLayer = layers.length;
-        layers.push([]);
-      }
-
-      layers[assignedLayer].push(currentPeriod);
-      currentPeriod.stackLevel = assignedLayer;
-    });
-
-    periods.forEach((period) => {
-      drawPeriod(context, period, calculateXPosition, period.stackLevel);
-    });
-    
+periods.forEach((period) => {
+  drawPeriod(context, period, calculateXPosition, period.stackLevel);
+});
   
     const dateBoxMargin = 65;
     drawDateBox(context, startDate, 0 - dateBoxMargin, timelineWidth);

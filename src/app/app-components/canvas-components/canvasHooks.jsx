@@ -69,9 +69,9 @@ export const useCanvasClickHandler = (canvasRef, points, periods, offset, scale,
         const periodStartX = calculateXPosition(period.startDate);
         const periodEndX = calculateXPosition(period.endDate);
         const rectHeight = 25;
-        const paddingBetweenLevels = 7;
-        const rectY = -(35 + index * (rectHeight + paddingBetweenLevels));
-
+        const paddingBetweenLevels = 5;
+        const rectY = -(35 + period.stackLevel * (rectHeight + paddingBetweenLevels));
+      
         if (
           adjustedX >= periodStartX &&
           adjustedX <= periodEndX &&
@@ -81,6 +81,7 @@ export const useCanvasClickHandler = (canvasRef, points, periods, offset, scale,
           clickedPeriod = period;
         }
       });
+      
 
       // Check points if no period clicked
       if (!clickedPeriod) {
@@ -118,8 +119,9 @@ export const useCanvasClickHandler = (canvasRef, points, periods, offset, scale,
 };
 
 // Hook for handling hover effect over points
-export const useCanvasHoverHandler = (canvasRef, points, offset, scale, calculateXPosition) => {
+export const useCanvasHoverHandler = (canvasRef, points, periods, offset, scale, calculateXPosition) => {
   const [hoveredPoint, setHoveredPoint] = useState(null);
+  const [hoveredPeriod, setHoveredPeriod] = useState(null); // Nowa zmienna dla okresów
 
   const handleMouseMove = (e) => {
     if (!canvasRef.current) return;
@@ -133,7 +135,9 @@ export const useCanvasHoverHandler = (canvasRef, points, offset, scale, calculat
 
     let isHovered = false;
     let newHoveredPoint = null;
+    let newHoveredPeriod = null; // Zmienna dla okresów
 
+    // Sprawdź punkty
     points.forEach((point) => {
       const xPosition = calculateXPosition(point.date);
       const yPosition = 0;
@@ -149,12 +153,38 @@ export const useCanvasHoverHandler = (canvasRef, points, offset, scale, calculat
       }
     });
 
+    // Sprawdź periody, jeśli nie ma najechanego punktu
+    if (!newHoveredPoint) {
+      periods.forEach((period) => {
+        const periodStartX = calculateXPosition(period.startDate);
+        const periodEndX = calculateXPosition(period.endDate);
+        const rectHeight = 25;
+        const paddingBetweenLevels = 5;
+        const rectY = -(35 + period.stackLevel * (rectHeight + paddingBetweenLevels));
+
+        if (
+          adjustedX >= periodStartX &&
+          adjustedX <= periodEndX &&
+          adjustedY >= rectY &&
+          adjustedY <= rectY + rectHeight
+        ) {
+          isHovered = true;
+          newHoveredPeriod = period; // Ustawienie najechanego okresu
+        }
+      });
+    }
+
     setHoveredPoint(newHoveredPoint);
+    setHoveredPeriod(newHoveredPeriod); // Zapisanie najechanego okresu
+
+    // Zmiana kursora na "pointer" jeśli punkt lub okres jest najechany
     canvasRef.current.style.cursor = isHovered ? "pointer" : "grab";
   };
 
-  return { hoveredPoint, handleMouseMove };
+  return { hoveredPoint, hoveredPeriod, handleMouseMove };
 };
+
+
 
 // Hook for drawing the timeline and points/periods
 export const useCanvasDraw = (canvasRef, offset, scale, timelineWidth, points, periods, hoveredPoint, startDate, endDate, calculateXPosition) => {
