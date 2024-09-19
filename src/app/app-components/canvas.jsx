@@ -30,24 +30,18 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     color: period.color
   }));
 
-  /*
-  const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
-  const pixelsPerDay = 10;
-  const timelineWidth = totalDays * pixelsPerDay;
-*/
+  const timelineWidth = window.innerWidth - 300;
 
-const timelineWidth = window.innerWidth - 300;  // Ustaw szerokość timeline na szerokość okna
-
-  const { offset, scale, handleMouseDown, handleMouseUp, handleMouseMove, handleWheel, isDragging } =
+  const { offset, scale, handleMouseDown, handleMouseUp, handleMouseMove: handleDragMove, handleWheel, isDragging } =
     useCanvasInteractions(timelineWidth);
 
-    const calculateXPosition = (date) => {
-      const totalDuration = endDate - startDate;
-      const currentDuration = date - startDate;
-      return (currentDuration / totalDuration) * timelineWidth;  // Dynamiczna szerokość timeline
-    };
-    
-      // Funkcja do obliczania warstw dla periodów
+  const calculateXPosition = (date) => {
+    const totalDuration = endDate - startDate;
+    const currentDuration = date - startDate;
+    return (currentDuration / totalDuration) * timelineWidth;
+  };
+
+  // Funkcja do obliczania warstw dla periodów
   const calculatePeriodLayers = (periods) => {
     let layers = [];
 
@@ -78,23 +72,27 @@ const timelineWidth = window.innerWidth - 300;  // Ustaw szerokość timeline na
     return periods;
   };
 
-  // Obliczanie warstw dla periodów
   const periodsWithLayers = calculatePeriodLayers(periods);
 
   const { selectedPoint, setSelectedPoint, selectedPeriod, setSelectedPeriod } =
     useCanvasClickHandler(canvasRef, points, periodsWithLayers, offset, scale, calculateXPosition);
 
-  const { hoveredPoint, handleMouseMove: handleHoverMove } =
-    useCanvasHoverHandler(canvasRef, points, offset, scale, calculateXPosition);
+  const { hoveredPoint, hoveredPeriod, handleMouseMove: handleHoverMove } =
+    useCanvasHoverHandler(canvasRef, points, periodsWithLayers, offset, scale, calculateXPosition);
 
   useCanvasDraw(canvasRef, offset, scale, timelineWidth, points, periodsWithLayers, hoveredPoint, startDate, endDate, calculateXPosition);
 
   const [showModal, setShowModal] = useState({ point: false, period: false });
-
   const [timelineTitle, setTimelineTitle] = useState(timelineData.title);
 
   const toggleModal = (type) => {
     setShowModal((prev) => ({ ...prev, [type]: !prev[type] }));
+  };
+
+  // Połączenie logiki hover i przenoszenia
+  const handleMouseMoveCombined = (e) => {
+    handleDragMove(e); // Przenoszenie elementów
+    handleHoverMove(e); // Obsługa efektu hover
   };
 
   return (
@@ -114,7 +112,7 @@ const timelineWidth = window.innerWidth - 300;  // Ustaw szerokość timeline na
         ref={canvasRef}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
+        onMouseMove={handleMouseMoveCombined} // Używamy połączonej funkcji
         onWheel={handleWheel}
         style={{ cursor: isDragging ? "grabbing" : "grab" }}
       ></canvas>
@@ -124,16 +122,14 @@ const timelineWidth = window.innerWidth - 300;  // Ustaw szerokość timeline na
         onLongEventClick={() => toggleModal("period")}
       />
 
-      {/* Modal for clicking on point */}
       <ModalPoint
         isOpen={!!selectedPoint}
         point={selectedPoint}
-        currentUser={currentUser} 
-        timelineId={timelineId}   
+        currentUser={currentUser}
+        timelineId={timelineId}
         toggleModal={() => setSelectedPoint(null)}
       ></ModalPoint>
 
-      {/* Modal for clicking on period */}
       <ModalPeriod
         isOpen={!!selectedPeriod}
         period={selectedPeriod}
@@ -142,7 +138,6 @@ const timelineWidth = window.innerWidth - 300;  // Ustaw szerokość timeline na
         toggleModal={() => setSelectedPeriod(null)}
       ></ModalPeriod>
 
-      {/* Modal for adding point */}
       <AddPointModal
         isOpen={showModal.point}
         toggleModal={() => toggleModal("point")}
@@ -152,7 +147,6 @@ const timelineWidth = window.innerWidth - 300;  // Ustaw szerokość timeline na
         endDate={endDate}
       />
 
-      {/* Modal for adding period */}
       <AddPeriodModal
         isOpen={showModal.period}
         toggleModal={() => toggleModal("period")}
@@ -164,3 +158,4 @@ const timelineWidth = window.innerWidth - 300;  // Ustaw szerokość timeline na
     </div>
   );
 }
+
