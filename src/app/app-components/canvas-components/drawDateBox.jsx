@@ -24,7 +24,6 @@ export const drawDateBox = (context, date, xPosition, timelineWidth, offset, ali
   const adjustedXPosition = xPosition + offset.x;
 
   if (adjustedXPosition + boxWidth > canvasWidth - 15) {
-    console.log("Wyjechało w prawo");
     xPosition = canvasWidth - boxWidth - boxMargin - offset.x;
   }
 

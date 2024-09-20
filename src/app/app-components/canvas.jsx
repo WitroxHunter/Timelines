@@ -92,7 +92,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   // Połączenie logiki hover i przenoszenia
   const handleMouseMoveCombined = (e) => {
     handleDragMove(e); // Przenoszenie elementów
-    handleHoverMove(e); // Obsługa efektu hover
+    //handleHoverMove(e); // Obsługa efektu hover
   };
 
   return (
