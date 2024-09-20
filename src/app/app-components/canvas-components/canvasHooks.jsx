@@ -58,20 +58,22 @@ export const useCanvasClickHandler = (canvasRef, points, periods, offset, scale,
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
+      // Adjust for offset and scale only on the X axis
       const adjustedX = (x - offset.x) / scale;
-      const adjustedY = (y - offset.y) / scale;
+      const adjustedY = y - offset.y; // No scaling for Y
 
       let clickedPoint = null;
       let clickedPeriod = null;
 
       // Check periods
-      periods.forEach((period, index) => {
+      periods.forEach((period) => {
         const periodStartX = calculateXPosition(period.startDate);
         const periodEndX = calculateXPosition(period.endDate);
-        const rectHeight = 25;
+
+        const rectHeight = 25; // Fixed height for periods
         const paddingBetweenLevels = 5;
         const rectY = -(35 + period.stackLevel * (rectHeight + paddingBetweenLevels));
-      
+
         if (
           adjustedX >= periodStartX &&
           adjustedX <= periodEndX &&
@@ -81,13 +83,12 @@ export const useCanvasClickHandler = (canvasRef, points, periods, offset, scale,
           clickedPeriod = period;
         }
       });
-      
 
       // Check points if no period clicked
       if (!clickedPeriod) {
         points.forEach((point) => {
           const xPosition = calculateXPosition(point.date);
-          const yPosition = 0;
+          const yPosition = 0; // Fixed yPosition for points
 
           const distance = Math.sqrt(
             Math.pow(adjustedX - xPosition, 2) + Math.pow(adjustedY - yPosition, 2)
@@ -118,10 +119,10 @@ export const useCanvasClickHandler = (canvasRef, points, periods, offset, scale,
   return { selectedPoint, setSelectedPoint, selectedPeriod, setSelectedPeriod };
 };
 
-// Hook for handling hover effect over points
+// Hook for handling hover effect over points and periods
 export const useCanvasHoverHandler = (canvasRef, points, periods, offset, scale, calculateXPosition) => {
   const [hoveredPoint, setHoveredPoint] = useState(null);
-  const [hoveredPeriod, setHoveredPeriod] = useState(null); // Nowa zmienna dla okresów
+  const [hoveredPeriod, setHoveredPeriod] = useState(null);
 
   const handleMouseMove = (e) => {
     if (!canvasRef.current) return;
@@ -130,21 +131,21 @@ export const useCanvasHoverHandler = (canvasRef, points, periods, offset, scale,
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
+    // Adjust for offset and scale only on the X axis
     const adjustedX = (x - offset.x) / scale;
-    const adjustedY = (y - offset.y) / scale;
+    const adjustedY = y - offset.y; // No scaling for Y
 
     let isHovered = false;
     let newHoveredPoint = null;
-    let newHoveredPeriod = null; // Zmienna dla okresów
+    let newHoveredPeriod = null;
 
-    // Sprawdź punkty
+    // Check points
     points.forEach((point) => {
       const xPosition = calculateXPosition(point.date);
-      const yPosition = 0;
+      const yPosition = 0; // Fixed yPosition for points
 
       const distance = Math.sqrt(
-        Math.pow(adjustedX - xPosition, 2) +
-        Math.pow(adjustedY - yPosition, 2)
+        Math.pow(adjustedX - xPosition, 2) + Math.pow(adjustedY - yPosition, 2)
       );
 
       if (distance <= 5) {
@@ -153,12 +154,13 @@ export const useCanvasHoverHandler = (canvasRef, points, periods, offset, scale,
       }
     });
 
-    // Sprawdź periody, jeśli nie ma najechanego punktu
+    // Check periods if no point is hovered
     if (!newHoveredPoint) {
       periods.forEach((period) => {
         const periodStartX = calculateXPosition(period.startDate);
         const periodEndX = calculateXPosition(period.endDate);
-        const rectHeight = 25;
+
+        const rectHeight = 25; // Fixed height for periods
         const paddingBetweenLevels = 5;
         const rectY = -(35 + period.stackLevel * (rectHeight + paddingBetweenLevels));
 
@@ -169,20 +171,30 @@ export const useCanvasHoverHandler = (canvasRef, points, periods, offset, scale,
           adjustedY <= rectY + rectHeight
         ) {
           isHovered = true;
-          newHoveredPeriod = period; // Ustawienie najechanego okresu
+          newHoveredPeriod = period;
         }
       });
     }
 
     setHoveredPoint(newHoveredPoint);
-    setHoveredPeriod(newHoveredPeriod); // Zapisanie najechanego okresu
+    setHoveredPeriod(newHoveredPeriod);
 
-    // Zmiana kursora na "pointer" jeśli punkt lub okres jest najechany
+    // Change cursor style based on hover state
     canvasRef.current.style.cursor = isHovered ? "pointer" : "grab";
   };
 
-  return { hoveredPoint, hoveredPeriod, handleMouseMove };
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    canvas.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      canvas.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [canvasRef, points, periods, offset, scale, calculateXPosition]);
+
+  return { hoveredPoint, hoveredPeriod };
 };
+
 
 
 
