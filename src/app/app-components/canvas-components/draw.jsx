@@ -29,25 +29,12 @@ export const draw = (context, offset, scale, timelineWidth, points, periods, hov
   context.save();
   context.translate(offset.x, offset.y);
 
-  const canvasWidth = context.canvas.width;
-  const dateBoxMargin = 10;
-  const dateBoxWidth = 100; 
-
   const startDateXPosition = calculateXPosition(startDate) * scale;
   const endDateXPosition = calculateXPosition(endDate) * scale;
 
-  let startDateXClamped = startDateXPosition;
-  if (startDateXPosition < dateBoxMargin) {
-    startDateXClamped = dateBoxMargin; 
-  }
 
-  let endDateXClamped = endDateXPosition;
-  if (endDateXPosition + dateBoxWidth > canvasWidth - dateBoxMargin) { 
-    endDateXClamped = canvasWidth - dateBoxWidth - dateBoxMargin;
-  }
-
-  drawDateBox(context, startDate, startDateXClamped - 60, scaledTimelineWidth);
-  drawDateBox(context, endDate, endDateXClamped - 60, scaledTimelineWidth, true);
+  drawDateBox(context, startDate, startDateXPosition, scaledTimelineWidth, offset);
+  drawDateBox(context, endDate, endDateXPosition - 60, scaledTimelineWidth, offset, true);
 
 
   context.restore(); 
