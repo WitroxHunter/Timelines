@@ -3,6 +3,7 @@ import { drawTimelineEndLines } from "./drawTimelineEndLines";
 import { drawDateBox } from "./drawDateBox";
 import { drawPoint } from "./drawPoint";
 import { drawPeriod } from "./drawPeriod";
+import { drawTickMarks } from "./drawTickMarks";
 
 export const draw = (context, offset, scale, timelineWidth, points, periods, hoveredPoint, startDate, endDate, calculateXPosition) => {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
@@ -11,6 +12,10 @@ export const draw = (context, offset, scale, timelineWidth, points, periods, hov
 
   const scaledTimelineWidth = timelineWidth * scale;
 
+  // Najpierw rysujemy kreski i daty pod osią czasu
+  drawTickMarks(context, startDate, endDate, calculateXPosition, scale);
+
+  // Potem rysujemy oś czasu i inne elementy
   drawTimeline(context, scaledTimelineWidth); 
   drawTimelineEndLines(context, -6, 16); 
   drawTimelineEndLines(context, timelineWidth * scale + 6, -6); 
@@ -32,11 +37,8 @@ export const draw = (context, offset, scale, timelineWidth, points, periods, hov
   const startDateXPosition = calculateXPosition(startDate) * scale;
   const endDateXPosition = calculateXPosition(endDate) * scale;
 
-
   drawDateBox(context, startDate, startDateXPosition, scaledTimelineWidth, offset);
   drawDateBox(context, endDate, endDateXPosition - 60, scaledTimelineWidth, offset, true);
 
-
   context.restore(); 
 };
-
