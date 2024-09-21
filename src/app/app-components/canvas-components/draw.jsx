@@ -12,10 +12,8 @@ export const draw = (context, offset, scale, timelineWidth, points, periods, hov
 
   const scaledTimelineWidth = timelineWidth * scale;
 
-  // Najpierw rysujemy kreski i daty pod osią czasu
-  drawTickMarks(context, startDate, endDate, calculateXPosition, scale);
+  drawTickMarks(context, startDate, endDate, calculateXPosition, scale, "month");
 
-  // Potem rysujemy oś czasu i inne elementy
   drawTimeline(context, scaledTimelineWidth); 
   drawTimelineEndLines(context, -6, 16); 
   drawTimelineEndLines(context, timelineWidth * scale + 6, -6); 
