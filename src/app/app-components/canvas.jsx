@@ -6,7 +6,8 @@ import ModalPoint from "./modal-point-click";
 import ModalPeriod from "./modal-period-click";
 import AddPointModal from "./canvas-components/canvas-firestore-actions/addPointModal";
 import AddPeriodModal from "./canvas-components/canvas-firestore-actions/addPeriodModal";
-import { Search } from "./canvas-components/canvas-widgets/widgetSearch";
+import { SearchWidget } from "./canvas-components/canvas-widgets/widgetSearch";
+import { SettingsWidget } from "./canvas-components/canvas-widgets/widgetSettings";
 
 export default function Canvas({ timelineData, currentUser, timelineId }) {
   const canvasRef = useRef(null);
@@ -119,7 +120,8 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         onWheel={handleWheel}
         style={{ cursor: isDragging ? "grabbing" : "grab" }}
       ></canvas>
-      <Search />
+      <SearchWidget />
+      <SettingsWidget />
       <DropdownMenu
         onSingleEventClick={() => toggleModal("point")}
         onLongEventClick={() => toggleModal("period")}

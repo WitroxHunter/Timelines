@@ -234,6 +234,10 @@
   opacity: 1;
 }
 
+/*--------------- SEARCH WIDGET ---------------*/
+/*--------------- SEARCH WIDGET ---------------*/
+/*--------------- SEARCH WIDGET ---------------*/
+
 .search-button {
   user-select: none;
   display: flex;
@@ -278,3 +282,29 @@
   height: 20px;
   pointer-events: none;
 }
+
+/*--------------- SETTINGS WIDGET ---------------*/
+/*--------------- SETTINGS WIDGET ---------------*/
+/*--------------- SETTINGS WIDGET ---------------*/
+
+.settings-widget {
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  align-items: center;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  border-radius: 15px;
+}
+
+.settings-widget > .settings-icon {
+  width: 50px;
+  transition: transform 0.7s ease-in-out; /* Dodajemy płynne przejście */
+}
+
+.settings-icon:hover {
+  transform: rotate(360deg);
+}
+

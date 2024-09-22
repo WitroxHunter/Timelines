@@ -2,7 +2,7 @@ import React from "react";
 import "../../../timelines-app.css";
 import SearchIcon from "../../../../assets/icons/search.svg";
 
-export const Search = () => {
+export const SearchWidget = () => {
   return (
     <div className="search-button">
       <div className="search-button-wrapper">
