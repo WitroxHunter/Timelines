@@ -128,6 +128,7 @@ function TimelinesApp() {
             </HeaderButton>
             <HeaderButton buttonName="View">
               <li>Fit to whole screen</li>
+              <li>Hide UI buttons</li>
               {/* <div className="dropdown-line-divider" /> */}
             </HeaderButton>
             <HeaderButton buttonName="Text">
@@ -137,6 +138,7 @@ function TimelinesApp() {
             </HeaderButton>
             <HeaderButton buttonName="Colors">
               <li>Change color palette</li>
+              <li>Add color palette</li>
               {/* <div className="dropdown-line-divider" /> */}
             </HeaderButton>
           </div>

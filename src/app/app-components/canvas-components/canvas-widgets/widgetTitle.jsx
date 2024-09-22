@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { changeTimelineName } from "./firebaseUtils";
+import { changeTimelineName } from "../canvas-firestore-actions/firebaseUtils";
 import editIcon from "../../../../assets/icons/edit.svg";
 
 const TimelineTitleEditor = ({ timelineTitle, setTimelineTitle, timelineData, currentUser, timelineId }) => {

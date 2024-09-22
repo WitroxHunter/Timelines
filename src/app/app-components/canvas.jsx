@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useCanvasInteractions, useCanvasClickHandler, useCanvasHoverHandler, useCanvasDraw } from "./canvas-components/canvasHooks";
-import DropdownMenu from "./canvas-components/dropdownMenu";
-import TimelineTitleEditor from "./canvas-components/canvas-firestore-actions/timelineTitleEditor";
+import DropdownMenu from "./canvas-components/canvas-widgets/dropdownMenu";
+import TimelineTitleEditor from "./canvas-components/canvas-widgets/widgetTitle";
 import ModalPoint from "./modal-point-click";
 import ModalPeriod from "./modal-period-click";
 import AddPointModal from "./canvas-components/canvas-firestore-actions/addPointModal";
 import AddPeriodModal from "./canvas-components/canvas-firestore-actions/addPeriodModal";
+import { Search } from "./canvas-components/canvas-widgets/widgetSearch";
 
 export default function Canvas({ timelineData, currentUser, timelineId }) {
   const canvasRef = useRef(null);
@@ -107,6 +108,8 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         currentUser={currentUser}
         timelineId={timelineId}
       />
+
+
       <canvas
         className="canvas"
         ref={canvasRef}
@@ -116,7 +119,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         onWheel={handleWheel}
         style={{ cursor: isDragging ? "grabbing" : "grab" }}
       ></canvas>
-
+      <Search />
       <DropdownMenu
         onSingleEventClick={() => toggleModal("point")}
         onLongEventClick={() => toggleModal("period")}

@@ -1,8 +1,8 @@
 // DropdownMenu.js
 import React, { useState, useRef, useCallback, useEffect } from "react";
-import singleEventIcon from "./../../../assets/icons/pin.svg";
-import multipleEventIcon from "./../../../assets/icons/calendar-event.svg";
-import addIcon from "./../../../assets/icons/plus.svg";
+import singleEventIcon from "../../../../assets/icons/pin.svg";
+import multipleEventIcon from "../../../../assets/icons/calendar-event.svg";
+import addIcon from "../../../../assets/icons/plus.svg";
 
 const DropdownMenu = React.memo(({ onSingleEventClick, onLongEventClick }) => {
   const [isOpen, setIsOpen] = useState(false);

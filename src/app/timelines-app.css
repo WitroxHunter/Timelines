@@ -233,3 +233,48 @@
 .opened-timeline-file-name:hover img {
   opacity: 1;
 }
+
+.search-button {
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 30%;
+  height: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 20px;
+  border-radius: 15px;
+  background-color: #232323
+}
+
+.search-button-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-button-input {
+  width: 200%;
+  height: 50px;
+  padding: 0 45px 0 10px;
+  font-size: 18px;
+  border: none;
+  border-radius: 15px;
+  transition: 0.1s;
+  outline: #00000000 solid 0px;
+} 
+
+.search-button-input:focus {
+  outline: #4f4f4f solid 2px ; 
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}

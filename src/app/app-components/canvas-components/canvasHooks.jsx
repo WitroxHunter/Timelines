@@ -1,6 +1,6 @@
 // canvasHooks.js
 import { useState, useEffect, useCallback } from "react";
-import { draw } from "./draw";
+import { draw } from "./canvas-draw-functions/draw";
 
 // Hook for handling canvas offset, scale, and dragging
 export const useCanvasInteractions = (timelineWidth) => {
