@@ -236,8 +236,7 @@
   opacity: 1;
 }
 
-.edit-timeline-title-input,
-.edit-timeline-title-input-editing {
+.edit-timeline-title-input {
   width: fit-content;
   text-wrap: nowrap;
   overflow: hidden;
@@ -253,10 +252,6 @@
   outline: none;
 
   transition: none;
-}
-
-.edit-timeline-title-input-editing {
-  background-color: #222;
 }
 
 /*--------------- SEARCH WIDGET ---------------*/

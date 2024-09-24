@@ -35,7 +35,7 @@ const TimelineTitleEditor = ({
       {isEditing ? (
         <input
           ref={titleInputRef}
-          className="edit-timeline-title-input-editing"
+          className="edit-timeline-title-input"
           value={timelineTitle}
           onChange={handleInputChange}
           onBlur={handleSaveTitle}
