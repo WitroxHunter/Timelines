@@ -193,6 +193,8 @@
   color: #fff;
   border-radius: 5px;
 
+  /* background-color: #181818; */
+
   transition: 0.1s;
 }
 
@@ -234,6 +236,29 @@
   opacity: 1;
 }
 
+.edit-timeline-title-input,
+.edit-timeline-title-input-editing {
+  width: fit-content;
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  padding: 0;
+
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+
+  transition: none;
+}
+
+.edit-timeline-title-input-editing {
+  background-color: #222;
+}
+
 /*--------------- SEARCH WIDGET ---------------*/
 /*--------------- SEARCH WIDGET ---------------*/
 /*--------------- SEARCH WIDGET ---------------*/
@@ -250,7 +275,7 @@
   transform: translateX(-50%);
   top: 20px;
   border-radius: 15px;
-  background-color: #232323
+  background-color: #232323;
 }
 
 .search-button-wrapper {
@@ -269,10 +294,10 @@
   border-radius: 15px;
   transition: 0.1s;
   outline: #00000000 solid 0px;
-} 
+}
 
 .search-button-input:focus {
-  outline: #4f4f4f solid 2px ; 
+  outline: #4f4f4f solid 2px;
 }
 
 .search-icon {
@@ -307,4 +332,3 @@
 .settings-icon:hover {
   transform: rotate(360deg);
 }
-
