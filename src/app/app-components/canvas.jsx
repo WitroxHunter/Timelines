@@ -1,12 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useCanvasInteractions, useCanvasClickHandler, useCanvasHoverHandler, useCanvasDraw } from "./canvas-components/canvasHooks";
+import {
+  useCanvasInteractions,
+  useCanvasClickHandler,
+  useCanvasHoverHandler,
+  useCanvasDraw,
+} from "./canvas-components/canvasHooks";
 import DropdownMenu from "./canvas-components/canvas-widgets/dropdownMenu";
 import TimelineTitleEditor from "./canvas-components/canvas-widgets/widgetTitle";
 import ModalPoint from "./modal-point-click";
 import ModalPeriod from "./modal-period-click";
 import AddPointModal from "./canvas-components/canvas-firestore-actions/addPointModal";
 import AddPeriodModal from "./canvas-components/canvas-firestore-actions/addPeriodModal";
-import { SearchWidget } from "./canvas-components/canvas-widgets/widgetSearch";
+// import { SearchWidget } from "./canvas-components/canvas-widgets/widgetSearch";
 import { SettingsWidget } from "./canvas-components/canvas-widgets/widgetSettings";
 
 export default function Canvas({ timelineData, currentUser, timelineId }) {
@@ -15,27 +20,38 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   const startDate = new Date(timelineData.startDate);
   const endDate = new Date(timelineData.endDate);
 
-  const points = Object.entries(timelineData.points).map(([pointKey, point]) => ({
-    key: pointKey,
-    date: new Date(point.date),
-    label: point.title,
-    description: point.description,
-    color: point.color
-  }));
+  const points = Object.entries(timelineData.points).map(
+    ([pointKey, point]) => ({
+      key: pointKey,
+      date: new Date(point.date),
+      label: point.title,
+      description: point.description,
+      color: point.color,
+    })
+  );
 
-  const periods = Object.entries(timelineData.periods).map(([periodKey, period]) => ({
-    key: periodKey,
-    startDate: new Date(period.startDate),
-    endDate: new Date(period.endDate),
-    label: period.title,
-    description: period.description,
-    color: period.color
-  }));
+  const periods = Object.entries(timelineData.periods).map(
+    ([periodKey, period]) => ({
+      key: periodKey,
+      startDate: new Date(period.startDate),
+      endDate: new Date(period.endDate),
+      label: period.title,
+      description: period.description,
+      color: period.color,
+    })
+  );
 
   const timelineWidth = window.innerWidth - 300;
 
-  const { offset, scale, handleMouseDown, handleMouseUp, handleMouseMove: handleDragMove, handleWheel, isDragging } =
-    useCanvasInteractions(timelineWidth);
+  const {
+    offset,
+    scale,
+    handleMouseDown,
+    handleMouseUp,
+    handleMouseMove: handleDragMove,
+    handleWheel,
+    isDragging,
+  } = useCanvasInteractions(timelineWidth);
 
   const calculateXPosition = (date) => {
     const totalDuration = endDate - startDate;
@@ -52,8 +68,12 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
 
       for (let i = 0; i < layers.length; i++) {
         const layer = layers[i];
-        const conflict = layer.some(period =>
-          !(currentPeriod.endDate < period.startDate || currentPeriod.startDate > period.endDate)
+        const conflict = layer.some(
+          (period) =>
+            !(
+              currentPeriod.endDate < period.startDate ||
+              currentPeriod.startDate > period.endDate
+            )
         );
 
         if (!conflict) {
@@ -77,12 +97,40 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   const periodsWithLayers = calculatePeriodLayers(periods);
 
   const { selectedPoint, setSelectedPoint, selectedPeriod, setSelectedPeriod } =
-    useCanvasClickHandler(canvasRef, points, periodsWithLayers, offset, scale, calculateXPosition);
+    useCanvasClickHandler(
+      canvasRef,
+      points,
+      periodsWithLayers,
+      offset,
+      scale,
+      calculateXPosition
+    );
 
-  const { hoveredPoint, hoveredPeriod, handleMouseMove: handleHoverMove } =
-    useCanvasHoverHandler(canvasRef, points, periodsWithLayers, offset, scale, calculateXPosition);
+  const {
+    hoveredPoint,
+    hoveredPeriod,
+    handleMouseMove: handleHoverMove,
+  } = useCanvasHoverHandler(
+    canvasRef,
+    points,
+    periodsWithLayers,
+    offset,
+    scale,
+    calculateXPosition
+  );
 
-  useCanvasDraw(canvasRef, offset, scale, timelineWidth, points, periodsWithLayers, hoveredPoint, startDate, endDate, calculateXPosition);
+  useCanvasDraw(
+    canvasRef,
+    offset,
+    scale,
+    timelineWidth,
+    points,
+    periodsWithLayers,
+    hoveredPoint,
+    startDate,
+    endDate,
+    calculateXPosition
+  );
 
   const [showModal, setShowModal] = useState({ point: false, period: false });
   const [timelineTitle, setTimelineTitle] = useState(timelineData.title);
@@ -110,7 +158,6 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         timelineId={timelineId}
       />
 
-
       <canvas
         className="canvas"
         ref={canvasRef}
@@ -120,7 +167,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         onWheel={handleWheel}
         style={{ cursor: isDragging ? "grabbing" : "grab" }}
       ></canvas>
-      <SearchWidget />
+      {/* <SearchWidget /> */}
       <SettingsWidget />
       <DropdownMenu
         onSingleEventClick={() => toggleModal("point")}
@@ -163,4 +210,3 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     </div>
   );
 }
-

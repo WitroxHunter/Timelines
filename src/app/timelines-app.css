@@ -263,13 +263,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  width: 30%;
+  /* position: absolute; */
+  /* width: 30%; */
   height: 50px;
-  left: 50%;
+  /* left: 50%;
   transform: translateX(-50%);
-  top: 20px;
-  border-radius: 15px;
+  top: 20px; */
+  border-radius: 5px;
   background-color: #232323;
 }
 
@@ -286,13 +286,15 @@
   padding: 0 45px 0 10px;
   font-size: 18px;
   border: none;
-  border-radius: 15px;
+  border-radius: 5px;
   transition: 0.1s;
   outline: #00000000 solid 0px;
 }
 
 .search-button-input:focus {
-  outline: #4f4f4f solid 2px;
+  outline: solid 2px;
+  outline-color: var(--UIlightgray);
+  border-radius: 5px;
 }
 
 .search-icon {
@@ -307,23 +309,34 @@
 /*--------------- SETTINGS WIDGET ---------------*/
 /*--------------- SETTINGS WIDGET ---------------*/
 
+.settings-widget-box {
+  user-select: none;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  right: 20px;
+  top: 20px;
+}
+
 .settings-widget {
   user-select: none;
   display: flex;
   justify-content: center;
   cursor: pointer;
   align-items: center;
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  border-radius: 15px;
+
+  border-radius: 5px;
+  padding: 5px;
+
+  transition: 0.1s;
+}
+
+.settings-widget:hover {
+  background-color: #222;
 }
 
 .settings-widget > .settings-icon {
-  width: 50px;
-  transition: transform 0.7s ease-in-out; /* Dodajemy płynne przejście */
-}
-
-.settings-icon:hover {
-  transform: rotate(360deg);
+  user-select: none;
+  width: 36px;
 }
