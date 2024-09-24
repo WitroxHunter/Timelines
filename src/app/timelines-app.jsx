@@ -149,6 +149,8 @@ function TimelinesApp() {
           currentUser={currentUser}
           timelineId={timelineId}
         />
+
+        <Header>There should be a horizontal scrollbar...</Header>
       </div>
     </>
   );
