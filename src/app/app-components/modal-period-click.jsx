@@ -12,12 +12,12 @@ export default function ModalPeriod({
 }) {
   if (!isOpen || !period) return null;
 
-  const formattedStartDate = `${period.startDate.getDate()}-${
+  const formattedStartDate = `${period.startDate.getDate()}.${
     period.startDate.getMonth() + 1
-  }-${period.startDate.getFullYear()}`;
-  const formattedEndDate = `${period.endDate.getDate()}-${
+  }.${period.startDate.getFullYear()}`;
+  const formattedEndDate = `${period.endDate.getDate()}.${
     period.endDate.getMonth() + 1
-  }-${period.endDate.getFullYear()}`;
+  }.${period.endDate.getFullYear()}`;
 
   const handleDelete = async () => {
     if (window.confirm("Are you sure you want to delete this period?")) {
@@ -27,19 +27,23 @@ export default function ModalPeriod({
   };
 
   return (
-    <div className="modal-overlay" onClick={toggleModal}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+    <div className="modal-overlay-right" onClick={toggleModal}>
+      <div className="modal-content-right" onClick={(e) => e.stopPropagation()}>
         <h2>{period.label}</h2>
         <p>{period.description}</p>
-        <p>{`From: ${formattedStartDate}`}</p>
-        <p>{`To: ${formattedEndDate}`}</p>
-        <p>Period color:{period.color}</p>
+        <div className="date-color-line">
+          <p>{formattedStartDate} - {formattedEndDate}</p>
+          <div
+            className="color-line"
+            style={{ backgroundColor: period.color }}
+          ></div>
+        </div>
         {children}
-        <button className="modal-button" onClick={handleDelete}>
+        <button className="modal-button-right" onClick={handleDelete}>
           Delete period
         </button>
-        <button className="modal-button" onClick={toggleModal}>
-          Leave
+        <button className="modal-button-right" onClick={toggleModal}>
+          Close
         </button>
       </div>
     </div>

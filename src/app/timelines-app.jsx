@@ -141,6 +141,12 @@ function TimelinesApp() {
               <li>Add color palette</li>
               {/* <div className="dropdown-line-divider" /> */}
             </HeaderButton>
+            <HeaderButton buttonName="Help">
+              <li>User Guide</li>
+              <li>Shortcuts</li>
+              <li>About</li>
+              {/* <div className="dropdown-line-divider" /> */}
+            </HeaderButton>
           </div>
         </Header>
 
