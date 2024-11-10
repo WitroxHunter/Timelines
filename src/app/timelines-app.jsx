@@ -104,15 +104,12 @@ function TimelinesApp() {
             <HeaderButton buttonName="File">
               <li>New file</li>
               <div className="dropdown-line-divider" />
-              <li>Open file</li>
-              <li>Open recent</li>
-              <div className="dropdown-line-divider" />
               <li>Save file</li>
-              <li>Save file as</li>
+              <div className="dropdown-line-divider" />
+              <li>Import Timeline</li>
+              <li>Export Timeline</li>
               <div className="dropdown-line-divider" />
               <li>Export image</li>
-              <div className="dropdown-line-divider" />
-              <li>Close file</li>
             </HeaderButton>
             <HeaderButton buttonName="Edit">
               <li>Undo</li>
@@ -127,7 +124,13 @@ function TimelinesApp() {
               <li>Change background</li>
             </HeaderButton>
             <HeaderButton buttonName="View">
-              <li>Fit to whole screen</li>
+              <li>Zoom In</li>
+              <li>Zoom Out</li>
+              <div className="dropdown-line-divider" />
+              <li>Toggle Grid Lines</li>
+              <li>Interval Labels</li>
+              <div className="dropdown-line-divider" />      
+              <li>Fit to Screen</li>
               <li>Hide UI buttons</li>
               {/* <div className="dropdown-line-divider" /> */}
             </HeaderButton>
@@ -137,9 +140,11 @@ function TimelinesApp() {
               {/* <div className="dropdown-line-divider" /> */}
             </HeaderButton>
             <HeaderButton buttonName="Colors">
-              <li>Change color palette</li>
-              <li>Add color palette</li>
-              {/* <div className="dropdown-line-divider" /> */}
+              <li>Change Color Palette</li>
+              <li>Add Color Palette</li>
+              <div className="dropdown-line-divider" /> 
+              <li>Background Color</li>
+               
             </HeaderButton>
             <HeaderButton buttonName="Help">
               <li>User Guide</li>
