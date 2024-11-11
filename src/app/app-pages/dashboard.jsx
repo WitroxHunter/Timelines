@@ -43,6 +43,10 @@ const addTimelineToFirestore = async (
     endDate,
     periods: {},
     points: {},
+    preferences: {
+      datebox: "",
+      tickmarks: "",
+    },
   };
 
   try {

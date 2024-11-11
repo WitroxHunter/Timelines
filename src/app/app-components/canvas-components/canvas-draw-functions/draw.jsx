@@ -46,8 +46,10 @@ export const draw = (context, offset, scale, timelineWidth, points, periods, hov
   const startDateXPosition = calculateXPosition(startDate) * scale;
   const endDateXPosition = calculateXPosition(endDate) * scale;
 
-  drawDateBox(context, startDate, startDateXPosition, scaledTimelineWidth, offset);
-  drawDateBox(context, endDate, endDateXPosition - 60, scaledTimelineWidth, offset, true);
+// Wywołanie drawDateBox z preferencjami
+drawDateBox(context, startDate, startDateXPosition, scaledTimelineWidth, offset, false, preferences.datebox);
+drawDateBox(context, endDate, endDateXPosition - 60, scaledTimelineWidth, offset, true, preferences.datebox);
+
 
   context.restore(); 
 };

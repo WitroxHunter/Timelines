@@ -49,6 +49,7 @@ export const SettingsWidget = ({ currentUser, timelineId, timelineData }) => {
                 <option value="week">week</option>
                 <option value="month">month</option>
                 <option value="year">year</option>
+                <option value="without tickmarks">without tickmarks</option>
               </select>
             </label>
             <br />

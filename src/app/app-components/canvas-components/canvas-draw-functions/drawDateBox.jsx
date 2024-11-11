@@ -4,16 +4,34 @@ export const drawDateBox = (
   xPosition,
   timelineWidth,
   offset,
-  alignRight = false
+  alignRight = false,
+  dateboxPreference = "dd-mm-yyyy"
 ) => {
   const yPosition = 0;
   const textMargin = 5;
   const borderRadius = 5;
   const boxMargin = 15;
 
-  const formattedDate = `${date.getDate()}-${
-    date.getMonth() + 1
-  }-${date.getFullYear()}`;
+  // Funkcja dopełniająca zerem
+  const padWithZero = (number) => number.toString().padStart(2, "0");
+
+  // Wybór formatu daty na podstawie preferencji
+  let formattedDate;
+  switch (dateboxPreference) {
+    case "year":
+      formattedDate = `${date.getFullYear()}`;
+      break;
+    case "mm-yyyy":
+      formattedDate = `${padWithZero(date.getMonth() + 1)}.${date.getFullYear()}`;
+      break;
+    case "mm-dd-yyyy":
+      formattedDate = `${padWithZero(date.getMonth() + 1)}.${padWithZero(date.getDate())}.${date.getFullYear()}`;
+      break;
+    case "dd-mm-yyyy":
+    default:
+      formattedDate = `${padWithZero(date.getDate())}.${padWithZero(date.getMonth() + 1)}.${date.getFullYear()}`;
+      break;
+  }
 
   context.font = "bold 16px 'Source Sans 3'";
   const textWidth = context.measureText(formattedDate).width;
