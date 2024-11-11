@@ -75,6 +75,22 @@ export const addPeriodToFirestore = async (
       console.error("Error adding point: ", error);
     }
   };
+
+
+  export const updateUserPreferences = async (currentUser, timelineId, preferenceKey, value) => {
+    const uid = currentUser.uid;
+  
+    try {
+      const userDocRef = doc(firestore, "users", uid);
+      await updateDoc(userDocRef, {
+        [`timelines.${timelineId}.preferences.${preferenceKey}`]: value,
+      });
+  
+      console.log(`Preference ${preferenceKey} updated successfully to ${value}`);
+    } catch (error) {
+      console.error("Error updating preference: ", error);
+    }
+  };
   
 export const changeTimelineName = async ( nickname, currentUser, timelineId,) => {
     if (!nickname) {

@@ -5,14 +5,14 @@ import { drawPoint } from "./drawPoint";
 import { drawPeriod } from "./drawPeriod";
 import { drawTickMarks } from "./drawTickMarks";
 
-export const draw = (context, offset, scale, timelineWidth, points, periods, hoveredPoint, startDate, endDate, calculateXPosition) => {
+export const draw = (context, offset, scale, timelineWidth, points, periods, hoveredPoint, startDate, endDate, calculateXPosition, preferences) => {
   context.clearRect(0, 0, context.canvas.width, context.canvas.height);
   context.save();
   context.translate(offset.x, offset.y);
 
   const scaledTimelineWidth = timelineWidth * scale;
 
-  drawTickMarks(context, startDate, endDate, calculateXPosition, scale, "month");
+  drawTickMarks(context, startDate, endDate, calculateXPosition, scale, preferences.tickmarks);
 
   drawTimeline(context, scaledTimelineWidth); 
   drawTimelineEndLines(context, -6, 16); 

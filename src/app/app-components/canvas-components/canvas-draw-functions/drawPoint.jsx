@@ -1,8 +1,8 @@
 export const drawPoint = (context, point, isHovered = false, xPosition, layer = 0) => {
-  const yPosition = layer * 15; // Ustawiamy odstęp między punktami
+  const yPosition = layer * 15 + 15; // Ustawiamy odstęp między punktami
   
   // Rysowanie szarej linii, jeśli punkt jest częścią stosu (layer > 0)
-  if (layer > 0) {
+  if (layer > -1) {
     context.strokeStyle = "#555555";
     context.lineWidth = 3;
     context.beginPath();

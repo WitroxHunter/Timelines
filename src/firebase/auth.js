@@ -30,6 +30,7 @@ export const doCreateUserWithEmailAndPassword = async (
       nickname: nickname,
       timelines: {},
       createdAt: new Date(),
+      preferences: {},
     },
     { merge: true }
   );
@@ -55,6 +56,7 @@ export const doSignInWithGoogle = async () => {
       nickname: user.displayName || user.email,
       createdAt: new Date(),
       timelines: {},
+      preferences: {},
     });
   }
 

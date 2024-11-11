@@ -201,7 +201,7 @@ export const useCanvasHoverHandler = (canvasRef, points, periods, offset, scale,
 
 
 // Hook for drawing the timeline and points/periods
-export const useCanvasDraw = (canvasRef, offset, scale, timelineWidth, points, periods, hoveredPoint, startDate, endDate, calculateXPosition) => {
+export const useCanvasDraw = (canvasRef, offset, scale, timelineWidth, points, periods, hoveredPoint, startDate, endDate, calculateXPosition, preferences) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
@@ -218,7 +218,8 @@ export const useCanvasDraw = (canvasRef, offset, scale, timelineWidth, points, p
       hoveredPoint,
       startDate,
       endDate,
-      calculateXPosition
+      calculateXPosition,
+      preferences
     );
   }, [offset, scale, timelineWidth, hoveredPoint, points, periods, startDate, endDate, calculateXPosition]);
 };

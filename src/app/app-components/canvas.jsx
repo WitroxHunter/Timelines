@@ -19,6 +19,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
 
   const startDate = new Date(timelineData.startDate);
   const endDate = new Date(timelineData.endDate);
+  const preferences = timelineData.preferences;
 
   const points = Object.entries(timelineData.points).map(
     ([pointKey, point]) => ({
@@ -129,7 +130,8 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     hoveredPoint,
     startDate,
     endDate,
-    calculateXPosition
+    calculateXPosition,
+    preferences
   );
 
   const [showModal, setShowModal] = useState({ point: false, period: false });
@@ -168,7 +170,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         style={{ cursor: isDragging ? "grabbing" : "grab" }}
       ></canvas>
       {/* <SearchWidget /> */}
-      <SettingsWidget />
+      <SettingsWidget currentUser={currentUser} timelineId={timelineId} timelineData={timelineData}/>
       <DropdownMenu
         onSingleEventClick={() => toggleModal("point")}
         onLongEventClick={() => toggleModal("period")}

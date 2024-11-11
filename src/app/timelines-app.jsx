@@ -58,6 +58,7 @@ const handleLogout = async () => {
 function TimelinesApp() {
   const { timelineId } = useParams();
   const [timelineData, setTimelineData] = useState(null);
+  console.log(timelineData)
 
   const { currentUser } = useAuth();
 
