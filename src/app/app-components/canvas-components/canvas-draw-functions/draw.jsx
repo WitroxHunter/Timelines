@@ -17,11 +17,22 @@ export const draw = (context, offset, scale, timelineWidth, points, periods, hov
   drawTimeline(context, scaledTimelineWidth); 
   drawTimelineEndLines(context, -6, 16); 
   drawTimelineEndLines(context, timelineWidth * scale + 6, -6); 
-
+  
+  const pointsByDate = {};
   points.forEach((point) => {
-    const isHovered = hoveredPoint === point;
     const xPosition = calculateXPosition(point.date) * scale;
-    drawPoint(context, point, isHovered, xPosition);
+    if (!pointsByDate[xPosition]) {
+      pointsByDate[xPosition] = [];
+    }
+    pointsByDate[xPosition].push(point);
+  });
+
+  // Rysowanie punktów i linii między nimi, jeśli są na tej samej dacie
+  Object.keys(pointsByDate).forEach((xPosition) => {
+    pointsByDate[xPosition].forEach((point, layer) => {
+      const isHovered = hoveredPoint === point;
+      drawPoint(context, point, isHovered, parseFloat(xPosition), layer);
+    });
   });
 
   periods.forEach((period) => {

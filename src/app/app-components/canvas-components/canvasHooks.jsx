@@ -86,19 +86,21 @@ export const useCanvasClickHandler = (canvasRef, points, periods, offset, scale,
 
       // Check points if no period clicked
       if (!clickedPeriod) {
-        points.forEach((point) => {
-          const xPosition = calculateXPosition(point.date);
-          const yPosition = 0; // Fixed yPosition for points
-
+        points.forEach((point, index) => {
+          const xPosition = calculateXPosition(point.date) * scale;
+          const layer = index; // Zakładamy, że każdy punkt na tej samej dacie ma różną warstwę
+          const yPosition = layer * 15; // Tak samo jak w drawPoint
+      
           const distance = Math.sqrt(
             Math.pow(adjustedX - xPosition, 2) + Math.pow(adjustedY - yPosition, 2)
           );
-
+      
           if (distance <= 5) {
             clickedPoint = point;
           }
         });
       }
+      
 
       if (clickedPoint) {
         setSelectedPoint(clickedPoint);
