@@ -95,12 +95,34 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     return periods;
   };
 
+  const calculatePointLayers = (points) => {
+    const layersMap = {};
+    
+    points.forEach((point) => {
+      const dateKey = point.date.toISOString().split("T")[0];
+      if (!layersMap[dateKey]) {
+        layersMap[dateKey] = [];
+      }
+      layersMap[dateKey].push(point);
+    });
+  
+    return points.map((point) => {
+      const dateKey = point.date.toISOString().split("T")[0];
+      const layer = layersMap[dateKey].indexOf(point);
+      return { ...point, layer };
+      
+    });
+  };
+  
+  const pointsWithLayers = calculatePointLayers(points);
+  
+
   const periodsWithLayers = calculatePeriodLayers(periods);
 
   const { selectedPoint, setSelectedPoint, selectedPeriod, setSelectedPeriod } =
     useCanvasClickHandler(
       canvasRef,
-      points,
+      pointsWithLayers,
       periodsWithLayers,
       offset,
       scale,

@@ -86,19 +86,19 @@ export const useCanvasClickHandler = (canvasRef, points, periods, offset, scale,
 
       // Check points if no period clicked
       if (!clickedPeriod) {
-        points.forEach((point, index) => {
-          const xPosition = calculateXPosition(point.date) * scale;
-          const layer = index; // Zakładamy, że każdy punkt na tej samej dacie ma różną warstwę
-          const yPosition = layer * 15; // Tak samo jak w drawPoint
-      
+        points.forEach((point) => {
+          const xPosition = calculateXPosition(point.date);
+          const yPosition = point.layer * 15 + 15; // Ustal warstwę dla punktu
+          
           const distance = Math.sqrt(
             Math.pow(adjustedX - xPosition, 2) + Math.pow(adjustedY - yPosition, 2)
           );
-      
-          if (distance <= 5) {
+        
+          if (distance <= 6) {
             clickedPoint = point;
           }
         });
+        
       }
       
 
@@ -144,14 +144,15 @@ export const useCanvasHoverHandler = (canvasRef, points, periods, offset, scale,
     // Check points
     points.forEach((point) => {
       const xPosition = calculateXPosition(point.date);
-      const yPosition = 0; // Fixed yPosition for points
+      const yPosition = point.layer * 15 + 15; 
 
       const distance = Math.sqrt(
         Math.pow(adjustedX - xPosition, 2) + Math.pow(adjustedY - yPosition, 2)
       );
-
-      if (distance <= 5) {
+    
+      if (distance <= 6) {
         isHovered = true;
+        console.log("najechal")
         newHoveredPoint = point;
       }
     });
