@@ -68,6 +68,6 @@ input:focus {
   background-color: #808080;
 }
 
-p {
+.margin10 {
   margin: 10px;
 }

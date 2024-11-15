@@ -97,7 +97,7 @@ export default function Login() {
             />
           </div>
 
-          <p>
+          <p className="margin10">
             <span
               className="blue-font"
               onClick={onPasswordReset}
@@ -113,7 +113,7 @@ export default function Login() {
           >
             {isSigningIn ? "Signing in..." : "Continue"}
           </button>
-          <p>
+          <p className="margin10">
             Don't have an account?
             <span className="blue-font">
               <Link to="/Timelines/sign-up"> Sign Up</Link>

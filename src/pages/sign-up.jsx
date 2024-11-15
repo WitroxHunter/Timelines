@@ -94,7 +94,7 @@ export default function SignUp() {
               onChange={(e) => setRepeatPassword(e.target.value)}
             />
           </div>
-          <p>
+          <p className="margin10">
             {error && <p className="error">{error}</p>}
             Already have an account?
             <Link to="/Timelines/login">

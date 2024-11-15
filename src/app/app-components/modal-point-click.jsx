@@ -35,15 +35,18 @@ export default function ModalPoint({
             style={{ backgroundColor: point.color }}
           ></div>
         </div>
-        <p>{point.description}</p>
+        <p className="date-description">{point.description}</p>
         
         {children}
-        <button className="modal-button-right" onClick={handleDelete}>
-          Delete point
-        </button>
-        <button className="modal-button-right" onClick={toggleModal}>
-          Close
-        </button>
+
+        <div className="date-modal-buttons">
+          <button className="modal-button-right" onClick={handleDelete}>
+            Delete point
+          </button>
+          <button className="modal-button-right" onClick={toggleModal}>
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );
