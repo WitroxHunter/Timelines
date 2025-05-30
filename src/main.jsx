@@ -14,27 +14,27 @@ import { AuthProvider } from "./contexts/authContext/index.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/Timelines",
     element: <App />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "sign-up",
+    path: "/Timelines/sign-up",
     element: <SignUp />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "login",
+    path: "/Timelines/login",
     element: <Login />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "app",
+    path: "/Timelines/app",
     element: <Dashboard />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "app/:timelineId",
+    path: "/Timelines/app/:timelineId",
     element: <TimelinesApp />,
     errorElement: <ErrorPage />,
   },
