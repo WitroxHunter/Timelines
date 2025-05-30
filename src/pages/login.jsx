@@ -9,7 +9,7 @@ import {
 } from "../firebase/auth";
 import { useAuth } from "../contexts/authContext";
 
-import Logo from "../assets/images/Logo.png";
+import Logo from "../../public/Logo.png";
 import GoogleLogo from "../assets/images/Google__G__logo.svg";
 
 export default function Login() {

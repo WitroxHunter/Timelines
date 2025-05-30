@@ -4,7 +4,7 @@ import Footer from "./components/footer";
 import { useAuth } from "./contexts/authContext";
 import { Navigate } from "react-router-dom";
 
-import Logo from "./assets/images/Logo.png";
+import Logo from "../public/Logo.png";
 import "./App.css";
 
 function App() {

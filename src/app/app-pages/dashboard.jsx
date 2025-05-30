@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/authContext";
 import { Navigate, Link } from "react-router-dom";
 import "./dashboard.css";
 import Header from "../app-components/header";
-import logo from "../../assets/images/Logo.png";
+import logo from "../../../public/Logo.png";
 import { useEffect, useState } from "react";
 import {
   doc,

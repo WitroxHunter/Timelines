@@ -13,12 +13,28 @@ import Dashboard from "./app/app-pages/dashboard.jsx";
 import { AuthProvider } from "./contexts/authContext/index.jsx";
 
 const router = createBrowserRouter([
-  { path: "/", element: <App />, errorElement: <ErrorPage /> },
-  { path: "sign-up", element: <SignUp />, errorElement: <ErrorPage /> },
-  { path: "login", element: <Login />, errorElement: <ErrorPage /> },
-  { path: "app", element: <Dashboard />, errorElement: <ErrorPage /> },
   {
-    path: "app/:timelineId",
+    path: "/Timelines",
+    element: <App />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/Timelines/sign-up",
+    element: <SignUp />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/Timelines/login",
+    element: <Login />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/Timelines/app",
+    element: <Dashboard />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/Timelines/app/:timelineId",
     element: <TimelinesApp />,
     errorElement: <ErrorPage />,
   },

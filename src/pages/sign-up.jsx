@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./login-signup.css";
 
-import Logo from "../assets/images/Logo.png";
+import Logo from "../../public/Logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import {
   doCreateUserWithEmailAndPassword,
