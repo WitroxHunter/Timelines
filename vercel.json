@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/Timelines(/.*)?",
+      "destination": "/index.html"
+    }
+  ]
+}
