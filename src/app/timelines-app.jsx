@@ -11,6 +11,8 @@ import homeIcon from "../assets/icons/home.svg";
 import Header from "./app-components/header";
 import Canvas from "./app-components/canvas";
 
+import { GripHorizontal } from "lucide-react";
+
 const HeaderButton = (props, { children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
@@ -58,7 +60,7 @@ const handleLogout = async () => {
 function TimelinesApp() {
   const { timelineId } = useParams();
   const [timelineData, setTimelineData] = useState(null);
-  console.log(timelineData)
+  console.log(timelineData);
 
   const { currentUser } = useAuth();
 
@@ -130,7 +132,7 @@ function TimelinesApp() {
               <div className="dropdown-line-divider" />
               <li>Toggle Grid Lines</li>
               <li>Interval Labels</li>
-              <div className="dropdown-line-divider" />      
+              <div className="dropdown-line-divider" />
               <li>Fit to Screen</li>
               <li>Hide UI buttons</li>
               {/* <div className="dropdown-line-divider" /> */}
@@ -143,9 +145,8 @@ function TimelinesApp() {
             <HeaderButton buttonName="Colors">
               <li>Change Color Palette</li>
               <li>Add Color Palette</li>
-              <div className="dropdown-line-divider" /> 
+              <div className="dropdown-line-divider" />
               <li>Background Color</li>
-               
             </HeaderButton>
             <HeaderButton buttonName="Help">
               <li>User Guide</li>
@@ -162,7 +163,20 @@ function TimelinesApp() {
           timelineId={timelineId}
         />
 
-        <Header>There should be a horizontal scrollbar...</Header>
+        <div className=" bg-card/30 px-4 py-2">
+          <div className="flex items-center justify-center gap-6 text-s text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <GripHorizontal className="w-4 h-4" />
+              <span>Drag to pan</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span>Scroll to zoom</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span>Click events for details</span>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
