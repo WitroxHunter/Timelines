@@ -41,6 +41,7 @@ const addTimelineToFirestore = async (
     title: newTimelineTitle,
     startDate,
     endDate,
+    createdAt: Date.now(),
     periods: {},
     points: {},
     preferences: {
@@ -220,15 +221,17 @@ function Dashboard() {
           <h1>My Timelines</h1>
           <div className="timelines-box">
             <TimelineButtonAdd onClick={toggleModal} />
-            {Object.keys(userData.timelines || {}).map((timelineId) => (
-              <TimelineButton
-                key={timelineId}
-                timelineId={timelineId}
-                fileName={userData.timelines[timelineId].title}
-                edited={"Just now"}
-                currentUser={currentUser}
-              />
-            ))}
+            {Object.entries(userData.timelines || {})
+              .sort(([, a], [, b]) => (a.createdAt ?? 0) - (b.createdAt ?? 0))
+              .map(([timelineId, timeline]) => (
+                <TimelineButton
+                  key={timelineId}
+                  timelineId={timelineId}
+                  fileName={timeline.title}
+                  edited={"Just now"}
+                  currentUser={currentUser}
+                />
+              ))}
           </div>
         </div>
       </div>

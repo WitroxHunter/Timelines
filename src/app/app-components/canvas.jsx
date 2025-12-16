@@ -21,26 +21,28 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
   const endDate = new Date(timelineData.endDate);
   const preferences = timelineData.preferences;
 
-  const points = Object.entries(timelineData.points).map(
-    ([pointKey, point]) => ({
+  const points = Object.entries(timelineData.points || {})
+    .sort(([, a], [, b]) => (a.createdAt ?? 0) - (b.createdAt ?? 0))
+    .map(([pointKey, point]) => ({
       key: pointKey,
       date: new Date(point.date),
       label: point.title,
       description: point.description,
       color: point.color,
-    })
-  );
+      createdAt: point.createdAt,
+    }));
 
-  const periods = Object.entries(timelineData.periods).map(
-    ([periodKey, period]) => ({
+  const periods = Object.entries(timelineData.periods || {})
+    .sort(([, a], [, b]) => (a.createdAt ?? 0) - (b.createdAt ?? 0))
+    .map(([periodKey, period]) => ({
       key: periodKey,
       startDate: new Date(period.startDate),
       endDate: new Date(period.endDate),
       label: period.title,
       description: period.description,
       color: period.color,
-    })
-  );
+      createdAt: period.createdAt,
+    }));
 
   const timelineWidth = window.innerWidth - 300;
 
@@ -97,7 +99,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
 
   const calculatePointLayers = (points) => {
     const layersMap = {};
-    
+
     points.forEach((point) => {
       const dateKey = point.date.toISOString().split("T")[0];
       if (!layersMap[dateKey]) {
@@ -105,17 +107,15 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       }
       layersMap[dateKey].push(point);
     });
-  
+
     return points.map((point) => {
       const dateKey = point.date.toISOString().split("T")[0];
       const layer = layersMap[dateKey].indexOf(point);
       return { ...point, layer };
-      
     });
   };
-  
+
   const pointsWithLayers = calculatePointLayers(points);
-  
 
   const periodsWithLayers = calculatePeriodLayers(periods);
 
@@ -192,7 +192,11 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         style={{ cursor: isDragging ? "grabbing" : "grab" }}
       ></canvas>
       {/* <SearchWidget /> */}
-      <SettingsWidget currentUser={currentUser} timelineId={timelineId} timelineData={timelineData}/>
+      <SettingsWidget
+        currentUser={currentUser}
+        timelineId={timelineId}
+        timelineData={timelineData}
+      />
       <DropdownMenu
         onSingleEventClick={() => toggleModal("point")}
         onLongEventClick={() => toggleModal("period")}

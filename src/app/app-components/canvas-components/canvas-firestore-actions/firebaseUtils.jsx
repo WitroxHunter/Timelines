@@ -7,7 +7,7 @@ export const addPointToFirestore = async (
   pointDesc,
   pointColor,
   currentUser,
-  timelineId,
+  timelineId
 ) => {
   if (!pointTitle || !pointDate) {
     alert("Please fill in all fields.");
@@ -21,6 +21,7 @@ export const addPointToFirestore = async (
     title: pointTitle,
     date: pointDate,
     description: pointDesc,
+    createdAt: Date.now(),
     color: pointColor,
   };
 
@@ -31,94 +32,99 @@ export const addPointToFirestore = async (
     });
 
     console.log("New point added successfully");
-
   } catch (error) {
     console.error("Error adding point: ", error);
   }
 };
 
-
 export const addPeriodToFirestore = async (
-    periodTitle,
-    startPeriodDate,
-    endPeriodDate,
-    periodDesc,
-    periodColor,
-    currentUser,
-    timelineId,
-  ) => {
-    if (!periodTitle || !startPeriodDate || !endPeriodDate) {
-      alert("Please fill in all fields.");
-      return;
-    }
-  
-    const uid = currentUser.uid;
-    const periodId = `period_${Date.now()}`;
-  
-    const newPeriodData = {
-      title: periodTitle,
-      startDate: startPeriodDate,
-      endDate: endPeriodDate,
-      description: periodDesc,
-      color: periodColor,
-    };
-  
-    try {
-      const userDocRef = doc(firestore, "users", uid);
-      await updateDoc(userDocRef, {
-        [`timelines.${timelineId}.periods.${periodId}`]: newPeriodData,
-      });
-  
-      console.log("New period added successfully");
-  
-    } catch (error) {
-      console.error("Error adding point: ", error);
-    }
+  periodTitle,
+  startPeriodDate,
+  endPeriodDate,
+  periodDesc,
+  periodColor,
+  currentUser,
+  timelineId
+) => {
+  if (!periodTitle || !startPeriodDate || !endPeriodDate) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  const uid = currentUser.uid;
+  const periodId = `period_${Date.now()}`;
+
+  const newPeriodData = {
+    title: periodTitle,
+    startDate: startPeriodDate,
+    endDate: endPeriodDate,
+    description: periodDesc,
+    createdAt: Date.now(),
+    color: periodColor,
   };
 
+  try {
+    const userDocRef = doc(firestore, "users", uid);
+    await updateDoc(userDocRef, {
+      [`timelines.${timelineId}.periods.${periodId}`]: newPeriodData,
+    });
 
-  export const updateUserPreferences = async (currentUser, timelineId, preferenceKey, value) => {
-    const uid = currentUser.uid;
-  
-    try {
-      const userDocRef = doc(firestore, "users", uid);
-      await updateDoc(userDocRef, {
-        [`timelines.${timelineId}.preferences.${preferenceKey}`]: value,
-      });
-  
-      console.log(`Preference ${preferenceKey} updated successfully to ${value}`);
-    } catch (error) {
-      console.error("Error updating preference: ", error);
-    }
-  };
-  
-export const changeTimelineName = async ( nickname, currentUser, timelineId,) => {
-    if (!nickname) {
-      alert("Enter a new name.");
-      return;
-    }
+    console.log("New period added successfully");
+  } catch (error) {
+    console.error("Error adding point: ", error);
+  }
+};
 
-    const uid = currentUser.uid;
+export const updateUserPreferences = async (
+  currentUser,
+  timelineId,
+  preferenceKey,
+  value
+) => {
+  const uid = currentUser.uid;
 
-    try {
-      const userDocRef = doc(firestore, "users", uid);
-      await updateDoc(userDocRef, {
-        [`timelines.${timelineId}.title`]: nickname,
-      });
-  
-      console.log("Title changed succesfully!");
-  
-    } catch (error) {
-      console.error("Error changing nickname: ", error);
-    }
-}
+  try {
+    const userDocRef = doc(firestore, "users", uid);
+    await updateDoc(userDocRef, {
+      [`timelines.${timelineId}.preferences.${preferenceKey}`]: value,
+    });
 
-export const removePointFromFirestore = async (timelineId, pointKey, currentUser) => {
+    console.log(`Preference ${preferenceKey} updated successfully to ${value}`);
+  } catch (error) {
+    console.error("Error updating preference: ", error);
+  }
+};
+
+export const changeTimelineName = async (nickname, currentUser, timelineId) => {
+  if (!nickname) {
+    alert("Enter a new name.");
+    return;
+  }
+
+  const uid = currentUser.uid;
+
+  try {
+    const userDocRef = doc(firestore, "users", uid);
+    await updateDoc(userDocRef, {
+      [`timelines.${timelineId}.title`]: nickname,
+    });
+
+    console.log("Title changed succesfully!");
+  } catch (error) {
+    console.error("Error changing nickname: ", error);
+  }
+};
+
+export const removePointFromFirestore = async (
+  timelineId,
+  pointKey,
+  currentUser
+) => {
   if (!timelineId || !pointKey || !currentUser) {
     alert("Missing information to delete point.");
     return;
   }
-  console.log(timelineId, pointKey)
+  console.log(timelineId, pointKey);
   const uid = currentUser.uid;
   try {
     const userDocRef = doc(firestore, "users", uid);
@@ -133,12 +139,16 @@ export const removePointFromFirestore = async (timelineId, pointKey, currentUser
   }
 };
 
-export const removePeriodFromFirestore = async (timelineId, periodKey, currentUser) => {
+export const removePeriodFromFirestore = async (
+  timelineId,
+  periodKey,
+  currentUser
+) => {
   if (!timelineId || !periodKey || !currentUser) {
     alert("Missing information to delete period.");
     return;
   }
-  console.log(timelineId, periodKey)
+  console.log(timelineId, periodKey);
   const uid = currentUser.uid;
 
   try {
@@ -152,4 +162,4 @@ export const removePeriodFromFirestore = async (timelineId, periodKey, currentUs
   } catch (error) {
     console.error("Error removing period: ", error);
   }
-}
+};
