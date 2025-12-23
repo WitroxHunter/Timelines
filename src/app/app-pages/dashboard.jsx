@@ -217,7 +217,6 @@ function Dashboard() {
           </h5>
         </div>
         <div className="dashboard-timelines">
-          <div className="dashboard-advertisement"></div>
           <h1>My Timelines</h1>
           <div className="timelines-box">
             <TimelineButtonAdd onClick={toggleModal} />
