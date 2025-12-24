@@ -7,7 +7,7 @@ export default function Header() {
       <div className="header" style={{ userSelect: "none" }}>
         <div className="header-logo">
           <img src={Logo} style={{ width: 24 }} />
-          Lifelines
+          Timelines
         </div>
         <div className="header-buttons-wrapper">
           <Link to={"/Timelines/login"}>
