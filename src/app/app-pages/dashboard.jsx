@@ -102,7 +102,7 @@ const TimelineButton = ({ fileName, timelineId, edited, currentUser }) => {
   return (
     <div className="timeline-button-box">
       <Link to={`/Timelines/app/${timelineId}`}>
-        <button className="timeline-button"></button>
+        <button className="timeline-button">{fileName}</button>
       </Link>
       <div className="timeline-button-flex-wrapper">
         <Link to={`/Timelines/app/${timelineId}`}>

@@ -65,7 +65,7 @@ function App() {
               onClick={() => navigate("/Timelines/contact")}
               className="btn-secondary"
             >
-              Request demo
+              Contact
             </button>
           </div>
         </div>

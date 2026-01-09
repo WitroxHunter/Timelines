@@ -163,18 +163,16 @@ function TimelinesApp() {
           timelineId={timelineId}
         />
 
-        <div className=" bg-card/30 px-4 py-2">
-          <div className="flex items-center justify-center gap-6 text-s text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <GripHorizontal className="w-4 h-4" />
-              <span>Drag to pan</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span>Scroll to zoom</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span>Click events for details</span>
-            </div>
+        <div className="fixed bottom-2 left-0 right-0 flex justify-center gap-6">
+          <div className="flex items-center gap-2 ">
+            <GripHorizontal className="w-4 h-4" />
+            <span>Drag to pan</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span>Scroll to zoom</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span>Click events for details</span>
           </div>
         </div>
       </div>
