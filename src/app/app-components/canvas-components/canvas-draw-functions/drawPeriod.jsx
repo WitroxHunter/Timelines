@@ -1,10 +1,13 @@
 export const drawPeriod = (context, period, calculateXPosition, stackLevel) => {
   const startX = calculateXPosition(period.startDate);
   const endX = calculateXPosition(period.endDate);
-  const rectHeight = 25;
+
+  const rectHeight = 12; // changes how tall are periods - does not change hitboxes
   const paddingBetweenLevels = 5;
 
-  let rectY = -(35 + stackLevel * (rectHeight + paddingBetweenLevels));
+  // Let the first number (22 rn) be rectheight + 10; it changes periods distance from the timeline
+  // not making it rectheit + 10 because it may wary
+  let rectY = -(22 + stackLevel * (rectHeight + paddingBetweenLevels));
 
   const radius = 5;
 

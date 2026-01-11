@@ -75,10 +75,11 @@ export const useCanvasClickHandler = (
         const periodStartX = calculateXPosition(period.startDate);
         const periodEndX = calculateXPosition(period.endDate);
 
-        const rectHeight = 25;
+        // Change here if rectHeight changes in drawPeriod!
+        const rectHeight = 12;
         const paddingBetweenLevels = 5;
         const rectY = -(
-          35 +
+          22 +
           period.stackLevel * (rectHeight + paddingBetweenLevels)
         );
 
@@ -176,10 +177,11 @@ export const useCanvasHoverHandler = (
         const periodStartX = calculateXPosition(period.startDate);
         const periodEndX = calculateXPosition(period.endDate);
 
-        const rectHeight = 25;
+        // Change here if rectHeight changes in drawPeriod!
+        const rectHeight = 12;
         const paddingBetweenLevels = 5;
         const rectY = -(
-          35 +
+          22 +
           period.stackLevel * (rectHeight + paddingBetweenLevels)
         );
 
