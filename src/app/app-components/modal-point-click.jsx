@@ -27,20 +27,20 @@ export default function ModalPoint({
     <div className="modal-overlay-right" onClick={toggleModal}>
       <div className="modal-content-right" onClick={(e) => e.stopPropagation()}>
         <h2>{point.label}</h2>
-        
+
         <div className="date-color-line">
-        <p>{formattedDate}</p>
+          <p>{formattedDate}</p>
           <div
             className="color-line"
             style={{ backgroundColor: point.color }}
           ></div>
         </div>
         <p className="date-description">{point.description}</p>
-        
+
         {children}
 
         <div className="date-modal-buttons">
-          <button className="modal-button-right" onClick={handleDelete}>
+          <button className="modal-button-left" onClick={handleDelete}>
             Delete point
           </button>
           <button className="modal-button-right" onClick={toggleModal}>

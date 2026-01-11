@@ -11,6 +11,8 @@ import ModalPoint from "./modal-point-click";
 import ModalPeriod from "./modal-period-click";
 import AddPointModal from "./canvas-components/canvas-firestore-actions/addPointModal";
 import AddPeriodModal from "./canvas-components/canvas-firestore-actions/addPeriodModal";
+import BulkAddModal from "./canvas-components/canvas-firestore-actions/bulkAddModal";
+
 // import { SearchWidget } from "./canvas-components/canvas-widgets/widgetSearch";
 import { SettingsWidget } from "./canvas-components/canvas-widgets/widgetSettings";
 
@@ -62,7 +64,6 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     return (currentDuration / totalDuration) * timelineWidth;
   };
 
-  // Funkcja do obliczania warstw dla periodów
   const calculatePeriodLayers = (periods) => {
     let layers = [];
 
@@ -156,17 +157,19 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     preferences
   );
 
-  const [showModal, setShowModal] = useState({ point: false, period: false });
+  const [showModal, setShowModal] = useState({
+    point: false,
+    period: false,
+    bulk: false,
+  });
   const [timelineTitle, setTimelineTitle] = useState(timelineData.title);
 
   const toggleModal = (type) => {
     setShowModal((prev) => ({ ...prev, [type]: !prev[type] }));
   };
 
-  // Połączenie logiki hover i przenoszenia
   const handleMouseMoveCombined = (e) => {
-    handleDragMove(e); // Przenoszenie elementów
-    //handleHoverMove(e); // Obsługa efektu hover
+    handleDragMove(e);
   };
 
   return (
@@ -187,7 +190,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         ref={canvasRef}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMoveCombined} // Używamy połączonej funkcji
+        onMouseMove={handleMouseMoveCombined}
         onWheel={handleWheel}
         style={{ cursor: isDragging ? "grabbing" : "grab" }}
       ></canvas>
@@ -200,6 +203,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
       <DropdownMenu
         onSingleEventClick={() => toggleModal("point")}
         onLongEventClick={() => toggleModal("period")}
+        onBulkAddClick={() => toggleModal("bulk")}
       />
 
       <ModalPoint
@@ -225,6 +229,13 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         timelineId={timelineId}
         startDate={startDate}
         endDate={endDate}
+      />
+
+      <BulkAddModal
+        isOpen={showModal.bulk}
+        toggleModal={() => toggleModal("bulk")}
+        currentUser={currentUser}
+        timelineId={timelineId}
       />
 
       <AddPeriodModal

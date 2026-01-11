@@ -12,24 +12,29 @@ export const drawDateBox = (
   const borderRadius = 5;
   const boxMargin = 15;
 
-  // Funkcja dopełniająca zerem
   const padWithZero = (number) => number.toString().padStart(2, "0");
 
-  // Wybór formatu daty na podstawie preferencji
+  // date formats
   let formattedDate;
   switch (dateboxPreference) {
     case "year":
       formattedDate = `${date.getFullYear()}`;
       break;
     case "mm-yyyy":
-      formattedDate = `${padWithZero(date.getMonth() + 1)}.${date.getFullYear()}`;
+      formattedDate = `${padWithZero(
+        date.getMonth() + 1
+      )}.${date.getFullYear()}`;
       break;
     case "mm-dd-yyyy":
-      formattedDate = `${padWithZero(date.getMonth() + 1)}.${padWithZero(date.getDate())}.${date.getFullYear()}`;
+      formattedDate = `${padWithZero(date.getMonth() + 1)}.${padWithZero(
+        date.getDate()
+      )}.${date.getFullYear()}`;
       break;
     case "dd-mm-yyyy":
     default:
-      formattedDate = `${padWithZero(date.getDate())}.${padWithZero(date.getMonth() + 1)}.${date.getFullYear()}`;
+      formattedDate = `${padWithZero(date.getDate())}.${padWithZero(
+        date.getMonth() + 1
+      )}.${date.getFullYear()}`;
       break;
   }
 

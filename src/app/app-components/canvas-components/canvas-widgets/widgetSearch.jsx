@@ -1,4 +1,3 @@
-import React from "react";
 import "../../../timelines-app.css";
 import SearchIcon from "../../../../assets/icons/search.svg";
 

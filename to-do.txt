@@ -1,0 +1,9 @@
+- Finish hero section
+✅ - fix to ze jak dodajesz point / period to zostaje tekst w inputach
+✅i przy okazji ze jest na dwie kolumny dodawanie perioda zeby sie miescilo na mniejszym ekranie
+- better dashboard design
+- make it so that if you fetch a timeline it wont fetch again, it will be on localstorage alr
+- add header to login/signup
+
+- host
+thats literally it, after you can get some users to review the concept on reddit or smth

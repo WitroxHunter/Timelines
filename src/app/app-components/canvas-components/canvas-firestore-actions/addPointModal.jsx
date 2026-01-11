@@ -10,7 +10,7 @@ export default function AddPointModal({
   currentUser,
   timelineId,
   startDate,
-  endDate
+  endDate,
 }) {
   const [pointTitle, setPointTitle] = useState("");
   const [pointDate, setPointDate] = useState("");
@@ -62,7 +62,11 @@ export default function AddPointModal({
         <div className="modal-input-box">
           <label>Starting date</label>
           <div className="modal-input-container">
-            <img src={calendarIcon} className="modal-input-image" alt="Calendar Icon" />
+            <img
+              src={calendarIcon}
+              className="modal-input-image"
+              alt="Calendar Icon"
+            />
             <input
               className="modal-input"
               type="date"
@@ -101,7 +105,10 @@ export default function AddPointModal({
           <button className="modal-button" onClick={toggleModal}>
             Cancel
           </button>
-          <button className="modal-button proceed-button" onClick={handleProceed}>
+          <button
+            className="modal-button proceed-button"
+            onClick={handleProceed}
+          >
             Proceed
           </button>
         </div>

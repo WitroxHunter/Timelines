@@ -2,19 +2,17 @@ import React, { useState, useEffect } from "react";
 import "../../../timelines-app.css";
 import SettingsIcon from "../../../../assets/icons/settings-2.svg";
 import { SearchWidget } from "./widgetSearch";
-import { updateUserPreferences } from "../canvas-firestore-actions/firebaseUtils"; // import funkcji zapisującej i pobierającej ustawienia
+import { updateUserPreferences } from "../canvas-firestore-actions/firebaseUtils";
 
 export const SettingsWidget = ({ currentUser, timelineId, timelineData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tickMarks, setTickMarks] = useState("month"); // Domyślna wartość, zmieniona po załadowaniu
-  const [dateBoxFormat, setDateBoxFormat] = useState("year"); // Domyślna wartość, zmieniona po załadowaniu
+  const [tickMarks, setTickMarks] = useState("month");
+  const [dateBoxFormat, setDateBoxFormat] = useState("year");
 
   useEffect(() => {
-    setTickMarks(timelineData.preferences.tickmarks || "month"); // Ustaw domyślnie "month", jeśli nie ma wartości
+    setTickMarks(timelineData.preferences.tickmarks || "month");
     setDateBoxFormat(timelineData.preferences.datebox || "year");
   }, []);
-
-  
 
   const toggleModal = () => {
     setIsModalOpen((prev) => !prev);
@@ -23,13 +21,23 @@ export const SettingsWidget = ({ currentUser, timelineId, timelineData }) => {
   const handleTickMarksChange = async (e) => {
     const newTickMarks = e.target.value;
     setTickMarks(newTickMarks);
-    await updateUserPreferences(currentUser, timelineId, "tickmarks", newTickMarks);
+    await updateUserPreferences(
+      currentUser,
+      timelineId,
+      "tickmarks",
+      newTickMarks
+    );
   };
 
   const handleDateBoxFormatChange = async (e) => {
     const newDateBoxFormat = e.target.value;
     setDateBoxFormat(newDateBoxFormat);
-    await updateUserPreferences(currentUser, timelineId, "datebox", newDateBoxFormat);
+    await updateUserPreferences(
+      currentUser,
+      timelineId,
+      "datebox",
+      newDateBoxFormat
+    );
   };
 
   return (
@@ -55,7 +63,10 @@ export const SettingsWidget = ({ currentUser, timelineId, timelineData }) => {
             <br />
             <label>
               Date box format:
-              <select value={dateBoxFormat} onChange={handleDateBoxFormatChange}>
+              <select
+                value={dateBoxFormat}
+                onChange={handleDateBoxFormatChange}
+              >
                 <option value="year">year</option>
                 <option value="dd-mm-yyyy">dd-mm-yyyy</option>
                 <option value="mm-dd-yyyy">mm-dd-yyyy</option>

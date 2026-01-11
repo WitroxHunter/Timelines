@@ -1,8 +1,7 @@
-// canvasHooks.js
 import { useState, useEffect, useCallback } from "react";
 import { draw } from "./canvas-draw-functions/draw";
 
-// Hook for handling canvas offset, scale, and dragging
+// offset, scale, dragging
 export const useCanvasInteractions = (timelineWidth) => {
   const [offset, setOffset] = useState({
     x: (window.innerWidth - timelineWidth) / 2, // Center the timeline
@@ -45,8 +44,15 @@ export const useCanvasInteractions = (timelineWidth) => {
   };
 };
 
-// Hook for handling canvas click logic (selecting points or periods)
-export const useCanvasClickHandler = (canvasRef, points, periods, offset, scale, calculateXPosition) => {
+// handling canvas click logic - selecting points or periods
+export const useCanvasClickHandler = (
+  canvasRef,
+  points,
+  periods,
+  offset,
+  scale,
+  calculateXPosition
+) => {
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [selectedPeriod, setSelectedPeriod] = useState(null);
 
@@ -58,9 +64,8 @@ export const useCanvasClickHandler = (canvasRef, points, periods, offset, scale,
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
-      // Adjust for offset and scale only on the X axis
       const adjustedX = (x - offset.x) / scale;
-      const adjustedY = y - offset.y; // No scaling for Y
+      const adjustedY = y - offset.y;
 
       let clickedPoint = null;
       let clickedPeriod = null;
@@ -70,9 +75,12 @@ export const useCanvasClickHandler = (canvasRef, points, periods, offset, scale,
         const periodStartX = calculateXPosition(period.startDate);
         const periodEndX = calculateXPosition(period.endDate);
 
-        const rectHeight = 25; // Fixed height for periods
+        const rectHeight = 25;
         const paddingBetweenLevels = 5;
-        const rectY = -(35 + period.stackLevel * (rectHeight + paddingBetweenLevels));
+        const rectY = -(
+          35 +
+          period.stackLevel * (rectHeight + paddingBetweenLevels)
+        );
 
         if (
           adjustedX >= periodStartX &&
@@ -84,23 +92,22 @@ export const useCanvasClickHandler = (canvasRef, points, periods, offset, scale,
         }
       });
 
-      // Check points if no period clicked
+      // Check points
       if (!clickedPeriod) {
         points.forEach((point) => {
           const xPosition = calculateXPosition(point.date);
-          const yPosition = point.layer * 15 + 15; // Ustal warstwę dla punktu
-          
+          const yPosition = point.layer * 15 + 15;
+
           const distance = Math.sqrt(
-            Math.pow(adjustedX - xPosition, 2) + Math.pow(adjustedY - yPosition, 2)
+            Math.pow(adjustedX - xPosition, 2) +
+              Math.pow(adjustedY - yPosition, 2)
           );
-        
+
           if (distance <= 6) {
             clickedPoint = point;
           }
         });
-        
       }
-      
 
       if (clickedPoint) {
         setSelectedPoint(clickedPoint);
@@ -121,8 +128,15 @@ export const useCanvasClickHandler = (canvasRef, points, periods, offset, scale,
   return { selectedPoint, setSelectedPoint, selectedPeriod, setSelectedPeriod };
 };
 
-// Hook for handling hover effect over points and periods
-export const useCanvasHoverHandler = (canvasRef, points, periods, offset, scale, calculateXPosition) => {
+// handling hover effect over points and periods
+export const useCanvasHoverHandler = (
+  canvasRef,
+  points,
+  periods,
+  offset,
+  scale,
+  calculateXPosition
+) => {
   const [hoveredPoint, setHoveredPoint] = useState(null);
   const [hoveredPeriod, setHoveredPeriod] = useState(null);
 
@@ -133,9 +147,8 @@ export const useCanvasHoverHandler = (canvasRef, points, periods, offset, scale,
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // Adjust for offset and scale only on the X axis
     const adjustedX = (x - offset.x) / scale;
-    const adjustedY = y - offset.y; // No scaling for Y
+    const adjustedY = y - offset.y;
 
     let isHovered = false;
     let newHoveredPoint = null;
@@ -144,28 +157,31 @@ export const useCanvasHoverHandler = (canvasRef, points, periods, offset, scale,
     // Check points
     points.forEach((point) => {
       const xPosition = calculateXPosition(point.date);
-      const yPosition = point.layer * 15 + 15; 
+      const yPosition = point.layer * 15 + 15;
 
       const distance = Math.sqrt(
         Math.pow(adjustedX - xPosition, 2) + Math.pow(adjustedY - yPosition, 2)
       );
-    
+
       if (distance <= 6) {
         isHovered = true;
-        console.log("najechal")
+        console.log("najechal");
         newHoveredPoint = point;
       }
     });
 
-    // Check periods if no point is hovered
+    // Check periods
     if (!newHoveredPoint) {
       periods.forEach((period) => {
         const periodStartX = calculateXPosition(period.startDate);
         const periodEndX = calculateXPosition(period.endDate);
 
-        const rectHeight = 25; // Fixed height for periods
+        const rectHeight = 25;
         const paddingBetweenLevels = 5;
-        const rectY = -(35 + period.stackLevel * (rectHeight + paddingBetweenLevels));
+        const rectY = -(
+          35 +
+          period.stackLevel * (rectHeight + paddingBetweenLevels)
+        );
 
         if (
           adjustedX >= periodStartX &&
@@ -182,7 +198,6 @@ export const useCanvasHoverHandler = (canvasRef, points, periods, offset, scale,
     setHoveredPoint(newHoveredPoint);
     setHoveredPeriod(newHoveredPeriod);
 
-    // Change cursor style based on hover state
     canvasRef.current.style.cursor = isHovered ? "pointer" : "grab";
   };
 
@@ -198,11 +213,19 @@ export const useCanvasHoverHandler = (canvasRef, points, periods, offset, scale,
   return { hoveredPoint, hoveredPeriod };
 };
 
-
-
-
-// Hook for drawing the timeline and points/periods
-export const useCanvasDraw = (canvasRef, offset, scale, timelineWidth, points, periods, hoveredPoint, startDate, endDate, calculateXPosition, preferences) => {
+export const useCanvasDraw = (
+  canvasRef,
+  offset,
+  scale,
+  timelineWidth,
+  points,
+  periods,
+  hoveredPoint,
+  startDate,
+  endDate,
+  calculateXPosition,
+  preferences
+) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     const context = canvas.getContext("2d");
@@ -222,5 +245,15 @@ export const useCanvasDraw = (canvasRef, offset, scale, timelineWidth, points, p
       calculateXPosition,
       preferences
     );
-  }, [offset, scale, timelineWidth, hoveredPoint, points, periods, startDate, endDate, calculateXPosition]);
+  }, [
+    offset,
+    scale,
+    timelineWidth,
+    hoveredPoint,
+    points,
+    periods,
+    startDate,
+    endDate,
+    calculateXPosition,
+  ]);
 };

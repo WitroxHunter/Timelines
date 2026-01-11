@@ -32,14 +32,16 @@ export default function ModalPeriod({
         <h2>{period.label}</h2>
         <p>{period.description}</p>
         <div className="date-color-line">
-          <p>{formattedStartDate} - {formattedEndDate}</p>
+          <p>
+            {formattedStartDate} - {formattedEndDate}
+          </p>
           <div
             className="color-line"
             style={{ backgroundColor: period.color }}
           ></div>
         </div>
         {children}
-        <button className="modal-button-right" onClick={handleDelete}>
+        <button className="modal-button-left" onClick={handleDelete}>
           Delete period
         </button>
         <button className="modal-button-right" onClick={toggleModal}>

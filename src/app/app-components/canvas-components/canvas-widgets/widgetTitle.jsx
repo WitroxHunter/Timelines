@@ -21,7 +21,6 @@ const TimelineTitleEditor = ({
 
   const handleInputChange = (e) => {
     const value = e.target.value;
-    // Ograniczamy liczbę znaków do 20
     if (value.length <= 30) {
       setTimelineTitle(value);
     }
@@ -40,7 +39,7 @@ const TimelineTitleEditor = ({
           onChange={handleInputChange}
           onBlur={handleSaveTitle}
           autoFocus
-          style={{ width: `${timelineTitle.length}ch` }} // Dynamiczna szerokość inputu
+          style={{ width: `${timelineTitle.length}ch` }}
         />
       ) : (
         <div className="edit-timeline-title-input">{timelineTitle}</div>

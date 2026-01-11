@@ -75,6 +75,83 @@ export const addPeriodToFirestore = async (
   }
 };
 
+export const bulkAddPointsToFirestore = async (
+  points,
+  currentUser,
+  timelineId
+) => {
+  if (!Array.isArray(points) || points.length === 0) {
+    alert("No points to add.");
+    return;
+  }
+
+  const uid = currentUser.uid;
+  const userDocRef = doc(firestore, "users", uid);
+
+  const updates = {};
+  const baseTimestamp = Date.now();
+
+  points.forEach((point, index) => {
+    if (!point.title || !point.date) return;
+
+    const pointId = `point_${baseTimestamp}_${index}`;
+
+    updates[`timelines.${timelineId}.points.${pointId}`] = {
+      title: point.title,
+      date: point.date,
+      description: point.description || "",
+      color: point.color || "#000000",
+      createdAt: baseTimestamp,
+    };
+  });
+
+  try {
+    await updateDoc(userDocRef, updates);
+    console.log("Bulk points added successfully");
+  } catch (error) {
+    console.error("Error bulk adding points:", error);
+  }
+};
+
+export const bulkAddPeriodsToFirestore = async (
+  periods,
+  currentUser,
+  timelineId
+) => {
+  if (!Array.isArray(periods) || periods.length === 0) {
+    alert("No periods to add.");
+    return;
+  }
+
+  const uid = currentUser.uid;
+  const userDocRef = doc(firestore, "users", uid);
+
+  const updates = {};
+  const baseTimestamp = Date.now();
+
+  periods.forEach((period, index) => {
+    if (!period.title || !period.startDate || !period.endDate) return;
+
+    const periodId = `period_${baseTimestamp}_${index}`;
+
+    updates[`timelines.${timelineId}.periods.${periodId}`] = {
+      title: period.title,
+      startDate: period.startDate,
+      endDate: period.endDate,
+      description: period.description || "",
+      color: period.color || "#000000",
+      createdAt: baseTimestamp,
+    };
+  });
+
+  try {
+    await updateDoc(userDocRef, updates);
+    console.log("Bulk periods added successfully");
+  } catch (error) {
+    console.error("Error bulk adding periods:", error);
+  }
+};
+
 export const updateUserPreferences = async (
   currentUser,
   timelineId,

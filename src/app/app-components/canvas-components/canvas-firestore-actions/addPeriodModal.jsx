@@ -45,83 +45,104 @@ export default function AddPeriodModal({
       timelineId
     );
 
-    toggleModal(); // Close the modal after submission
+    // Reset and close modal
+    toggleModal();
+    setLongEventTitle("");
+    setLongEventStartDate("");
+    setLongEventEndDate("");
+    setLongEventDesc("");
+    setPeriodColor("#FF007A");
   };
 
   return (
     <Modal isOpen={isOpen} toggleModal={toggleModal}>
-      <h1>Add Long Event</h1>
-      <div className="modal-grid">
-        <div className="modal-input-box">
-          <label>Title</label>
-          <input
-            className="modal-input"
-            type="text"
-            name="longEventTitle"
-            value={longEventTitle}
-            onChange={(e) => setLongEventTitle(e.target.value)}
-          />
-        </div>
+      <div className="flex flex-col gap-4 max-h-[90vh] overflow-hidden">
+        <h1>Add Long Event</h1>
 
-        <div className="modal-input-box">
-          <label>Starting date</label>
-          <div className="modal-input-container">
-            <img src={calendarIcon} className="modal-input-image" alt="Calendar" />
-            <input
-              className="modal-input"
-              type="date"
-              name="longEventStartDate"
-              value={longEventStartDate}
-              onChange={(e) => setLongEventStartDate(e.target.value)}
-            />
+        <div className="flex gap-8">
+          {/* lewo */}
+          <div className="flex flex-col gap-4 w-1/2">
+            <div className="modal-input-box">
+              <label>Title</label>
+              <input
+                className="modal-input"
+                type="text"
+                value={longEventTitle}
+                onChange={(e) => setLongEventTitle(e.target.value)}
+              />
+            </div>
+
+            <div className="modal-input-box">
+              <label>Starting date</label>
+              <div className="modal-input-container">
+                <img
+                  src={calendarIcon}
+                  className="modal-input-image"
+                  alt="Calendar"
+                />
+                <input
+                  className="modal-input"
+                  type="date"
+                  value={longEventStartDate}
+                  onChange={(e) => setLongEventStartDate(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="modal-input-box">
+              <label>Ending Date</label>
+              <div className="modal-input-container">
+                <img
+                  src={calendarIcon}
+                  className="modal-input-image"
+                  alt="Calendar"
+                />
+                <input
+                  className="modal-input"
+                  type="date"
+                  value={longEventEndDate}
+                  onChange={(e) => setLongEventEndDate(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="modal-input-box">
+              <label>Description</label>
+              <textarea
+                className="modal-input"
+                value={longEventDesc}
+                onChange={(e) => setLongEventDesc(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="modal-input-box">
-          <label>Ending Date</label>
-          <div className="modal-input-container">
-            <img src={calendarIcon} className="modal-input-image" alt="Calendar" />
-            <input
-              className="modal-input"
-              type="date"
-              name="longEventEndDate"
-              value={longEventEndDate}
-              onChange={(e) => setLongEventEndDate(e.target.value)}
-            />
+          {/* prawo */}
+          <div className="flex flex-col gap-4 w-1/2">
+            <div className="modal-input-box ">
+              <label>Color</label>
+              <div className="color-picker-box">
+                <HexColorPicker color={periodColor} onChange={setPeriodColor} />
+                <input
+                  type="text"
+                  className="color-picker-input"
+                  value={periodColor}
+                  onChange={(e) => setPeriodColor(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-auto">
+              <button className="modal-button" onClick={toggleModal}>
+                Cancel
+              </button>
+              <button
+                className="modal-button proceed-button"
+                onClick={handleAddPeriod}
+              >
+                Proceed
+              </button>
+            </div>
           </div>
-        </div>
-
-        <div className="modal-input-box">
-          <label>Description</label>
-          <textarea
-            className="modal-input"
-            name="longEventDesc"
-            value={longEventDesc}
-            onChange={(e) => setLongEventDesc(e.target.value)}
-          />
-        </div>
-
-        <div className="modal-input-box">
-          <label>Color</label>
-          <div className="color-picker-box">
-            <HexColorPicker color={periodColor} onChange={setPeriodColor} />
-            <input
-              type="text"
-              placeholder="#ffffff"
-              value={periodColor}
-              className="color-picker-input"
-              onChange={(e) => setPeriodColor(e.target.value)}
-            />
-          </div>
-        </div>
-
-        <div className="modal-input-box">
-          <button className="modal-button" onClick={toggleModal}>
-            Cancel
-          </button>
-          <button className="modal-button proceed-button" onClick={handleAddPeriod}>
-            Proceed
-          </button>
         </div>
       </div>
     </Modal>
