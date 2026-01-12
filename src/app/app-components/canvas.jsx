@@ -35,7 +35,14 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     }));
 
   const periods = Object.entries(timelineData.periods || {})
-    .sort(([, a], [, b]) => (a.createdAt ?? 0) - (b.createdAt ?? 0))
+    .sort(([, a], [, b]) => {
+      const diff =
+        new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+
+      if (diff !== 0) return diff;
+      return new Date(a.endDate).getTime() - new Date(b.endDate).getTime();
+    })
+
     .map(([periodKey, period]) => ({
       key: periodKey,
       startDate: new Date(period.startDate),
@@ -64,6 +71,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     return (currentDuration / totalDuration) * timelineWidth;
   };
 
+  // calculating layers for periods to avoid overlap.
   const calculatePeriodLayers = (periods) => {
     let layers = [];
 
@@ -75,8 +83,8 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
         const conflict = layer.some(
           (period) =>
             !(
-              currentPeriod.endDate < period.startDate ||
-              currentPeriod.startDate > period.endDate
+              currentPeriod.endDate <= period.startDate ||
+              currentPeriod.startDate >= period.endDate
             )
         );
 
@@ -98,6 +106,7 @@ export default function Canvas({ timelineData, currentUser, timelineId }) {
     return periods;
   };
 
+  // calculating layers for points to avoid overlap. they will stack instead
   const calculatePointLayers = (points) => {
     const layersMap = {};
 

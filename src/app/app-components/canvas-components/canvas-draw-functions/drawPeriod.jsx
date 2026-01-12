@@ -2,7 +2,7 @@ export const drawPeriod = (context, period, calculateXPosition, stackLevel) => {
   const startX = calculateXPosition(period.startDate);
   const endX = calculateXPosition(period.endDate);
 
-  const rectHeight = 12; // changes how tall are periods - does not change hitboxes
+  const rectHeight = 12; // changes how tall are periods - change rectHeight also in canvasHooks!
   const paddingBetweenLevels = 5;
 
   // Let the first number (22 rn) be rectheight + 10; it changes periods distance from the timeline
