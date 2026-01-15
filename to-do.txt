@@ -6,10 +6,11 @@
 ✅ - thinner periods 
 ✅ - periods can touch
 
-- fix point hitbox when scaled
-- better dashboard design
+❗ - fix point hitbox when scaled
+❗ - better dashboard design
+❗ - fix responsiveness (just a bit, so it works for laptops)
 - make it so that if you fetch a timeline it wont fetch again, it will be on localstorage alr
-- add header to login/signup
+❗ - add header to login/signup
 
 - host
 thats literally it, after you can get some users to review the concept on reddit or smth
