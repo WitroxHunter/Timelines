@@ -18,9 +18,19 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
+if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+  throw new Error(
+    "Missing Firebase configuration. Make sure VITE_FIREBASE_API_KEY and " +
+      "VITE_FIREBASE_PROJECT_ID (and the other VITE_FIREBASE_* variables) are set " +
+      "in your .env file. See .env.example for the full list."
+  );
+}
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+if (firebaseConfig.measurementId) {
+  getAnalytics(app);
+}
 const auth = getAuth(app);
 const firestore = getFirestore(app);
 

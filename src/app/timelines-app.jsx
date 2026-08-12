@@ -90,7 +90,7 @@ function TimelinesApp() {
   }
 
   if (!currentUser) {
-    return <Navigate to="/Timelines/login" />;
+    return <Navigate to="/login" />;
   }
 
   return (
@@ -98,7 +98,7 @@ function TimelinesApp() {
       <div className="main horizontal-gradient">
         <Header>
           <div className="header-buttons-wrapper">
-            <Link to="/Timelines/app" style={{ display: "flex" }}>
+            <Link to="/app" style={{ display: "flex" }}>
               <button className="button-header">
                 <img className="header-home-icon" src={homeIcon} />
               </button>

@@ -101,11 +101,11 @@ const TimelineButton = ({ fileName, timelineId, edited, currentUser }) => {
   };
   return (
     <div className="timeline-button-box">
-      <Link to={`/Timelines/app/${timelineId}`}>
+      <Link to={`/app/${timelineId}`}>
         <button className="timeline-button">{fileName}</button>
       </Link>
       <div className="timeline-button-flex-wrapper">
-        <Link to={`/Timelines/app/${timelineId}`}>
+        <Link to={`/app/${timelineId}`}>
           <div className="timeline-file-name">{fileName}</div>
           <div className="timeline-edited">Edited {edited} ago</div>
         </Link>
@@ -177,7 +177,7 @@ function Dashboard() {
   }, [currentUser]);
 
   if (!currentUser) {
-    return <Navigate to="/Timelines/login" />;
+    return <Navigate to="/login" />;
   }
 
   if (!userData) {
