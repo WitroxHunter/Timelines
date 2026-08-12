@@ -90,6 +90,17 @@ Pages project sites are served from a `/<repo-name>/` subpath instead, so
 that deployment working without affecting Vercel/Netlify builds (which use
 the default root base).
 
+The workflow builds on every push to `main` and needs the same
+`VITE_FIREBASE_*` variables listed above available at build time, since
+GitHub Actions doesn't have access to your local `.env`. Add them under
+**Settings > Secrets and variables > Actions > New repository secret** using
+the exact names from `.env.example`; the workflow reads them from
+`secrets.*` automatically.
+
+Also make sure **Settings > Pages** has the source set to "Deploy from a
+branch" pointing at the `gh-pages` branch (created automatically the first
+time the workflow runs successfully).
+
 ## Available scripts
 
 - `npm run dev` — start the Vite dev server
