@@ -35,7 +35,7 @@ export default function SignUp() {
 
     try {
       await doCreateUserWithEmailAndPassword(email, password, nickname);
-      navigate("/Timelines/login");
+      navigate("/login");
     } catch (error) {
       console.error("Error creating user:", error);
       setError(error.message);
@@ -48,7 +48,7 @@ export default function SignUp() {
       setIsSigningIn(true);
       try {
         await doSignInWithGoogle();
-        navigate("/Timelines/app");
+        navigate("/app");
       } catch (error) {
         setError(error.message);
         setIsSigningIn(false);
@@ -97,7 +97,7 @@ export default function SignUp() {
           <p className="margin10">
             {error && <p className="error">{error}</p>}
             Already have an account?
-            <Link to="/Timelines/login">
+            <Link to="/login">
               <span className="blue-font"> Log in</span>
             </Link>
           </p>

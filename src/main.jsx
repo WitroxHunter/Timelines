@@ -14,31 +14,31 @@ import { AuthProvider } from "./contexts/authContext/index.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/Timelines",
+    path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/Timelines/sign-up",
+    path: "/sign-up",
     element: <SignUp />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/Timelines/login",
+    path: "/login",
     element: <Login />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/Timelines/app",
+    path: "/app",
     element: <Dashboard />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/Timelines/app/:timelineId",
+    path: "/app/:timelineId",
     element: <TimelinesApp />,
     errorElement: <ErrorPage />,
   },
-]);
+], { basename: import.meta.env.BASE_URL.replace(/\/$/, "") || "/" });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

@@ -1,6 +1,6 @@
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/authContext";
-import Header from "./components/Header";
+import Header from "./components/header";
 import {
   Calendar,
   Zap,
@@ -17,7 +17,7 @@ function App() {
   const navigate = useNavigate();
 
   if (userLoggedIn) {
-    return <Navigate to="/Timelines/app" />;
+    return <Navigate to="/app" />;
   }
 
   return (
@@ -55,14 +55,14 @@ function App() {
           {/* CTA Buttons */}
           <div className="cta-buttons">
             <button
-              onClick={() => navigate("/Timelines/signup")}
+              onClick={() => navigate("/signup")}
               className="btn-primary"
             >
               Start for free
               <ArrowRight className="icon-sm" />
             </button>
             <button
-              onClick={() => navigate("/Timelines/contact")}
+              onClick={() => navigate("/contact")}
               className="btn-secondary"
             >
               Contact
@@ -123,7 +123,7 @@ function App() {
                 building for free today.
               </p>
               <button
-                onClick={() => navigate("/Timelines/signup")}
+                onClick={() => navigate("/signup")}
                 className="btn-cta"
               >
                 Get started now

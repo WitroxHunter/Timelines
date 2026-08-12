@@ -10,10 +10,10 @@ export default function Header() {
           Timelines
         </div>
         <div className="header-buttons-wrapper">
-          <Link to={"/Timelines/login"}>
+          <Link to={"/login"}>
             <button className="button-header">Log in</button>
           </Link>
-          <Link to={"/Timelines/sign-up"}>
+          <Link to={"/sign-up"}>
             <button className="button-header">Sign up</button>
           </Link>
         </div>

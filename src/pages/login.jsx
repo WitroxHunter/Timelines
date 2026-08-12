@@ -63,7 +63,7 @@ export default function Login() {
   };
 
   if (userLoggedIn) {
-    return <Navigate to="/Timelines/app" />;
+    return <Navigate to="/app" />;
   }
 
   return (
@@ -116,7 +116,7 @@ export default function Login() {
           <p className="margin10">
             Don't have an account?
             <span className="blue-font">
-              <Link to="/Timelines/sign-up"> Sign Up</Link>
+              <Link to="/sign-up"> Sign Up</Link>
             </span>
           </p>
           <div className="divider">
